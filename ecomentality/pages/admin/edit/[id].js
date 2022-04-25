@@ -1,6 +1,9 @@
 import { useRouter } from "next/router"
+import { authRedirect } from "../../../lib/auth.lib"
 
 // TODO: Add route authentication
+
+// export const getServerSideProps = authRedirect ( context );
 
 const EditArticle = () => {
 	const router = useRouter ();
@@ -12,3 +15,5 @@ const EditArticle = () => {
 }
 
 export default EditArticle;
+
+export const getServerSideProps = ( context ) => authRedirect ( context );

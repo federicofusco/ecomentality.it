@@ -17,7 +17,7 @@ const Login = () => {
 	useEffect (() => {
 
 		// Checks if they're signed in
-		if ( !loading && user ) {
+		if ( !loading && user && !error ) {
 
 			// Redirects the user
 			router.push ( "/admin" );
