@@ -1,42 +1,66 @@
-import admin from "../lib/admin.lib"
-import { getAuth } from "firebase-admin/auth"
-import cookie from "cookie"
+import { auth } from "./firebase.lib"
+import { useAuthState } from "react-firebase-hooks/auth"
+import { getIdToken } from "firebase/auth"
+import { useRouter } from "next/router"
 
-const authRedirect = ({ req, res }) => {
-	
-	// Parses the request cookies
-	const cookies = cookie.parse ( (req && req.headers.cookie) || "" );
+import cookieCutter from "cookie-cutter"
 
-	// Checks if the user sent an id token, and if the token is valid
-	if ( cookies.token && cookies.token.length > 0 ) {
+const useAuth = () => {
 
-		// Verifies the token
-		getAuth ( admin )
-			.verifyIdToken ( cookies.token )
-			.then ( ( decoded ) => {
+	// Hooks
+	const [user, loading, error] = useAuthState ( auth );
+	const router = useRouter ();
 
-				// The token is valid
-			})
-			.catch ( ( error ) => {
+	/**
+	 * Updates the user's ID token in cookies
+	 * 
+	 * @param {Boolean|Null} forceUpdate - Whether to ignore the presence of a token 
+	 * @returns A promise
+	 */
+	const updateIdToken = async ( forceUpdate ) => {
+		return new Promise ( async ( resolve, _ ) => {
 
-				// The token was invalid
-				return {
-					redirect: {
-						destination: "/auth/login",
-						permanent: false
-					}
+			// Verifies that the user is logged in
+			if ( isLoggedIn () ) {
+
+				// Parses the user cookies
+				const currentToken = cookieCutter.get ( "token" );
+
+				if ( forceUpdate || ( !currentToken || currentToken.length === 0 ) ) {
+
+					// Generates a new token as a cookie
+					const token = await getIdToken ( user );
+					await cookieCutter.set ( "token", token, {
+						path: "/",
+						secure: true
+					});
+
+					resolve ();
 				}
-			});
-	}	
 
-	return {
-		redirect: {
-			destination: "/auth/login",
-			permanent: false
-		}
+			} else {
+
+				// The user isn't logged in
+				router.push ( "/auth/login" );
+			}
+
+		});
 	}
-} 
 
-export {
-	authRedirect
+	/**
+	 * Checks if the user is logged in
+	 * 
+	 * @returns Whether or not the user is logged in
+	 */
+	const isLoggedIn = () => {
+		return !loading && user && !error 
+	}
+
+	return { 
+		updateIdToken, 
+		isLoggedIn,
+		user
+	};
 }
+
+export default useAuth;
