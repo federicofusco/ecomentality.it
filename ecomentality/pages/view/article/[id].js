@@ -7,7 +7,7 @@ const ViewArticle = () => {
 	const articleId = router.query.id;
 
 	return (
-		<h1>You're viewing article: { articleId }!</h1>
+		<h1>You&apos;re viewing article: { articleId }!</h1>
 	)
 }
 

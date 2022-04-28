@@ -1,34 +1,38 @@
 import LoginForm from "../../components/forms/LoginForm"
-
+import { firebase } from "../../lib/firebase.lib"
+import { getAuth } from "firebase/auth"
+import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth"
+import useAuth from "../../lib/auth.lib"
 import { useEffect } from "react"
 import { useRouter } from "next/router"
 
-import { auth } from "../../lib/firebase.lib";
-import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth"
-
 const Login = () => {
 
+	const auth = getAuth ( firebase );
 	const router = useRouter ();
-	const [signInWithEmailAndPassword, user, loading, error] = useSignInWithEmailAndPassword ( auth ); 
+	const { updateIdToken } = useAuth ();
+	const [signInWithEmailAndPassword, user, loading, error] = useSignInWithEmailAndPassword ( auth );
 
-	/**
-	 * Redirects the user when they sign in successfully
-	 */
+	const login = ( email, password ) => signInWithEmailAndPassword ( email, password );
+
+	// Redirects the user to the home page when they successfully log in
 	useEffect (() => {
 
-		// Checks if they're signed in
+		// Checks if the user is logged in
 		if ( !loading && user && !error ) {
 
-			// Redirects the user
-			router.push ( "/admin" );
-		}
+			// Updates the user's ID token
+			updateIdToken ();
 
-	}, [loading, user]);
+			// Redirects the user
+			router.push ( "/admin/edit/123" );
+		}
+	}, [user, loading, error])
 
 	return (
 		<div>
 			<LoginForm 
-				onSubmit={ signInWithEmailAndPassword } 
+				onSubmit={ login } 
 				error={ error ? error.message : null } />
 		</div>
 	)

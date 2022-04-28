@@ -7,7 +7,7 @@ const ViewProfile = () => {
 	const articleId = router.query.id;
 
 	return (
-		<h1>You're viewing profile: { articleId }!</h1>
+		<h1>You&apos;re viewing profile: { articleId }!</h1>
 	)
 }
 
