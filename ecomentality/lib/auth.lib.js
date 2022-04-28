@@ -1,5 +1,6 @@
 import { auth } from "./firebase.lib"
 import { useAuthState } from "react-firebase-hooks/auth"
+import { getIdToken } from "firebase/auth"
 import { useRouter } from "next/router"
 
 import cookieCutter from "cookie-cutter"
@@ -12,53 +13,53 @@ const useAuth = () => {
 
 	/**
 	 * Updates the user's ID token in cookies
+	 * 
+	 * @param {Boolean|Null} forceUpdate - Whether to ignore the presence of a token 
+	 * @returns A promise
 	 */
-	const updateIdToken = async () => {
+	const updateIdToken = async ( forceUpdate ) => {
+		return new Promise ( async ( resolve, _ ) => {
 
-		// Verifies that the user is logged in
-		if ( !loading && user && !error ) {
+			// Verifies that the user is logged in
+			if ( isLoggedIn () ) {
 
-			// Parses the user cookies
-			const token = cookieCutter.get ( "token" );
+				// Parses the user cookies
+				const currentToken = cookieCutter.get ( "token" );
 
-			if ( !token || token.length === 0 ) {
+				if ( forceUpdate || ( !currentToken || currentToken.length === 0 ) ) {
 
-				// Generates a new cookie
-				await user
-					.getIdToken ( user, true )
-					.then ( async ( token ) => {
-						cookieCutter.set ( "token", token, { path: "/"});
-					})
-					.catch ( async ( error ) => {
-
-						// An error occured
-						console.error ( error );
+					// Generates a new token as a cookie
+					const token = await getIdToken ( user );
+					await cookieCutter.set ( "token", token, {
+						path: "/",
+						secure: true
 					});
+
+					resolve ();
+				}
+
+			} else {
+
+				// The user isn't logged in
+				router.push ( "/auth/login" );
 			}
 
-		} else {
-
-			// The user isn't logged in
-			router.push ( "/auth/login" );
-		}
+		});
 	}
 
 	/**
 	 * Checks if the user is logged in
 	 * 
-	 * @returns The user or false
+	 * @returns Whether or not the user is logged in
 	 */
 	const isLoggedIn = () => {
-		if ( !loading && user && !error ) {
-			return user;
-		}
-
-		return false;
+		return !loading && user && !error 
 	}
 
 	return { 
 		updateIdToken, 
-		isLoggedIn 
+		isLoggedIn,
+		user
 	};
 }
 

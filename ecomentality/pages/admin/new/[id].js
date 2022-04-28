@@ -10,7 +10,7 @@ const NewArticle = () => {
 	return (
 		<div>
 			<h1>You&apos;re editing article: { articleId }!</h1>
-			<ArticleForm id={ articleId} />
+			<ArticleForm id={ articleId } />
 		</div>
 	)
 }

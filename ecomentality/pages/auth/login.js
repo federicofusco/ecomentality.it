@@ -20,10 +20,12 @@ const Login = () => {
 		if ( !loading && user && !error ) {
 
 			// Updates the user's ID token
-			updateIdToken ();
+			updateIdToken ( true )
+				.then ( () => {
 
-			// Redirects the user
-			router.push ( "/admin/edit/123" );
+					// Redirects the user
+					router.push ( "/admin/new/article" );
+				});
 		}
 	}, [user, loading, error])
 

@@ -22,8 +22,8 @@ const LoginForm = ({ onSubmit, error }) => {
 			<h1>Login</h1>
 
 			<ErrorMessage message={ error } />
-			<input type="text" placeholder="Email" ref={ emailRef } />
-			<input type="password" placeholder="Password" ref={ passwordRef } />
+			<input defaultValue="test@gmail.com" type="text" placeholder="Email" ref={ emailRef } />
+			<input defaultValue="123456" type="password" placeholder="Password" ref={ passwordRef } />
 			<button onClick={ submitForm }>Login</button>
 		</div>
 	)
