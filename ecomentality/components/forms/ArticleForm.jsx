@@ -4,17 +4,17 @@ import ErrorMessage from "../state/ErrorMessage";
 
 const ArticleForm = ({ id }) => {
 
-	const { publishArticle } = useArticle ();
-	const titleRef = useRef ();
-	const bodyRef = useRef ();
-	const [error, setError] = useState ( "" );
+	// const { publishArticle } = useArticle ();
+	// const titleRef = useRef ();
+	// const bodyRef = useRef ();
+	// const [error, setError] = useState ( "" );
 
-	const publish = async () => {
-		await publishArticle ( id, titleRef.current.value, bodyRef.current.value )
-			.catch ( ( error ) => {
-				setError ( error.data.error );
-			});
-	}
+	// const publish = async () => {
+	// 	await publishArticle ( id, titleRef.current.value, bodyRef.current.value )
+	// 		.catch ( ( error ) => {
+	// 			setError ( error.data.error );
+	// 		});
+	// }
 
 	return (
 		<div>
