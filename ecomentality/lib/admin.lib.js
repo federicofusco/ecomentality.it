@@ -1,4 +1,5 @@
 const admin = require ( "firebase-admin" )
+import { getAuth } from "firebase-admin/auth"
 
 const config = {
 	type: process.env.FIREBASE_ADMIN_TYPE,
@@ -20,4 +21,9 @@ if ( !admin.apps.length ) {
 	});
 }
 
-export default admin;
+const auth = getAuth ( admin.apps[0] );
+
+export {
+	admin,
+	auth
+};

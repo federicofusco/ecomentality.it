@@ -7,7 +7,7 @@
 const ErrorMessage = ({ message }) => {
 	return (
 		<div>
-			{ message && <p className="text-red-500">Error: { message }</p> }
+			{ message && message.length > 0 && <p className="text-red-500">Error: { message }</p> }
 		</div>
 	)
 }

@@ -1,5 +1,4 @@
-import admin from "./admin.lib"
-import { getAuth } from "firebase-admin/auth"
+import { auth } from "./admin.lib"
 
 import Cookies from "cookies";
 
@@ -10,8 +9,6 @@ import Cookies from "cookies";
  */
 export const authRedirect = async ({ req, res }) => {
 
-	const auth = getAuth ( admin.apps[0] );
-	
 	// Parses the request cookies
 	const cookies = new Cookies ( req, res );
 	const token = cookies.get ( "token" );

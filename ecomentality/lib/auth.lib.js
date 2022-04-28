@@ -1,5 +1,4 @@
-import firebase from "./firebase.lib"
-import { getAuth } from "firebase/auth"
+import { auth } from "./firebase.lib"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { useRouter } from "next/router"
 
@@ -8,7 +7,6 @@ import cookieCutter from "cookie-cutter"
 const useAuth = () => {
 
 	// Hooks
-	const auth = getAuth ( firebase );
 	const [user, loading, error] = useAuthState ( auth );
 	const router = useRouter ();
 
@@ -45,7 +43,23 @@ const useAuth = () => {
 		}
 	}
 
-	return { updateIdToken };
+	/**
+	 * Checks if the user is logged in
+	 * 
+	 * @returns The user or false
+	 */
+	const isLoggedIn = () => {
+		if ( !loading && user && !error ) {
+			return user;
+		}
+
+		return false;
+	}
+
+	return { 
+		updateIdToken, 
+		isLoggedIn 
+	};
 }
 
 export default useAuth;

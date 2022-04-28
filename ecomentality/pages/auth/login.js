@@ -1,6 +1,5 @@
 import LoginForm from "../../components/forms/LoginForm"
-import { firebase } from "../../lib/firebase.lib"
-import { getAuth } from "firebase/auth"
+import { auth } from "../../lib/firebase.lib"
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth"
 import useAuth from "../../lib/auth.lib"
 import { useEffect } from "react"
@@ -8,7 +7,6 @@ import { useRouter } from "next/router"
 
 const Login = () => {
 
-	const auth = getAuth ( firebase );
 	const router = useRouter ();
 	const { updateIdToken } = useAuth ();
 	const [signInWithEmailAndPassword, user, loading, error] = useSignInWithEmailAndPassword ( auth );
