@@ -1,7 +1,7 @@
 import { useRouter } from "next/router"
 import { authRedirect } from "../../../lib/auth.admin.lib"
 import { v4 as uuid } from "uuid"
-import ArticleEditor from "../../../components/article/ArticleEditor"
+import ArticleEditor from "../../../components/editor/ArticleEditor"
 
 const NewArticle = () => {
 	const router = useRouter ();
@@ -9,7 +9,7 @@ const NewArticle = () => {
 
 	return (
 		<div>
-			<ArticleEditor />
+			<ArticleEditor id={ articleId } />
 		</div>
 	)
 }
