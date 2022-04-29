@@ -34,6 +34,7 @@ const Login = () => {
 			<LoginForm 
 				onSubmit={ login } 
 				error={ error ? error.message : null } />
+			<h1 className="text-5xl text-red-500">test</h1>
 		</div>
 	)
 }
