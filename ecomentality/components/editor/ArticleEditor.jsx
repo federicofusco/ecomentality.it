@@ -6,12 +6,12 @@ import EditorElement from "./EditorElement"
 import EditorLeaf from "./EditorLeaf"
 import EditorToolbar from "./EditorToolbar"
 import EditorMarkButton from "./EditorMarkButton"
+import EditorBlockButton from "./EditorBlockButton"
 import ErrorMessage from "../state/ErrorMessage"
 import useEditor from "../../lib/editor"
 import useArticle from "../../lib/article"
 
-import { FiBold, FiItalic, FiCode, FiUnderline } from "react-icons/fi"
-import { useEffect } from "react"
+import { MdFormatBold, MdFormatItalic, MdCode, MdFormatUnderlined, MdFormatAlignLeft, MdFormatAlignCenter, MdFormatAlignRight, MdFormatAlignJustify } from "react-icons/md"
 
 /**
  * An editor for articles
@@ -21,7 +21,7 @@ import { useEffect } from "react"
  */
 const ArticleEditor = ({ id, onArticlePublish }) => {
 
-	const { serializeEditor, toggleEditorMark, saveLocalCopy, fetchLocalCopy } = useEditor ();
+	const { serializeEditor, toggleMark, saveLocalCopy, fetchLocalCopy } = useEditor ();
 	const { publishArticle } = useArticle ();
 
 	// Defines the editor values
@@ -68,10 +68,14 @@ const ArticleEditor = ({ id, onArticlePublish }) => {
 			<ErrorMessage message={ error } />
 			<input type="text" placeholder="Title" ref={ titleRef } />
 			<EditorToolbar>
-				<EditorMarkButton format="bold" icon={ <FiBold /> } />
-				<EditorMarkButton format="italic" icon={ <FiItalic /> } />
-				<EditorMarkButton format="underline" icon={ <FiUnderline /> } />
-				<EditorMarkButton format="code" icon={ <FiCode /> } />
+				<EditorMarkButton format="bold" icon={ <MdFormatBold /> } />
+				<EditorMarkButton format="italic" icon={ <MdFormatItalic /> } />
+				<EditorMarkButton format="underline" icon={ <MdFormatUnderlined /> } />
+				<EditorMarkButton format="code" icon={ <MdCode /> } />
+				<EditorBlockButton format="left" icon={ <MdFormatAlignLeft /> } />
+				<EditorBlockButton format="center" icon={ <MdFormatAlignCenter /> } />
+				<EditorBlockButton format="right" icon={ <MdFormatAlignRight /> } />
+				<EditorBlockButton format="justify" icon={ <MdFormatAlignJustify /> } />
 			</EditorToolbar>
 			<Editable 
 				renderElement={ renderElement }
@@ -87,7 +91,7 @@ const ArticleEditor = ({ id, onArticlePublish }) => {
 							// Prevents the hotkey from being entered and toggles the associated mark
 							e.preventDefault ();
 							const mark = HOTKEYS[hotkey];
-							toggleEditorMark ( editor, mark );
+							toggleMark ( editor, mark );
 							return;
 						}
 					}

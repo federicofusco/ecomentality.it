@@ -1,4 +1,4 @@
-import { Editor, Text } from "slate"
+import { Editor, Text, Element, Transforms } from "slate"
 import escapeHtml from "escape-html"
 
 const useEditor = () => {
@@ -16,12 +16,31 @@ const useEditor = () => {
 	}
 
 	/**
+	 * Checks whether or not a specific block is enabled
+	 * 
+	 * @param {Object} editor - The editor object
+	 * @param {String} format - The format which should be checked
+	 * @returns Whether or not the given block is active
+	 */
+	const isBlockActive = ( editor, format, blockType = "type" ) => {
+
+		if ( !editor.selection ) return false;
+
+		const [match] = Array.from ( Editor.nodes ( editor , {
+			at: Editor.unhangRange ( editor, editor.selection ),
+			match: node => !Editor.isEditor ( node ) && Element.isElement ( node ) && node[blockType] === format
+		}));
+
+		return !!match;
+	}
+
+	/**
 	 * Toggles a specified mark in the given editor
 	 * 
 	 * @param {Object} editor - The editor object
 	 * @param {String} format - The mark format 
 	 */
-	const toggleEditorMark = ( editor, format ) => {
+	const toggleMark = ( editor, format ) => {
 
 		// Checks if the mark is already active
 		if ( isMarkActive ( editor, format ) ) {
@@ -36,6 +55,33 @@ const useEditor = () => {
 		}
 	}
 
+	const toggleBlock = ( editor, format, TEXT_ALIGN_TYPES = ["left", "center", "right", "justify"], LIST_TYPES = ["numbered-list", "bulleted-list"] ) => {
+
+		// Checks if the block is active and if it's a list
+		const isActive = isBlockActive ( editor, format, TEXT_ALIGN_TYPES.includes ( format ) ? "align" : "type" );
+		const isList = LIST_TYPES.includes ( format );
+
+		Transforms.unwrapNodes ( editor, {
+			match: node => !Editor.isEditor ( node ) && Element.isElement ( node ) && LIST_TYPES.includes ( node.type ) && !TEXT_ALIGN_TYPES.includes ( format ),
+			split: true
+		});
+
+		let newProperties;
+		if ( TEXT_ALIGN_TYPES.includes ( format ) ) newProperties = { align: isActive ? undefined : format }
+		Transforms.setNodes ( editor, newProperties );
+	
+		if ( !isActive && isList ) {
+			const block = { type: format, children: [] }
+			Transforms.wrapNodes ( editor, block );
+		}
+	}
+
+	/**
+	 * Fetches editor from localStorage (if there is any) based on a given UUID
+	 * 
+	 * @param {String} id - The article's UUID
+	 * @returns The editor node (editor content)
+	 */
 	const fetchLocalCopy = ( id ) => {
 
 		if ( typeof window === "undefined" ) {
@@ -51,6 +97,12 @@ const useEditor = () => {
 		return JSON.parse ( json ).data;
 	}
 
+	/**
+	 * Saves the data in the editor to localStorage (for persistence)
+	 * 
+	 * @param {Object} editor - The editor object
+	 * @param {String} id - The article's UUID
+	 */
 	const saveLocalCopy = ( editor, id ) => {
 
 		if ( typeof window === "undefined" || editor.children.length > 0 ) {
@@ -66,7 +118,13 @@ const useEditor = () => {
 		localStorage.setItem ( `localCopy-${ id }`, json );
 	}
 
-	function serializeEditor ( node ) {
+	/**
+	 * Serializes any given node and its children
+	 * 
+	 * @param {Object} node - A slate node which needs to be serialized
+	 * @returns A string representation of the given node
+	 */
+	const serializeEditor = ( node ) => {
 
 		if ( Text.isText ( node ) ) {
 			let string = escapeHtml ( node.text );
@@ -120,10 +178,12 @@ const useEditor = () => {
 
 	return {
 		isMarkActive,
-		toggleEditorMark,
+		toggleMark,
 		saveLocalCopy,
 		fetchLocalCopy,
-		serializeEditor
+		serializeEditor,
+		isBlockActive,
+		toggleBlock
 	}
 }
 

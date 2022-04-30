@@ -5,18 +5,16 @@ import { useSlate } from "slate-react"
 
 const EditorMarkButton = ({ format, icon }) => {
 
-	const { isMarkActive, toggleEditorMark } = useEditor ();
+	const { toggleMark } = useEditor ();
 	const editor = useSlate ();
 
 	return (
-		<button
-			onClick={ e => {
+		<button onClick={ e => {
 				
-				// Toggles the mark
-				e.preventDefault ();
-				toggleEditorMark ( editor, format );
-			}}
-		>
+			// Toggles the mark
+			e.preventDefault ();
+			toggleMark ( editor, format );
+		}}>
 			{ icon }
 		</button>
 	)
