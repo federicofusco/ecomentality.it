@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react"
+import { useCallback, useRef, useState } from "react"
 import { Editable, Slate, withReact } from "slate-react"
 import { createEditor, Element as SlateElement } from "slate"
 import { isHotkey } from "is-hotkey"
@@ -6,9 +6,12 @@ import EditorElement from "./EditorElement"
 import EditorLeaf from "./EditorLeaf"
 import EditorToolbar from "./EditorToolbar"
 import EditorMarkButton from "./EditorMarkButton"
+import ErrorMessage from "../state/ErrorMessage"
 import useEditor from "../../lib/editor"
+import useArticle from "../../lib/article"
 
 import { FiBold, FiItalic, FiCode, FiUnderline } from "react-icons/fi"
+import { useEffect } from "react"
 
 /**
  * An editor for articles
@@ -16,9 +19,10 @@ import { FiBold, FiItalic, FiCode, FiUnderline } from "react-icons/fi"
  * @param {String} id - The article's UUID
  * @returns An article editor
  */
-const ArticleEditor = ({ id }) => {
+const ArticleEditor = ({ id, onArticlePublish }) => {
 
-	const { toggleEditorMark, saveLocalCopy, fetchLocalCopy } = useEditor ();
+	const { serializeEditor, toggleEditorMark, saveLocalCopy, fetchLocalCopy } = useEditor ();
+	const { publishArticle } = useArticle ();
 
 	// Defines the editor values
 	const LIST_TYPES = ["numbered-list", "bulleted-list"];
@@ -26,14 +30,17 @@ const ArticleEditor = ({ id }) => {
 	const HOTKEYS = {
 		"mod+b": "bold",
 		"mod+i": "italic",
-		"mod+`": "code",
+		"mod+k": "code",
 		"mod+u": "underline"
 	};
 
 	// Defines the editor and its elements
 	const renderElement = useCallback ( x => <EditorElement {...x} /> );
 	const renderLeaf = useCallback ( x => <EditorLeaf {...x} /> );
-	const editor = useMemo ( () => withReact ( createEditor () ) );
+	const [editor] = useState ( withReact ( createEditor () ) );
+
+	const titleRef = useRef ();
+	const [error, setError] = useState ( null );
 
 	// Defines the editor's initial value (placeholder)
 	const initialValue = fetchLocalCopy ( id ) || [{
@@ -44,8 +51,22 @@ const ArticleEditor = ({ id }) => {
 		}]
 	}];
 
+	const publish = async () => {
+		await publishArticle ( id, titleRef.current.value, serializeEditor ( editor ) )
+			.then ( () => {
+				if ( typeof onArticlePublish !== "undefined" ) {
+					onArticlePublish ();
+				}
+			})
+			.catch ( ( error ) => {
+				setError ( error.data.error );
+			});
+	}
+
 	return (
 		<Slate editor={ editor } value={ initialValue }>
+			<ErrorMessage message={ error } />
+			<input type="text" placeholder="Title" ref={ titleRef } />
 			<EditorToolbar>
 				<EditorMarkButton format="bold" icon={ <FiBold /> } />
 				<EditorMarkButton format="italic" icon={ <FiItalic /> } />
@@ -74,6 +95,9 @@ const ArticleEditor = ({ id }) => {
 					saveLocalCopy ( editor, id );
 				}}
 			/>
+			<button onClick={ publish }>
+				Publish
+			</button>
 		</Slate>
 	)
 

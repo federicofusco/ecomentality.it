@@ -24,7 +24,7 @@ const Login = () => {
 				.then ( () => {
 
 					// Redirects the user
-					router.push ( "/admin/new/article" );
+					router.push ( "/new/article/random-id" );
 				});
 		}
 	}, [user, loading, error])

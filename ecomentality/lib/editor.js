@@ -66,7 +66,7 @@ const useEditor = () => {
 		localStorage.setItem ( `localCopy-${ id }`, json );
 	}
 
-	const serialize = ( node ) => {
+	function serializeEditor ( node ) {
 
 		if ( Text.isText ( node ) ) {
 			let string = escapeHtml ( node.text );
@@ -91,30 +91,31 @@ const useEditor = () => {
 			return string;
 		}
 
-		const children = node.children.map ( n => serialize ( n ).join ( "" ) );
+		const children = node.children.map ( n => serializeEditor ( n ) ).join ( "" );
 		
 		switch ( node.type ) {
 			case "block-quote":
-				return `<blockquote>${ children }</blockquote>`
+				return `<blockquote>${ children }</blockquote>`;
 
 			case "bulleted-list":
-				return `<ul>${ children }</ul>`
+				return `<ul>${ children }</ul>`;
 
 			case "heading-one":
-				return `<h1>${ children }</h1>`
+				return `<h1>${ children }</h1>`;
 
 			case "heading-two":
-				return `<h2>${ children }</h2>`
+				return `<h2>${ children }</h2>`;
 	
 			case "list-item":
-				return `<li>${ children }</li>`
+				return `<li>${ children }</li>`;
 		
 			case "numbered-list":
-				return `<ol>${ children }</ol>`
+				return `<ol>${ children }</ol>`;
 			
 			default:
-				return `<p>${ children }</p>`
+				return children;
 		}
+
 	}
 
 	return {
@@ -122,7 +123,7 @@ const useEditor = () => {
 		toggleEditorMark,
 		saveLocalCopy,
 		fetchLocalCopy,
-		serialize
+		serializeEditor
 	}
 }
 

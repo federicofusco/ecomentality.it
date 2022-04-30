@@ -1,7 +1,7 @@
 import { useRouter } from "next/router"
 import { authRedirect } from "../../../lib/auth.admin"
 import { v4 as uuid } from "uuid"
-import ArticleForm from "../../../components/forms/ArticleForm"
+import ArticleEditor from "../../../components/editor/ArticleEditor"
 
 const NewArticle = () => {
 	const router = useRouter ();
@@ -9,7 +9,7 @@ const NewArticle = () => {
 
 	return (
 		<div>
-			<ArticleForm id={ articleId } />
+			<ArticleEditor id={ articleId } />
 		</div>
 	)
 }
@@ -24,7 +24,7 @@ export const getServerSideProps = ( context ) => {
 		// Redirects the user to a URL with a valid UUID
 		return {
 			redirect: {
-				destination: `/admin/new/${ uuid () }`,
+				destination: `/new/article/${ uuid () }`,
 				permanent: false
 			}
 		};
