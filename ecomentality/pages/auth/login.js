@@ -1,7 +1,7 @@
 import LoginForm from "../../components/forms/LoginForm"
-import { auth } from "../../lib/firebase.lib"
+import { auth } from "../../lib/firebase"
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth"
-import useAuth from "../../lib/auth.lib"
+import useAuth from "../../lib/auth"
 import { useEffect } from "react"
 import { useRouter } from "next/router"
 

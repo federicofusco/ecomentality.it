@@ -1,4 +1,4 @@
-import useArticle from "../../lib/article.lib"
+import useArticle from "../../lib/article"
 import { useEffect, useState } from "react"
 import ArticleTitle from "./ArticleTitle"
 import ArticleBody from "./ArticleBody"

@@ -1,4 +1,4 @@
-import { auth } from "./admin.lib"
+import { auth } from "./admin"
 
 import Cookies from "cookies";
 
