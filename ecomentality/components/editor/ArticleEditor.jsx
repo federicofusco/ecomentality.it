@@ -1,22 +1,20 @@
 import { useCallback, useRef, useState } from "react"
 import { Editable, Slate, withReact } from "slate-react"
-import { createEditor, Element as SlateElement } from "slate"
+import { createEditor } from "slate"
 import { isHotkey } from "is-hotkey"
 import EditorElement from "./EditorElement"
 import EditorLeaf from "./EditorLeaf"
 import EditorToolbar from "./EditorToolbar"
-import EditorMarkButton from "./EditorMarkButton"
-import EditorBlockButton from "./EditorBlockButton"
 import ErrorMessage from "../state/ErrorMessage"
 import useEditor from "../../lib/editor"
 import useArticle from "../../lib/article"
 
-import { MdFormatBold, MdFormatItalic, MdCode, MdFormatUnderlined, MdFormatAlignLeft, MdFormatAlignCenter, MdFormatAlignRight, MdFormatAlignJustify } from "react-icons/md"
 
 /**
  * An editor for articles
  * 
  * @param {String} id - The article's UUID
+ * @param {Funtion} onArticlePublish - A callback which is called when the article is published
  * @returns An article editor
  */
 const ArticleEditor = ({ id, onArticlePublish }) => {
@@ -67,16 +65,7 @@ const ArticleEditor = ({ id, onArticlePublish }) => {
 		<Slate editor={ editor } value={ initialValue }>
 			<ErrorMessage message={ error } />
 			<input type="text" placeholder="Title" ref={ titleRef } />
-			<EditorToolbar>
-				<EditorMarkButton format="bold" icon={ <MdFormatBold /> } />
-				<EditorMarkButton format="italic" icon={ <MdFormatItalic /> } />
-				<EditorMarkButton format="underline" icon={ <MdFormatUnderlined /> } />
-				<EditorMarkButton format="code" icon={ <MdCode /> } />
-				<EditorBlockButton format="left" icon={ <MdFormatAlignLeft /> } />
-				<EditorBlockButton format="center" icon={ <MdFormatAlignCenter /> } />
-				<EditorBlockButton format="right" icon={ <MdFormatAlignRight /> } />
-				<EditorBlockButton format="justify" icon={ <MdFormatAlignJustify /> } />
-			</EditorToolbar>
+			<EditorToolbar />
 			<Editable 
 				renderElement={ renderElement }
 				renderLeaf={ renderLeaf }

@@ -3,6 +3,12 @@ import { useEffect, useState } from "react"
 import ArticleTitle from "./ArticleTitle"
 import ArticleBody from "./ArticleBody"
 
+/**
+ * Displays an article
+ * 
+ * @param {String} id - The article's UUID
+ * @returns Displays an article
+ */
 const Article = ({ id }) => {
 
 	const { fetchArticle } = useArticle ();
