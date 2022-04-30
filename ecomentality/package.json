@@ -11,6 +11,7 @@
   "dependencies": {
     "cookie-cutter": "^0.2.0",
     "cookies": "^0.8.0",
+    "dompurify": "^2.3.6",
     "escape-html": "^1.0.3",
     "firebase": "^9.6.11",
     "firebase-admin": "^10.1.0",
