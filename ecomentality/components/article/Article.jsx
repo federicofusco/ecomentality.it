@@ -1,5 +1,3 @@
-import useArticle from "../../lib/article"
-import { useEffect, useState } from "react"
 import ArticleTitle from "./ArticleTitle"
 import ArticleBody from "./ArticleBody"
 import ArticleNavbar from "../nav/ArticleNavbar"
@@ -11,36 +9,18 @@ import ArticleSidebar from "../nav/ArticleSidebar"
  * @param {String} id - The article's UUID
  * @returns Displays an article
  */
-const Article = ({ id }) => {
-
-	const { fetchArticle } = useArticle ();
-	const [article, setArticle] = useState ( null );
-	const [loading, setLoading] = useState ( true );
-
-	// Fetches the article data
-	useEffect (() => {
-		fetchArticle ( id )
-			.then ( ( data ) => {
-				setArticle ( data.data.article );
-				setLoading ( false );
-			})
-			.catch ( ( error ) => {
-				
-				// An error occurred while fetching the article
-				console.log(error);
-			});
-	}, []);
+const Article = ({ article }) => {
 
 	return (
 		<div className="w-screen h-screen overflow-x-hidden">
 			
-			<ArticleNavbar authorId={ !loading ? article.author : null } />
+			<ArticleNavbar article={ article } />
 			
 			<div className="flex">
-				<ArticleSidebar id={ id } />
+				<ArticleSidebar article={ article } />
 				<div className="mx-auto max-w-2xl">
-					{ !loading && <ArticleTitle article={ article } /> }
-					{ !loading && <ArticleBody body={ article.body } /> }
+					<ArticleTitle article={ article } />
+					<ArticleBody article={ article } />
 				</div>
 			</div>
 		</div>

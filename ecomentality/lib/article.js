@@ -1,5 +1,5 @@
 import { firestore } from "./firebase"
-import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
+import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import useAuth from "./auth"
 
 const useArticle = () => {
@@ -77,74 +77,6 @@ const useArticle = () => {
 	} 
 
 	/**
-	 * Fetches an article based on its ID
-	 * 
-	 * @param {String} id - The atricle's UUID
-	 * @returns A promise
-	 */
-	const fetchArticle = async ( id ) => {
-		return new Promise ( async ( resolve, reject ) => {
-
-			// Checks if the article ID is valid
-			if ( !id.match ( new RegExp ( /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i ) ) ) {
-				reject ({
-					status: "ERROR",
-					message: "The article ID is invalid!",
-					data: {
-						error: {
-							message: `Invalid article ID (${ id })!`,
-							code: "article/invalid-id"
-						}
-					}
-				});
-			}
-
-			try {
-
-				// Fetches the article
-				const articleData = await getDoc ( doc ( firestore, "articles", id ) );
-
-				// Checks if the article exists
-				if ( !articleData.exists () ) {
-					reject ({
-						status: "ERROR",
-						message: "This article doesn't exists!",
-						data: {
-							error: {
-								message: `The article ${ id } doesn't exist!`,
-								code: "article/no-article"
-							}
-						}
-					});
-				} else {
-
-					// Found the article
-					resolve ({
-						status: "OK",
-						message: "Found article!",
-						data: {
-							article: articleData.data ()
-						}
-					});
-				}
-
-			} catch ( error ) {
-
-				console.error ( error );
-
-				reject ({
-					status: "ERROR",
-					message: "Something went wrong while fetching the article!",
-					data: {
-						error: error
-					}
-				});
-			}
-
-		});
-	}
-
-	/**
 	 * Increments the like count of an article
 	 * 
 	 * @param {String} id - The article's UUID
@@ -188,7 +120,6 @@ const useArticle = () => {
 
 	return {
 		publishArticle,
-		fetchArticle,
 		likeArticle,
 		dislikeArticle
 	}

@@ -5,15 +5,16 @@ import Button from "../buttons/Button"
 /**
  * Displays a navbar for the article
  * 
- * @param {?String} authorId - The author's UUID
+ * @param {Object} article - The article
  * @returns A navbar
  */
-const ArticleNavbar = ({ authorId }) => {
+const ArticleNavbar = ({ article }) => {
 
 	const router = useRouter ();
+	const { author } = article;
 
 	const redirectToAuthor = () => {
-		if ( authorId ) router.push ( `/view/profile/${ authorId }` );
+		router.push ( `/view/profile/${ author }` );
 	}
 
 	return (

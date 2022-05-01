@@ -1,4 +1,4 @@
-import DOMPurify from "dompurify"
+import DOMPurify from "isomorphic-dompurify"
 
 /**
  * Sanitizes and displays an article's body
@@ -6,8 +6,8 @@ import DOMPurify from "dompurify"
  * @param {String} body - The article's HTML body 
  * @returns Displays the body of an article
  */
-const ArticleBody = ({ body }) => {
-	return <div className="p-4 font-serif text-gray-dark break-all text-lg" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize ( body ) }}></div>
+const ArticleBody = ({ article }) => {
+	return <div className="p-4 font-serif text-gray-dark break-all text-lg" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize ( article.body ) }}></div>
 }
 
 export default ArticleBody;
