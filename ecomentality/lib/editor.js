@@ -1,5 +1,5 @@
-import { Editor, Text, Element, Transforms } from "slate"
-import escapeHtml from "escape-html"
+import { Editor, Text } from "slate"
+import DOMPurify from "dompurify"
 
 const useEditor = () => {
 
@@ -12,26 +12,7 @@ const useEditor = () => {
 	 */
 	const isMarkActive = ( editor, format ) => {
 		const marks = Editor.marks ( editor );
-		return marks[format] === true
-	}
-
-	/**
-	 * Checks whether or not a specific block is enabled
-	 * 
-	 * @param {Object} editor - The editor object
-	 * @param {String} format - The format which should be checked
-	 * @returns Whether or not the given block is active
-	 */
-	const isBlockActive = ( editor, format, blockType = "type" ) => {
-
-		if ( !editor.selection ) return false;
-
-		const [match] = Array.from ( Editor.nodes ( editor , {
-			at: Editor.unhangRange ( editor, editor.selection ),
-			match: node => !Editor.isEditor ( node ) && Element.isElement ( node ) && node[blockType] === format
-		}));
-
-		return !!match;
+		return marks[format] === true ? true : false;
 	}
 
 	/**
@@ -52,27 +33,6 @@ const useEditor = () => {
 			// Enables the mark
 			Editor.addMark ( editor, format, true );
 
-		}
-	}
-
-	const toggleBlock = ( editor, format, TEXT_ALIGN_TYPES = ["left", "center", "right", "justify"], LIST_TYPES = ["numbered-list", "bulleted-list"] ) => {
-
-		// Checks if the block is active and if it's a list
-		const isActive = isBlockActive ( editor, format, TEXT_ALIGN_TYPES.includes ( format ) ? "align" : "type" );
-		const isList = LIST_TYPES.includes ( format );
-
-		Transforms.unwrapNodes ( editor, {
-			match: node => !Editor.isEditor ( node ) && Element.isElement ( node ) && LIST_TYPES.includes ( node.type ) && !TEXT_ALIGN_TYPES.includes ( format ),
-			split: true
-		});
-
-		let newProperties;
-		if ( TEXT_ALIGN_TYPES.includes ( format ) ) newProperties = { align: isActive ? undefined : format }
-		Transforms.setNodes ( editor, newProperties );
-	
-		if ( !isActive && isList ) {
-			const block = { type: format, children: [] }
-			Transforms.wrapNodes ( editor, block );
 		}
 	}
 
@@ -127,7 +87,7 @@ const useEditor = () => {
 	const serializeEditor = ( node ) => {
 
 		if ( Text.isText ( node ) ) {
-			let string = escapeHtml ( node.text );
+			let string = `<p class="w-full mt-4">${DOMPurify.sanitize ( node.text )}</p>`;
 			
 			// Leaf formatting
 			if ( node.bold ) {
@@ -152,23 +112,6 @@ const useEditor = () => {
 		const children = node.children.map ( n => serializeEditor ( n ) ).join ( "" );
 		
 		switch ( node.type ) {
-			case "block-quote":
-				return `<blockquote>${ children }</blockquote>`;
-
-			case "bulleted-list":
-				return `<ul>${ children }</ul>`;
-
-			case "heading-one":
-				return `<h1>${ children }</h1>`;
-
-			case "heading-two":
-				return `<h2>${ children }</h2>`;
-	
-			case "list-item":
-				return `<li>${ children }</li>`;
-		
-			case "numbered-list":
-				return `<ol>${ children }</ol>`;
 			
 			default:
 				return children;
@@ -182,8 +125,6 @@ const useEditor = () => {
 		saveLocalCopy,
 		fetchLocalCopy,
 		serializeEditor,
-		isBlockActive,
-		toggleBlock
 	}
 }
 

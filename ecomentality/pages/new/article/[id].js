@@ -9,7 +9,7 @@ const NewArticle = () => {
 
 	return (
 		<div>
-			<ArticleEditor id={ articleId } />
+			<ArticleEditor articleId={ articleId } />
 		</div>
 	)
 }

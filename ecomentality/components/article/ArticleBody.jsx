@@ -7,7 +7,7 @@ import DOMPurify from "dompurify"
  * @returns Displays the body of an article
  */
 const ArticleBody = ({ body }) => {
-	return <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize ( body ) }}></div>
+	return <div className="p-4 font-serif text-gray-dark break-all text-lg" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize ( body ) }}></div>
 }
 
 export default ArticleBody;

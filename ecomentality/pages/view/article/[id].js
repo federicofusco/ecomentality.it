@@ -7,7 +7,6 @@ const ViewArticle = () => {
 
 	return (
 		<div>
-			<h1>You&apos;re viewing article: { articleId }!</h1>
 			<Article id={ articleId } />
 		</div>
 	)

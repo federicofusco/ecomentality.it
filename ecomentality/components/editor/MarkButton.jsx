@@ -10,7 +10,7 @@ import { useSlate } from "slate-react"
  * @param {Object} icon - The button's icon
  * @returns A toggle button for a given mark
  */
-const EditorMarkButton = ({ format, icon }) => {
+const MarkButton = ({ format, icon }) => {
 
 	const { toggleMark } = useEditor ();
 	const editor = useSlate ();
@@ -27,4 +27,4 @@ const EditorMarkButton = ({ format, icon }) => {
 	)
 }
 
-export default EditorMarkButton;
+export default MarkButton;

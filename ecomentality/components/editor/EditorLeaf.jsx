@@ -13,7 +13,11 @@ const EditorLeaf = ({ attributes, children, leaf }) => {
 	}
 
 	if ( leaf.code ) {
-		children = <code>{ children }</code>
+		children = (
+			<div className="inline-block bg-gray-200 rounded-md px-1 mx-1">
+				<code>{ children }</code>
+			</div>
+		)
 	}
 
 	return <span {...attributes}>

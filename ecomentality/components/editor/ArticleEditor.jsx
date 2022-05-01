@@ -4,27 +4,21 @@ import { createEditor } from "slate"
 import { isHotkey } from "is-hotkey"
 import EditorElement from "./EditorElement"
 import EditorLeaf from "./EditorLeaf"
-import EditorToolbar from "./EditorToolbar"
-import ErrorMessage from "../state/ErrorMessage"
 import useEditor from "../../lib/editor"
-import useArticle from "../../lib/article"
+import Toolbar from "./Toolbar"
 
 
 /**
  * An editor for articles
  * 
- * @param {String} id - The article's UUID
- * @param {Funtion} onArticlePublish - A callback which is called when the article is published
+ * @param {String} articleId - The article's UUID
  * @returns An article editor
  */
-const ArticleEditor = ({ id, onArticlePublish }) => {
+const ArticleEditor = ({ articleId }) => {
 
-	const { serializeEditor, toggleMark, saveLocalCopy, fetchLocalCopy } = useEditor ();
-	const { publishArticle } = useArticle ();
+	const { toggleMark, saveLocalCopy, fetchLocalCopy } = useEditor ();
 
 	// Defines the editor values
-	const LIST_TYPES = ["numbered-list", "bulleted-list"];
-	const TEXT_ALIGN_TYPES = ["left", "center", "right", "justify"];
 	const HOTKEYS = {
 		"mod+b": "bold",
 		"mod+i": "italic",
@@ -38,60 +32,60 @@ const ArticleEditor = ({ id, onArticlePublish }) => {
 	const [editor] = useState ( withReact ( createEditor () ) );
 
 	const titleRef = useRef ();
-	const [error, setError] = useState ( null );
 
 	// Defines the editor's initial value (placeholder)
-	const initialValue = fetchLocalCopy ( id ) || [{
+	const initialValue = fetchLocalCopy ( articleId ) || [{
 		type: "paragraph",
 		children: [{
-			text: "THE REACT GODS SHALL BOW DOWN BEFORE MY KNEES",
-			bold: true
+			text: ""
 		}]
 	}];
 
-	const publish = async () => {
-		await publishArticle ( id, titleRef.current.value, serializeEditor ( editor ) )
-			.then ( () => {
-				if ( typeof onArticlePublish !== "undefined" ) {
-					onArticlePublish ();
-				}
-			})
-			.catch ( ( error ) => {
-				setError ( error.data.error );
-			});
-	}
-
 	return (
-		<Slate editor={ editor } value={ initialValue }>
-			<ErrorMessage message={ error } />
-			<input type="text" placeholder="Title" ref={ titleRef } />
-			<EditorToolbar />
-			<Editable 
-				renderElement={ renderElement }
-				renderLeaf={ renderLeaf }
-				placeholder="Start writing your article"
-				autoFocus
-				onKeyDown={ e => {
-					for ( const hotkey in HOTKEYS ) {
+		<div className="w-screen h-screen">
+			<Slate 
+				editor={ editor } 
+				value={ initialValue }
+				className="w-screen h-screen">
 
-						// Checks if the keypress is a hotkey
-						if ( isHotkey ( hotkey, e ) ) {
+				<Toolbar articleId={ articleId } articleTitleRef={ titleRef } />
+		
+				<div className="mx-auto max-w-2xl">
 
-							// Prevents the hotkey from being entered and toggles the associated mark
-							e.preventDefault ();
-							const mark = HOTKEYS[hotkey];
-							toggleMark ( editor, mark );
-							return;
-						}
-					}
+					{/* Title Input */}
+					<input 
+						type="text"
+						placeholder="Tell your story..."
+						ref={ titleRef }
+						className="mt-24 p-4 w-full text-gray-dark font-serif text-5xl outline-none" />
+					
+					{/* Editor */}
+					<Editable 
+						renderElement={ renderElement }
+						renderLeaf={ renderLeaf }
+						placeholder="Start writing your article"
+						autoFocus
+						className="p-4 font-serif text-gray-dark break-all text-lg"
+						onKeyDown={ e => {
+							for ( const hotkey in HOTKEYS ) {
 
-					saveLocalCopy ( editor, id );
-				}}
-			/>
-			<button onClick={ publish }>
-				Publish
-			</button>
-		</Slate>
+								// Checks if the keypress is a hotkey
+								if ( isHotkey ( hotkey, e ) ) {
+
+									// Prevents the hotkey from being entered and toggles the associated mark
+									e.preventDefault ();
+									const mark = HOTKEYS[hotkey];
+									toggleMark ( editor, mark );
+									return;
+								}
+							}
+
+							saveLocalCopy ( editor, articleId );
+						}}
+					/>
+				</div>
+			</Slate>
+		</div>
 	)
 
 }

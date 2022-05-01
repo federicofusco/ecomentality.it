@@ -7,9 +7,9 @@
  */
 const ArticleTitle = ({ title, author }) => {
 	return (
-		<div>
-			<h1>{ title }</h1>
-			<p>Written by { author }</p>
+		<div className="mt-24 p-4 w-full text-gray-dark font-serif">
+			<h1 className="text-5xl">{ title }</h1>
+			<p className="mt-2">Written by { author }</p>
 		</div>
 	)
 }

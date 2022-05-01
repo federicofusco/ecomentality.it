@@ -8,7 +8,7 @@ import { useSlate } from "slate-react";
  * @param {Object} icon - The icon component
  * @returns A block toggle button for a specific format
  */
-const EditorBlockButton = ({ format, icon }) => {
+const BlockButton = ({ format, icon }) => {
 	
 	const { toggleBlock } = useEditor ();
 	const editor = useSlate ();
@@ -25,4 +25,4 @@ const EditorBlockButton = ({ format, icon }) => {
 	)
 }
 
-export default EditorBlockButton;
+export default BlockButton;

@@ -30,9 +30,11 @@ const Article = ({ id }) => {
 	}, []);
 
 	return (
-		<div>
-			{ !loading && <ArticleTitle title={ article.title } author={ article.author } /> }
-			{ !loading && <ArticleBody body={ article.body } /> }
+		<div className="w-screen h-screen">
+			<div className="mx-auto max-w-2xl">
+				{ !loading && <ArticleTitle title={ article.title } author={ article.author } /> }
+				{ !loading && <ArticleBody body={ article.body } /> }
+			</div>
 		</div>
 	)
 
