@@ -1,4 +1,4 @@
-import { auth } from "./firebase.lib"
+import { auth } from "./firebase"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { getIdToken } from "firebase/auth"
 import { useRouter } from "next/router"

@@ -1,6 +1,6 @@
-import { firestore } from "./firebase.lib"
+import { firestore } from "./firebase"
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
-import useAuth from "./auth.lib"
+import useAuth from "./auth"
 
 const useArticle = () => {
 

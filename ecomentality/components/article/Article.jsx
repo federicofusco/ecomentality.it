@@ -1,8 +1,14 @@
-import useArticle from "../../lib/article.lib"
+import useArticle from "../../lib/article"
 import { useEffect, useState } from "react"
 import ArticleTitle from "./ArticleTitle"
 import ArticleBody from "./ArticleBody"
 
+/**
+ * Displays an article
+ * 
+ * @param {String} id - The article's UUID
+ * @returns Displays an article
+ */
 const Article = ({ id }) => {
 
 	const { fetchArticle } = useArticle ();
@@ -17,16 +23,18 @@ const Article = ({ id }) => {
 				setLoading ( false );
 			})
 			.catch ( ( error ) => {
-				console.log(error);
+				
 				// An error occurred while fetching the article
-
+				console.log(error);
 			});
 	}, []);
 
 	return (
-		<div>
-			{ !loading && <ArticleTitle title={ article.title } author={ article.author } /> }
-			{ !loading && <ArticleBody body={ article.body } /> }
+		<div className="w-screen h-screen overflow-x-hidden">
+			<div className="mx-auto max-w-2xl">
+				{ !loading && <ArticleTitle title={ article.title } author={ article.author } /> }
+				{ !loading && <ArticleBody body={ article.body } /> }
+			</div>
 		</div>
 	)
 
