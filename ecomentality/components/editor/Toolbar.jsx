@@ -3,6 +3,7 @@ import useEditor from "../../lib/editor"
 import useArticle from "../../lib/article"
 import { useSlate } from "slate-react"
 import { useState } from "react"
+import InsertImageButton from "../buttons/InsertImageButton"
 
 const Toolbar = ({ articleId, articleTitleRef }) => {
 
@@ -39,7 +40,10 @@ const Toolbar = ({ articleId, articleTitleRef }) => {
 					<p className="ml-2 text-sm font-medium text-gray-600 my-auto">Draft saved locally</p>
 				</div>
 
-				<button onClick={ publish } className="text-white font-medium bg-green-600 rounded-full py-1 px-3 text-sm ml-auto">{ publishStatus }</button>
+				<div className="flex">
+					<InsertImageButton />
+					<button onClick={ publish } className="text-white font-medium bg-green-600 rounded-full py-1 px-3 text-sm ml-auto">{ publishStatus }</button>
+				</div>
 			</div>
 		</div>
 	)

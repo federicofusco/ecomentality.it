@@ -6,7 +6,7 @@ import EditorElement from "./EditorElement"
 import EditorLeaf from "./EditorLeaf"
 import useEditor from "../../lib/editor"
 import Toolbar from "./Toolbar"
-
+import withImages from "./../../lib/plugins/Plugin"
 
 /**
  * An editor for articles
@@ -29,7 +29,7 @@ const ArticleEditor = ({ articleId }) => {
 	// Defines the editor and its elements
 	const renderElement = useCallback ( x => <EditorElement {...x} /> );
 	const renderLeaf = useCallback ( x => <EditorLeaf {...x} /> );
-	const [editor] = useState ( withReact ( createEditor () ) );
+	const [editor] = useState ( withImages ( withReact ( createEditor () ) ) );
 
 	const titleRef = useRef ();
 

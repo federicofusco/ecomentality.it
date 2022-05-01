@@ -1,4 +1,8 @@
-const EditorElement = ({ attributes, children, element }) => {
+import ArticleImage from "./../article/ArticleImage";
+
+const EditorElement = ( props ) => {
+
+	const { attributes, children, element } = props;
 
 	// Defines the styles which will be used
 	const elementStyle = {
@@ -7,10 +11,12 @@ const EditorElement = ({ attributes, children, element }) => {
 
 	// Renders the component based on element.type
 	switch ( element.type ) {
+
+		case "image":
+			return <ArticleImage {...props}/>
+
 		default:
-			return <p className="w-full mt-4" style={ elementStyle } {...attributes}>
-					{ children }
-				</p>
+			return <p className="w-full mt-4" style={ elementStyle } {...attributes}>{ children }</p>
 	}
 }
 

@@ -1,5 +1,6 @@
-import { Editor, Text } from "slate"
+import { Editor, Text, Transforms } from "slate"
 import DOMPurify from "dompurify"
+import isUrl from "is-url"
 
 const useEditor = () => {
 
@@ -118,6 +119,35 @@ const useEditor = () => {
 		}
 
 	}
+	
+	/**
+	 * Inserts an image into the editor
+	 * 
+	 * @param {Object} editor - The editor object
+	 * @param {String} url - The image's URL
+	 */
+	const insertImage = ( editor, url ) => {
+		const image = {
+			type: "image",
+			src: url,
+			isVoid: true,
+			children: [{ text: "" }]
+		}
+		Transforms.insertNodes ( editor, image );
+	}
+	
+	/**
+	 * Checks whether or not a URL leads to an image
+	 * TODO: ADD EXT CHECK
+	 * 
+	 * @param {String} url - The image's URL
+	 * @returns Whether or not the URL is an image
+	 */
+	const isImageUrl = ( url ) => {
+		if ( !url ) return false;
+		if ( !isUrl ( url ) ) return false;
+		return true;
+	}
 
 	return {
 		isMarkActive,
@@ -125,6 +155,8 @@ const useEditor = () => {
 		saveLocalCopy,
 		fetchLocalCopy,
 		serializeEditor,
+		insertImage,
+		isImageUrl
 	}
 }
 
