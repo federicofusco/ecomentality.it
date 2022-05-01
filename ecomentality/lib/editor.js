@@ -106,13 +106,15 @@ const useEditor = () => {
 			if ( node.code ) {
 				string = `<code>${ string }</code>`;
 			}
-
 			return string;
 		}
 
 		const children = node.children.map ( n => serializeEditor ( n ) ).join ( "" );
 		
 		switch ( node.type ) {
+
+			case "image": 
+				return `<img src=${ node.src } className="block max-w-full max-h-80 h-full select-none" />`;
 			
 			default:
 				return children;
