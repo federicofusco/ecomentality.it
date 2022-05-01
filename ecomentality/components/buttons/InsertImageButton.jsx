@@ -2,14 +2,15 @@ import useEditor from "../../lib/editor"
 import { useSlateStatic } from "slate-react"
 import { MdPhotoCamera } from "react-icons/md"
 
-const InsertImageButton = () => {
+const InsertImageButton = ({ id }) => {
 
 	const editor = useSlateStatic ();
-	const { isImageUrl, insertImage } = useEditor ();
+	const { isImageUrl, insertImage, saveLocalCopy } = useEditor ( id );
 
 	return (
 		<button
 			className="h-7 w-7 bg-white border-black border rounded-full mr-2"
+			title="Insert image"
 			onClick={() => {
 				const url = window.prompt ( 'Enter the URL of the image:' );
 
@@ -21,6 +22,7 @@ const InsertImageButton = () => {
 
 				// Inserts the image
 				insertImage ( editor, url )
+				saveLocalCopy ( editor, id );
 			}}
 			>
 			<MdPhotoCamera className="m-auto" />

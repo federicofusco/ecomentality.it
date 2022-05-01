@@ -1,4 +1,4 @@
-import ArticleImage from "./../article/ArticleImage";
+import ArticleImage from "./EditorImage";
 
 const EditorElement = ( props ) => {
 

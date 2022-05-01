@@ -1,12 +1,11 @@
-import { useCallback, useRef, useState } from "react"
+import { useCallback, useRef, useState, useEffect } from "react"
 import { Editable, Slate, withReact } from "slate-react"
 import { createEditor } from "slate"
 import { isHotkey } from "is-hotkey"
 import EditorElement from "./EditorElement"
 import EditorLeaf from "./EditorLeaf"
 import useEditor from "../../lib/editor"
-import Toolbar from "./Toolbar"
-import withImages from "./../../lib/plugins/Plugin"
+import Toolbar from "./EditorToolbar"
 
 /**
  * An editor for articles
@@ -16,7 +15,7 @@ import withImages from "./../../lib/plugins/Plugin"
  */
 const ArticleEditor = ({ articleId }) => {
 
-	const { toggleMark, saveLocalCopy, fetchLocalCopy } = useEditor ();
+	const { withImages, toggleMark, saveLocalCopy, fetchLocalCopy } = useEditor ( articleId );
 
 	// Defines the editor values
 	const HOTKEYS = {
@@ -30,19 +29,23 @@ const ArticleEditor = ({ articleId }) => {
 	const renderElement = useCallback ( x => <EditorElement {...x} /> );
 	const renderLeaf = useCallback ( x => <EditorLeaf {...x} /> );
 	const [editor] = useState ( withImages ( withReact ( createEditor () ) ) );
-
 	const titleRef = useRef ();
-
-	// Defines the editor's initial value (placeholder)
-	const initialValue = fetchLocalCopy ( articleId ) || [{
+	const initialValue = [{
 		type: "paragraph",
 		children: [{
-			text: ""
+			text: "Almost there..."
 		}]
 	}];
 
+	useEffect (() => {
+		setTimeout (() => {
+			fetchLocalCopy ( editor );
+		}, 1000 );
+	}, []);
+
+
 	return (
-		<div className="w-screen h-screen">
+		<div className="w-screen h-screen overflow-x-hidden">
 			<Slate 
 				editor={ editor } 
 				value={ initialValue }
@@ -78,9 +81,10 @@ const ArticleEditor = ({ articleId }) => {
 									toggleMark ( editor, mark );
 									return;
 								}
+
 							}
 
-							saveLocalCopy ( editor, articleId );
+							saveLocalCopy ( editor );
 						}}
 					/>
 				</div>

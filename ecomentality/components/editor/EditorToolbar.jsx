@@ -4,20 +4,30 @@ import useArticle from "../../lib/article"
 import { useSlate } from "slate-react"
 import { useState } from "react"
 import InsertImageButton from "../buttons/InsertImageButton"
+import Button from "../buttons/Button"
 
-const Toolbar = ({ articleId, articleTitleRef }) => {
+/**
+ * Displays a toolbar in the editor
+ * 
+ * @param {String} articleId - The article's UUID
+ * @param {Ref} articleTitleRef - A ref (see react useRef) to the title input
+ * @returns A toolbar
+ */
+const EditorToolbar = ({ articleId, articleTitleRef }) => {
 
-	const { serializeEditor } = useEditor ();
+	const { serializeEditor } = useEditor ( articleId );
 	const { publishArticle } = useArticle ();
 	const editor = useSlate ();
 	const [publishStatus, setPublishStatus] = useState ( "Publish" );
 
+	/**
+	 * Attempts to publish the article
+	 */
 	const publish = async () => {
 
 		setPublishStatus ( "Hold on..." );
 		await publishArticle ( articleId, articleTitleRef.current.value, serializeEditor ( editor ) )
 			.then ( () => {
-				console.log(1);
 
 				// Updates the status
 				setTimeout (() => { 
@@ -41,12 +51,12 @@ const Toolbar = ({ articleId, articleTitleRef }) => {
 				</div>
 
 				<div className="flex">
-					<InsertImageButton />
-					<button onClick={ publish } className="text-white font-medium bg-green-600 rounded-full py-1 px-3 text-sm ml-auto">{ publishStatus }</button>
+					<InsertImageButton id={ articleId } />
+					<Button onClick={ publish }>{ publishStatus }</Button>
 				</div>
 			</div>
 		</div>
 	)
 }
 
-export default Toolbar;
+export default EditorToolbar;

@@ -23,14 +23,14 @@ const Article = ({ id }) => {
 				setLoading ( false );
 			})
 			.catch ( ( error ) => {
-				console.log(error);
+				
 				// An error occurred while fetching the article
-
+				console.log(error);
 			});
 	}, []);
 
 	return (
-		<div className="w-screen h-screen">
+		<div className="w-screen h-screen overflow-x-hidden">
 			<div className="mx-auto max-w-2xl">
 				{ !loading && <ArticleTitle title={ article.title } author={ article.author } /> }
 				{ !loading && <ArticleBody body={ article.body } /> }
