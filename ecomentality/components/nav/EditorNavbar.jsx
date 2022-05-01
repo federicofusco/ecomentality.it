@@ -13,7 +13,7 @@ import Button from "../buttons/Button"
  * @param {Ref} articleTitleRef - A ref (see react useRef) to the title input
  * @returns A toolbar
  */
-const EditorToolbar = ({ articleId, articleTitleRef }) => {
+const ArticleToolbar = ({ articleId, articleTitleRef }) => {
 
 	const { serializeEditor } = useEditor ( articleId );
 	const { publishArticle } = useArticle ();
@@ -59,4 +59,4 @@ const EditorToolbar = ({ articleId, articleTitleRef }) => {
 	)
 }
 
-export default EditorToolbar;
+export default ArticleToolbar;

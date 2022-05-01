@@ -168,7 +168,7 @@ const useEditor = ( id ) => {
 		const totalNodes = editor.children.length;
 
 		// No saved content, don't delete anything to prevent errors
-		if ( localCopy.data.length === 0) return;
+		if ( !localCopy || localCopy.data.length === 0) return;
 
 		// Remove every node except the last one
 		// Otherwise SlateJS will return error as there's no content
@@ -237,7 +237,7 @@ const useEditor = ( id ) => {
 		switch ( node.type ) {
 
 			case "image": 
-				return `<img src=${ node.src } className="block max-w-full max-h-80 h-full select-none" />`;
+				return `<div class="w-full flex justify-center"><img src=${ node.src } className="block max-w-full w-auto max-h-80 h-full select-none" /></div>`;
 			
 			default:
 				return children;

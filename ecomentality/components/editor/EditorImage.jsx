@@ -13,7 +13,7 @@ const ArticleImage = ({ attributes, element, children }) => {
 			<img 
 				src={ element.src }
 				alt=""
-				className="block max-w-full max-h-80 h-full select-none" />
+				className="block max-w-full h-full max-h-80 select-none" />
 			
 			{/* More voodoo black magic, DON'T TOUCH */}
 			<div className="hidden">{ children }</div>

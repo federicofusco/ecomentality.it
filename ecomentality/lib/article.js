@@ -144,9 +144,53 @@ const useArticle = () => {
 		});
 	}
 
+	/**
+	 * Increments the like count of an article
+	 * 
+	 * @param {String} id - The article's UUID
+	 * @returns A promise
+	 */
+	const likeArticle = async ( id ) => {
+		return new Promise ( ( resolve, reject ) => {
+
+			// Sends a request to the like API
+			fetch ( `${ process.env.NEXT_PUBLIC_URL }/api/like/${ id }` )
+				.then (( response ) => response.json () )
+				.then (( data ) => {
+
+					if ( data.status === 200 ) {
+						resolve ();
+						return;
+					}
+
+					reject ( data.message );
+				});
+		});	
+	}
+
+	const dislikeArticle = async ( id ) => {
+		return new Promise ( ( resolve, reject ) => {
+
+			// Sends a request to the dislike API
+			fetch ( `${ process.env.NEXT_PUBLIC_URL }/api/dislike/${ id }` )
+				.then (( response ) => response.json () ) 
+				.then (( data ) => {
+
+					if ( data.status === 200 ) {
+						resolve ();
+						return;
+					}
+
+					reject ( data.message );
+				});
+		})
+	}
+
 	return {
 		publishArticle,
-		fetchArticle
+		fetchArticle,
+		likeArticle,
+		dislikeArticle
 	}
 }
 

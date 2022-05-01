@@ -5,7 +5,7 @@ import { isHotkey } from "is-hotkey"
 import EditorElement from "./EditorElement"
 import EditorLeaf from "./EditorLeaf"
 import useEditor from "../../lib/editor"
-import Toolbar from "./EditorToolbar"
+import EditorNavbar from "../nav/EditorNavbar"
 
 /**
  * An editor for articles
@@ -33,7 +33,7 @@ const ArticleEditor = ({ articleId }) => {
 	const initialValue = [{
 		type: "paragraph",
 		children: [{
-			text: "Almost there..."
+			text: ""
 		}]
 	}];
 
@@ -51,7 +51,7 @@ const ArticleEditor = ({ articleId }) => {
 				value={ initialValue }
 				className="w-screen h-screen">
 
-				<Toolbar articleId={ articleId } articleTitleRef={ titleRef } />
+				<EditorNavbar articleId={ articleId } articleTitleRef={ titleRef } />
 		
 				<div className="mx-auto max-w-2xl">
 

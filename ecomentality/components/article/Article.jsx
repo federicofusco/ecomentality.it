@@ -2,6 +2,8 @@ import useArticle from "../../lib/article"
 import { useEffect, useState } from "react"
 import ArticleTitle from "./ArticleTitle"
 import ArticleBody from "./ArticleBody"
+import ArticleNavbar from "../nav/ArticleNavbar"
+import ArticleSidebar from "../nav/ArticleSidebar"
 
 /**
  * Displays an article
@@ -31,9 +33,15 @@ const Article = ({ id }) => {
 
 	return (
 		<div className="w-screen h-screen overflow-x-hidden">
-			<div className="mx-auto max-w-2xl">
-				{ !loading && <ArticleTitle title={ article.title } author={ article.author } /> }
-				{ !loading && <ArticleBody body={ article.body } /> }
+			
+			<ArticleNavbar authorId={ !loading ? article.author : null } />
+			
+			<div className="flex">
+				<ArticleSidebar id={ id } />
+				<div className="mx-auto max-w-2xl">
+					{ !loading && <ArticleTitle article={ article } /> }
+					{ !loading && <ArticleBody body={ article.body } /> }
+				</div>
 			</div>
 		</div>
 	)
