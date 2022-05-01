@@ -27,7 +27,7 @@ const Login = () => {
 					router.push ( "/new/article/random-id" );
 				});
 		}
-	}, [user, loading, error])
+	}, [user, loading, error, updateIdToken, router])
 
 	return (
 		<div>

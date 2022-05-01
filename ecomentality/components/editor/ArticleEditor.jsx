@@ -41,7 +41,7 @@ const ArticleEditor = ({ articleId }) => {
 		setTimeout (() => {
 			fetchLocalCopy ( editor );
 		}, 1000 );
-	}, []);
+	}, [fetchLocalCopy]);
 
 
 	return (
