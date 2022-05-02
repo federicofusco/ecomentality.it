@@ -168,7 +168,7 @@ const useEditor = ( id ) => {
 		const totalNodes = editor.children.length;
 
 		// No saved content, don't delete anything to prevent errors
-		if ( localCopy.data.length === 0) return;
+		if (!localCopy.data) return;
 
 		// Remove every node except the last one
 		// Otherwise SlateJS will return error as there's no content
