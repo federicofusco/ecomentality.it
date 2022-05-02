@@ -1,6 +1,6 @@
 import Logo from "../Logo"
 import useEditor from "../../lib/editor"
-import { useArticle } from "../../lib/article"
+import useArticle from "../../lib/article"
 import { useSlate } from "slate-react"
 import { useState } from "react"
 import InsertImageButton from "../buttons/InsertImageButton"

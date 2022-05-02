@@ -16,10 +16,10 @@ const NewArticle = () => {
 
 export default NewArticle;
 
-export const getServerSideProps = ( context ) => {
+export const getServerSideProps = ({ req, params, resolvedUrl }) => {
 
 	// Verifies that the article UUID is valid
-	if ( !isUUID ( context.params.id ) ) {
+	if ( !isUUID ( params.id ) ) {
 
 		// Redirects the user to a URL with a valid UUID
 		return {
@@ -30,5 +30,5 @@ export const getServerSideProps = ( context ) => {
 		};
 	}
 
-	return authRedirect ( context ); 
+	return authRedirect ({ req, resolvedUrl }); 
 }

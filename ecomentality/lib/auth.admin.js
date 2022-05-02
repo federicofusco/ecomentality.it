@@ -7,7 +7,7 @@ import Cookies from "cookies";
  * 
  * @param {Object} context - The HTTPS request context
  */
-export const authRedirect = async ({ req, res }) => {
+export const authRedirect = async ({ req, res, resolvedUrl }) => {
 
 	// Parses the request cookies
 	const cookies = new Cookies ( req, res );
@@ -37,7 +37,7 @@ export const authRedirect = async ({ req, res }) => {
 				// The token was invalid
 				response = {
 					redirect: {
-						destination: "/auth/login",
+						destination: `/auth/login?redirect=${ resolvedUrl }`,
 						permanent: false
 					}
 				};
@@ -46,7 +46,7 @@ export const authRedirect = async ({ req, res }) => {
 
 	return response || {
 		redirect: {
-			destination: "/auth/login",
+			destination: `/auth/login?redirect=${ resolvedUrl }`,
 			permanent: false
 		}
 	};

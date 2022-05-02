@@ -1,12 +1,9 @@
-import { useRouter } from "next/router"
 import Article from "../../../components/article/Article"
 import { isUUID } from "./../../../lib/auth.admin"
 import { firestore } from "../../../lib/firebase"
 import { getDoc, doc } from "firebase/firestore"
 
 const ViewArticle = ({ article }) => {
-	const router = useRouter ();
-
 	return (
 		<div>
 			<Article article={ article } />
