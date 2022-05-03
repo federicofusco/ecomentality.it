@@ -6,7 +6,13 @@ module.exports = {
 	theme: {
 	  extend: {
 		  colors: {
-			'light-lime-green' : '#2ec633',
+			'light-lime-green' : 'rgb(28, 212, 31)',
+		  },
+		  aspectRatio: {
+			'logo-ratio' : '967 / 292',
+		  },
+		  spacing: {
+			  '520' : '520px',
 		  }
 	  },
 	},
