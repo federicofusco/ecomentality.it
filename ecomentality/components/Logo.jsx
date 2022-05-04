@@ -15,7 +15,8 @@ const Logo = ({ iconOnly, width = 32, height = 32 }) => {
 		alt="GEM"
 		src={ iconOnly ? Icon : Full }
 		width={ width }
-		height={ height } />
+		height={ height } 
+		className="rounded-lg" />
 } 
 
 export default Logo;
