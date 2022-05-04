@@ -13,7 +13,7 @@ module.exports = {
 			'logo-ratio' : '967 / 292',
 		  },
 		  spacing: {
-			  '500' : '500px',
+			  '460' : '460px',
 		  }
 	  },
 	},
