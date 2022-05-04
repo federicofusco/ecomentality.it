@@ -6,50 +6,49 @@ import Cookies from "cookies";
  * Verifies that the request is authenticated
  * 
  * @param {Object} context - The HTTPS request context
+ * @returns A promise
  */
-export const authRedirect = async ({ req, res, resolvedUrl }) => {
+export const authRedirect = ({ req, res, resolvedUrl }) => {
+	return new Promise ( async ( resolve, reject ) => {
 
-	// Parses the request cookies
-	const cookies = new Cookies ( req, res );
-	const token = cookies.get ( "token" );
+		// Parses the request cookies
+		const cookies = new Cookies ( req, res );
+		const token = cookies.get ( "token" );
 
-	let response;
+		// Checks if the user sent an id token, and if the token is valid
+		if ( token && token.length > 0 ) {
 
-	// Checks if the user sent an id token, and if the token is valid
-	if ( token && token.length > 0 ) {
+			// Verifies the token
+			await auth
+				.verifyIdToken ( token )
+				.then ( async ( decoded ) => {
 
-		// Verifies the token
-		await auth
-			.verifyIdToken ( token )
-			.then ( async ( decoded ) => {
-
-				// The token is valid
-				response = {
-					props: {
+					// The token is valid
+					resolve ({
 						token: decoded
-					}
-				};
-			})
-			.catch ( async ( error ) => {
+					});
+				})
+				.catch ( async ( error ) => {
 
-				console.error ( error );
+					console.error ( error );
 
-				// The token was invalid
-				response = {
-					redirect: {
-						destination: `/auth/login?redirect=${ resolvedUrl }`,
-						permanent: false
-					}
-				};
-			});
-	}	
+					// The token was invalid
+					reject ({
+						redirect: {
+							destination: `/auth/login?redirect=${ resolvedUrl }`,
+							permanent: false
+						}
+					});
+				});
+		}	
 
-	return response || {
-		redirect: {
-			destination: `/auth/login?redirect=${ resolvedUrl }`,
-			permanent: false
-		}
-	};
+		reject ({
+			redirect: {
+				destination: `/auth/login?redirect=${ resolvedUrl }`,
+				permanent: false
+			}
+		});
+	});
 }
 
 /**

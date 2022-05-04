@@ -1,22 +1,20 @@
-import { useRouter } from "next/router"
 import { authRedirect, isUUID } from "./../../../lib/auth.admin"
+import { firestore } from "./../../../lib/firebase"
+import { getDoc, doc } from "firebase/firestore"
 import { v4 as uuid } from "uuid"
 import ArticleEditor from "../../../components/editor/ArticleEditor"
 
-const NewArticle = () => {
-	const router = useRouter ();
-	const articleId = router.query.id;
-
+const NewArticle = ({ article }) => {
 	return (
 		<div>
-			<ArticleEditor articleId={ articleId } />
+			<ArticleEditor article={ article } />
 		</div>
 	)
 }
 
 export default NewArticle;
 
-export const getServerSideProps = ({ req, params, resolvedUrl }) => {
+export const getServerSideProps = async ({ req, res, params, resolvedUrl }) => {
 
 	// Verifies that the article UUID is valid
 	if ( !isUUID ( params.id ) ) {
@@ -30,5 +28,56 @@ export const getServerSideProps = ({ req, params, resolvedUrl }) => {
 		};
 	}
 
-	return authRedirect ({ req, resolvedUrl }); 
+	let response;
+
+	await  authRedirect ({ req, res, resolvedUrl })
+		.then ( async () => {
+			try {
+
+				// Fetches the article
+				const articleData = await getDoc ( doc ( firestore, "articles", params.id ) );
+		
+				// Checks if the article exists
+				if ( !articleData.exists () ) {
+					
+					// The article doesn't exist, creates a new one
+					response = {
+						props: {
+							article: {
+								id: params.id
+							}
+						}
+					};
+				} else {
+		
+					// Found the article
+					const { title, body, author, likeCount } = articleData.data ();
+					response = {
+						props: {
+							article: {
+								title: title,
+								body: body,
+								author: author,
+								likeCount: likeCount,
+								id: params.id
+							}
+						}
+					}
+				}
+		
+			} catch ( error ) {
+				
+				// Something went wrong
+				return;
+			}
+		})
+		.catch (( redirect ) => {
+
+			// Redirects the user
+			response = redirect;
+		});
+
+	return response || {
+		notFound: true
+	}
 }

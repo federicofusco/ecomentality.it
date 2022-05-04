@@ -2,6 +2,12 @@ import { useState } from "react"
 import useArticle from "../../lib/article"
 import { MdThumbUp, MdThumbUpOffAlt } from "react-icons/md";
 
+/**
+ * A button which likes an article
+ * 
+ * @param {Object} article - The article
+ * @returns A button for liking an article
+ */
 const LikeButton = ({ article }) => {
 
 	const [liked, setLiked] = useState ( false );

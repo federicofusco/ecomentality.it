@@ -1,5 +1,5 @@
 import { firestore } from "./firebase"
-import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { doc, updateDoc, serverTimestamp } from "firebase/firestore";
 import useAuth from "./auth"
 
 const useArticle = () => {
@@ -47,7 +47,7 @@ const useArticle = () => {
 
 			try {
 				
-				await setDoc ( doc ( firestore, "articles", id ), {
+				await updateDoc ( doc ( firestore, "articles", id ), {
 					title: title,
 					body: body,
 					timestamp: serverTimestamp (),

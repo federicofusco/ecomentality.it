@@ -6,11 +6,10 @@ import ArticleSidebar from "../nav/ArticleSidebar"
 /**
  * Displays an article
  * 
- * @param {String} id - The article's UUID
+ * @param {Object} article - The article
  * @returns Displays an article
  */
 const Article = ({ article }) => {
-
 	return (
 		<div className="w-screen h-screen overflow-x-hidden">
 			

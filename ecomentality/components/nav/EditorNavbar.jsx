@@ -7,15 +7,15 @@ import InsertImageButton from "../buttons/InsertImageButton"
 import Button from "../buttons/Button"
 
 /**
- * Displays a toolbar in the editor
+ * Displays a navbar in the editor
  * 
  * @param {String} articleId - The article's UUID
  * @param {Ref} articleTitleRef - A ref (see react useRef) to the title input
- * @returns A toolbar
+ * @returns A navbar
  */
 const ArticleToolbar = ({ articleId, articleTitleRef }) => {
 
-	const { serializeEditor } = useEditor ( articleId );
+	// const { serializeEditor } = useEditor ( articleId );
 	const { publishArticle } = useArticle ();
 	const editor = useSlate ();
 	const [publishStatus, setPublishStatus] = useState ( "Publish" );
@@ -26,7 +26,7 @@ const ArticleToolbar = ({ articleId, articleTitleRef }) => {
 	const publish = async () => {
 
 		setPublishStatus ( "Hold on..." );
-		await publishArticle ( articleId, articleTitleRef.current.value, serializeEditor ( editor ) )
+		await publishArticle ( articleId, articleTitleRef.current.value, editor.children )
 			.then ( () => {
 
 				// Updates the status

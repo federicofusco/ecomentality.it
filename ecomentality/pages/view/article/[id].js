@@ -40,7 +40,7 @@ export const getServerSideProps = async ( context ) => {
 		} else {
 
 			// Found the article
-			const { title, body, author, likeCount } = articleData.data ();
+			const { title, body, author, likeCount, timestamp } = articleData.data ();
 			return {
 				props: {
 					article: {
@@ -48,6 +48,7 @@ export const getServerSideProps = async ( context ) => {
 						body: body,
 						author: author,
 						likeCount: likeCount,
+						timestamp: String ( timestamp.toDate() ),
 						id: context.params.id
 					}
 				}

@@ -1,7 +1,7 @@
 import { Editor, Text, Transforms } from "slate"
-import DOMPurify from "dompurify"
 import isUrl from "is-url"
 import { useState } from "react"
+import { useSnackbar } from "notistack"
 
 /**
  * Author: https://usehooks.com/useLocalStorage/
@@ -12,6 +12,8 @@ import { useState } from "react"
  * @returns A persistent state
  */
 const useLocalStorage = ( key, initialValue ) => {
+
+	const { enqueueSnackbar } = useSnackbar ();
 
 	// State to store our value
 	// Pass initial state function to useState so logic is only executed once
@@ -28,7 +30,10 @@ const useLocalStorage = ( key, initialValue ) => {
 			return item ? JSON.parse ( item ) : initialValue;
 		} catch ( error ) {
 			// If error also return initialValue
-			console.error ( error );
+			enqueueSnackbar ( "Failed to save draft", {
+				variant: "error"
+			});
+
 			return initialValue;
 		}
 	});
@@ -162,13 +167,16 @@ const useEditor = ( id ) => {
 	 * @param {String} editor - The editor object
 	 * @returns The editor node (editor content)
 	 */
-	const fetchLocalCopy = ( editor ) => {
+	const fetchLocalCopy = ( article, editor ) => {
 
 		// Get initial total nodes to prevent deleting affecting the loop
 		const totalNodes = editor.children.length;
 
 		// No saved content, don't delete anything to prevent errors
-		if ( !localCopy || localCopy.data.length === 0) return;
+		if ( !localCopy ) return;
+
+		// Checks if the local copy is up to date
+		if ( localCopy === article.body ) return;
 
 		// Remove every node except the last one
 		// Otherwise SlateJS will return error as there's no content
@@ -201,49 +209,6 @@ const useEditor = ( id ) => {
 		// Serializes the data text in the editor and saves it to localStorage
 		setLocalCopy ({ data: editor.children });
 	}
-
-	/**
-	 * Serializes any given node and its children
-	 * 
-	 * @param {Object} node - A slate node which needs to be serialized
-	 * @returns A string representation of the given node
-	 */
-	const serializeEditor = ( node ) => {
-
-		if ( Text.isText ( node ) ) {
-			let string = `<p class="w-full mt-4">${DOMPurify.sanitize ( node.text )}</p>`;
-			
-			// Leaf formatting
-			if ( node.bold ) {
-				string = `<strong>${ string }</strong>`;
-			}
-		
-			if ( node.italic ) {
-				string = `<em>${ string }</em>`;
-			}
-		
-			if ( node.underline ) {
-				string = `<u>${ string }</u>`;
-			}
-		
-			if ( node.code ) {
-				string = `<code>${ string }</code>`;
-			}
-			return string;
-		}
-
-		const children = node.children.map ( n => serializeEditor ( n ) ).join ( "" );
-		
-		switch ( node.type ) {
-
-			case "image": 
-				return `<div class="w-full flex justify-center"><img src=${ node.src } className="block max-w-full w-auto max-h-80 h-full select-none" /></div>`;
-			
-			default:
-				return children;
-		}
-
-	}
 	
 	/**
 	 * Inserts an image into the editor
@@ -251,14 +216,15 @@ const useEditor = ( id ) => {
 	 * @param {Object} editor - The editor object
 	 * @param {String} url - The image's URL
 	 */
-	const insertImage = ( editor, url, id ) => {
-		const image = {
+	const insertImage = ( editor, url ) => {
+		Transforms.insertNodes ( editor, {
 			type: "image",
 			src: url,
 			isVoid: true,
 			children: [{ text: "" }]
-		}
-		Transforms.insertNodes ( editor, image );
+		}, {
+			at: [editor.children.length]
+		});
 	}
 	
 	/**
@@ -280,7 +246,6 @@ const useEditor = ( id ) => {
 		toggleMark,
 		saveLocalCopy,
 		fetchLocalCopy,
-		serializeEditor,
 		insertImage,
 		isImageUrl
 	}

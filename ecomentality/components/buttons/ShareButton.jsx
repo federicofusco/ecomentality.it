@@ -1,6 +1,12 @@
 import { MdShare } from "react-icons/md"
 import { useSnackbar } from "notistack"
 
+/**
+ * A button which shared the article
+ * 
+ * @param {Object} param0 - The article
+ * @returns A button for sharing the article
+ */
 const ShareButton = ({ article }) => {
 
 	const { enqueueSnackbar } = useSnackbar ();

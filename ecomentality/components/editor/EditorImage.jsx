@@ -3,10 +3,10 @@ import DeleteImageButton from "../buttons/DeleteImageButton"
 /**
  * Displays an image in the editor
  * 
- * @param {Object} param0 - The SlateJS attributes
+ * @param {Object} node - The SlateJS attributes
  * @returns An image
  */
-const ArticleImage = ({ attributes, element, children }) => {
+const ArticleImage = ({ attributes, element, children, hideDeleteButton }) => {
 
 	return (
 		<div {...attributes} contentEditable={ false } className="relative select-none flex justify-center">
@@ -18,7 +18,7 @@ const ArticleImage = ({ attributes, element, children }) => {
 			{/* More voodoo black magic, DON'T TOUCH */}
 			<div className="hidden">{ children }</div>
 			
-			<DeleteImageButton element={ element } />
+			{ !hideDeleteButton && <DeleteImageButton element={ element } /> }
 		</div>
 	)
 
