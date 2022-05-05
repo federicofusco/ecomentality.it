@@ -30,8 +30,6 @@ export const authRedirect = ({ req, res, resolvedUrl }) => {
 				})
 				.catch ( async ( error ) => {
 
-					console.error ( error );
-
 					// The token was invalid
 					reject ({
 						redirect: {

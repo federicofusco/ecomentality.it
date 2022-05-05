@@ -2,6 +2,7 @@ import { Editor, Text, Transforms } from "slate"
 import isUrl from "is-url"
 import { useState } from "react"
 import { useSnackbar } from "notistack"
+import DOMPurify from "isomorphic-dompurify"
 
 /**
  * Author: https://usehooks.com/useLocalStorage/
@@ -29,9 +30,11 @@ const useLocalStorage = ( key, initialValue ) => {
 			// Parse stored json or if none return initialValue
 			return item ? JSON.parse ( item ) : initialValue;
 		} catch ( error ) {
+
 			// If error also return initialValue
 			enqueueSnackbar ( "Failed to save draft", {
-				variant: "error"
+				variant: "error",
+				autoHideDuration: 3000
 			});
 
 			return initialValue;
@@ -54,9 +57,10 @@ const useLocalStorage = ( key, initialValue ) => {
 				window.localStorage.setItem ( key, JSON.stringify ( valueToStore ) );
 			}
 		} catch ( error ) {
-
-			// A more advanced implementation would handle the error case
-			console.log ( error );
+			enqueueSnackbar ( "Something went wrong!", {
+				variant: "error",
+				autoHideDuration: 3000
+			});
 		}
 	};
   
@@ -240,6 +244,49 @@ const useEditor = ( id ) => {
 		return true;
 	}
 
+	/**
+	 * Serializes any given node and its children
+	 * 
+	 * @param {Object} node - A slate node which needs to be serialized
+	 * @returns A string representation of the given node
+	 */
+	 const serializeEditor = ( node ) => {
+
+		if ( Text.isText ( node ) ) {
+			let string = `<p class="w-full mt-4">${ DOMPurify.sanitize ( node.text ) }</p>`;
+			
+			// Leaf formatting
+			if ( node.bold ) {
+				string = `<strong>${ string }</strong>`;
+			}
+		
+			if ( node.italic ) {
+				string = `<em>${ string }</em>`;
+			}
+		
+			if ( node.underline ) {
+				string = `<u>${ string }</u>`;
+			}
+		
+			if ( node.code ) {
+				string = `<code>${ string }</code>`;
+			}
+			return string;
+		}
+
+		const children = node.children.map ( n => serializeEditor ( n ) ).join ( "" );
+		
+		switch ( node.type ) {
+
+			case "image": 
+				return `<div class="w-full flex justify-center"><img src=${ node.src } className="block max-w-full w-auto max-h-80 h-full select-none" /></div>`;
+			
+			default:
+				return children;
+		}
+
+	}
+
 	return {
 		withImages,
 		isMarkActive,
@@ -247,7 +294,8 @@ const useEditor = ( id ) => {
 		saveLocalCopy,
 		fetchLocalCopy,
 		insertImage,
-		isImageUrl
+		isImageUrl,
+		serializeEditor
 	}
 }
 

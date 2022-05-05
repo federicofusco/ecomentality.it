@@ -19,7 +19,8 @@ const Login = ({ redirectTo }) => {
 	useEffect (() => {
 		if ( error ) {
 			enqueueSnackbar ( error.message, {
-				variant: "error"
+				variant: "error",
+				autoHideDuration: 3000
 			});
 		}
 	}, [error]);

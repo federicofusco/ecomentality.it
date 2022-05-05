@@ -5,6 +5,7 @@ import { useSlate } from "slate-react"
 import { useState } from "react"
 import InsertImageButton from "../buttons/InsertImageButton"
 import Button from "../buttons/Button"
+import { useSnackbar } from "notistack"
 
 /**
  * Displays a navbar in the editor
@@ -15,8 +16,9 @@ import Button from "../buttons/Button"
  */
 const ArticleToolbar = ({ articleId, articleTitleRef }) => {
 
-	// const { serializeEditor } = useEditor ( articleId );
+	const { serializeEditor } = useEditor ( articleId );
 	const { publishArticle } = useArticle ();
+	const { enqueueSnackbar } = useSnackbar ();
 	const editor = useSlate ();
 	const [publishStatus, setPublishStatus] = useState ( "Publish" );
 
@@ -26,19 +28,35 @@ const ArticleToolbar = ({ articleId, articleTitleRef }) => {
 	const publish = async () => {
 
 		setPublishStatus ( "Hold on..." );
-		await publishArticle ( articleId, articleTitleRef.current.value, editor.children )
-			.then ( () => {
+		await publishArticle ( articleId, articleTitleRef.current.value, serializeEditor ( editor ) )
+			.then (( result ) => {
 
 				// Updates the status
 				setTimeout (() => { 
+
+					// Updates the button
 					setPublishStatus ( "Done!" );
-					setTimeout (() => { setPublishStatus ( "Publish" ) }, 3000 ); 
+
+					// Displays notification
+					enqueueSnackbar ( result.message, {
+						variant: "success",
+						autoHideDuration: 3000
+					});
+					
+					// Resets the button
+					setTimeout (() => setPublishStatus ( "Publish" ), 3000 ); 
 				}, 1000 );
 			})
 			.catch ( ( error ) => {
 
+				// Resets the button
+				setPublishStatus ( "Publish" );
+
 				// Error handling
-				setError ( error.data.error );
+				enqueueSnackbar ( error.message, {
+					variant: "error",
+					autoHideDuration: 3000
+				});
 			});
 	}
 

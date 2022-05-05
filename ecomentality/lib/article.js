@@ -1,12 +1,10 @@
 import { firestore } from "./firebase"
-import { doc, updateDoc, serverTimestamp } from "firebase/firestore";
+import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import useAuth from "./auth"
-import { useSnackbar } from "notistack"
 
 const useArticle = () => {
 
 	const { isLoggedIn, user } = useAuth ();
-	const { enqueueSnackbar } = useSnackbar ();
 
 	/**
 	 * Publishes a new article
@@ -36,14 +34,9 @@ const useArticle = () => {
 			// Checks if the article ID is valid
 			if ( !id.match ( new RegExp ( /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i ) ) ) {
 				
-				enqueueSnackbar ( "Invalid article ID!", {
-					variant: "error",
-					autoHideDuration: 3000
-				});
-
 				reject ({
 					status: "ERROR",
-					message: "The article ID is invalid!",
+					message: "Invalid article ID!",
 					data: {
 						error: {
 							message: `Invalid article ID (${ id })!`,
@@ -55,7 +48,7 @@ const useArticle = () => {
 
 			try {
 				
-				await updateDoc ( doc ( firestore, "articles", id ), {
+				await setDoc ( doc ( firestore, "articles", id ), {
 					title: title,
 					body: body,
 					timestamp: serverTimestamp (),
@@ -67,11 +60,6 @@ const useArticle = () => {
 					window.localStorage.removeItem ( id );
 				}
 
-				enqueueSnackbar ( "Published article!", {
-					variant: "success",
-					autoHideDuration: 3000
-				});
-
 				resolve ({
 					status: "OK",
 					message: "Published article!",
@@ -79,15 +67,10 @@ const useArticle = () => {
 				});
 
 			} catch ( error ) {
-
-				enqueueSnackbar ( "Something went wrong! Try again", {
-					variant: "error",
-					autoHideDuration: 3000
-				});
-
+				
 				reject ({
 					status: "ERROR",
-					message: "Something went wrong while publishing!",
+					message: "Something went wrong! Try again",
 					data: {
 						error: error
 					}
@@ -111,7 +94,6 @@ const useArticle = () => {
 				.then (( response ) => response.json () )
 				.then (( data ) => {
 
-					console.log(data);
 					if ( data.status === 200 ) {
 
 						// Successfully liked the post
@@ -119,13 +101,16 @@ const useArticle = () => {
 						return;
 					}
 
-					// Something went wrong
-					enqueueSnackbar ( "Whoops, something went wrong!", {
-						variant: "error",
-						autoHideDuration: 3000
+					reject ({
+						status: "ERROR",
+						message: "Whoops something went wrong!",
+						data: {
+							error: {
+								message: data.message,
+								code: "article/dislike-failed"
+							}
+						}
 					});
-
-					reject ( data.message );
 				});
 		});	
 	}
@@ -143,13 +128,16 @@ const useArticle = () => {
 						return;
 					}
 
-					// Something went wrong
-					enqueueSnackbar ( "Whoops, something went wrong!", {
-						variant: "error",
-						autoHideDuration: 3000
+					reject ({
+						status: "ERROR",
+						message: "Whoops something went wrong!",
+						data: {
+							error: {
+								message: data.message,
+								code: "article/dislike-failed"
+							}
+						}
 					});
-
-					reject ( data.message );
 				});
 		})
 	}
