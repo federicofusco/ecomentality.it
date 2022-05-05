@@ -6,9 +6,9 @@ import ArticleEditor from "../../../components/editor/ArticleEditor"
 
 const NewArticle = ({ article }) => {
 	return (
-		<div>
+		<>
 			<ArticleEditor article={ article } />
-		</div>
+		</>
 	)
 }
 
@@ -58,7 +58,7 @@ export const getServerSideProps = async ({ req, res, params, resolvedUrl }) => {
 								title: title,
 								body: body,
 								author: author,
-								likeCount: likeCount,
+								likeCount: likeCount || null,
 								id: params.id
 							}
 						}
@@ -76,6 +76,20 @@ export const getServerSideProps = async ({ req, res, params, resolvedUrl }) => {
 			// Redirects the user
 			response = redirect;
 		});
+
+	// return {
+	// 	props: {
+	// 		article: {
+	// 			title: "hello",
+	// 			body: [{
+	// 				type: "paragraph",
+	// 				children: [{ text:"test"}]
+	// 			}],
+	// 			author: "my ass",
+	// 			id: params.id
+	// 		}
+	// 	}
+	// }
 
 	return response || {
 		notFound: true

@@ -16,7 +16,7 @@ import EditorNavbar from "../nav/EditorNavbar"
 const ArticleEditor = ({ article }) => {
 
 	const { title, body } = article;
-	const { withImages, toggleMark, saveLocalCopy, fetchLocalCopy } = useEditor ( article.id );
+	const { withImages, toggleMark, saveLocalCopy, fetchLocalCopy, deserializeEditor, setNodes } = useEditor ( article.id );
 
 	// Defines the editor values
 	const HOTKEYS = {
@@ -31,14 +31,18 @@ const ArticleEditor = ({ article }) => {
 	const renderLeaf = useCallback ( x => <EditorLeaf {...x} /> );
 	const [editor] = useState ( withImages ( withReact ( createEditor () ) ) );
 	const titleRef = useRef ();
-	const initialValue = body || [{
+	const initialValue = [{
 		type: "paragraph",
 		children: [{
-			text: ""
+			text: "Loading..."
 		}]
 	}];
 
 	useEffect (() => {
+
+		const test = async () => setNodes ( editor, await deserializeEditor ( body ) );
+		test();
+
 		setTimeout (() => {
 			fetchLocalCopy ( article, editor );
 		}, 500 );

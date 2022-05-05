@@ -27,6 +27,7 @@
     "react-icons": "^4.3.1",
     "slate": "^0.78.0",
     "slate-drop-or-paste-images": "^0.9.1",
+    "slate-hyperscript": "^0.77.0",
     "slate-react": "^0.77.4",
     "uuid": "^8.3.2"
   },

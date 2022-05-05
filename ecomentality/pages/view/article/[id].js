@@ -47,7 +47,7 @@ export const getServerSideProps = async ( context ) => {
 						title: title,
 						body: body,
 						author: author,
-						likeCount: likeCount,
+						likeCount: likeCount || null,
 						timestamp: String ( timestamp.toDate() ),
 						id: context.params.id
 					}

@@ -16,7 +16,7 @@ import { useSnackbar } from "notistack"
  */
 const ArticleToolbar = ({ articleId, articleTitleRef }) => {
 
-	const { serializeEditor } = useEditor ( articleId );
+	const { serializeEditor, deserializeEditor } = useEditor ( articleId );
 	const { publishArticle } = useArticle ();
 	const { enqueueSnackbar } = useSnackbar ();
 	const editor = useSlate ();

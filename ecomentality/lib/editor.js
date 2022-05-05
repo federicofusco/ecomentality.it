@@ -165,22 +165,13 @@ const useEditor = ( id ) => {
 		}
 	}
 
-	/**
-	 * Fetches editor from localStorage (if there is any) based on a given UUID
-	 * 
-	 * @param {String} editor - The editor object
-	 * @returns The editor node (editor content)
-	 */
-	const fetchLocalCopy = ( article, editor ) => {
+	const setNodes = ( editor, nodes ) => {
 
 		// Get initial total nodes to prevent deleting affecting the loop
 		const totalNodes = editor.children.length;
 
 		// No saved content, don't delete anything to prevent errors
-		if ( !localCopy ) return;
-
-		// Checks if the local copy is up to date
-		if ( localCopy === article.body ) return;
+		if ( !nodes ) return;
 
 		// Remove every node except the last one
 		// Otherwise SlateJS will return error as there's no content
@@ -191,7 +182,7 @@ const useEditor = ( id ) => {
 		}
 	
 		// Add content to SlateJS
-		for ( const value of localCopy.data ) {
+		for ( const value of nodes ) {
 			Transforms.insertNodes ( editor, value, {
 				at: [editor.children.length],
 			});
@@ -201,6 +192,17 @@ const useEditor = ( id ) => {
 		Transforms.removeNodes ( editor, {
 			at: [0],
 		});
+	}
+
+	/**
+	 * Fetches editor from localStorage (if there is any) based on a given UUID
+	 * 
+	 * @param {String} editor - The editor object
+	 * @returns The editor node (editor content)
+	 */
+	const fetchLocalCopy = ( article, editor ) => {
+		if ( localCopy === article.body ) return;
+		setNodes ( editor, localCopy );
 	}
 
 	/**
@@ -255,7 +257,6 @@ const useEditor = ( id ) => {
 		if ( Text.isText ( node ) ) {
 			let string = `<p class="w-full mt-4">${ DOMPurify.sanitize ( node.text ) }</p>`;
 			
-			// Leaf formatting
 			if ( node.bold ) {
 				string = `<strong>${ string }</strong>`;
 			}
@@ -287,15 +288,98 @@ const useEditor = ( id ) => {
 
 	}
 
+	/**
+	 * Deserializes an HTML string into a valid JSON value for SlateJS
+	 * 
+	 * @param {String} data - The HTML string
+	 * @returns The deserialized HTML string
+	 */
+	const deserializeEditor = async ( data ) => {
+
+		let result = [];
+
+		if ( typeof window === "undefined" ) {
+			return;
+		}
+
+		// Parses the html data
+		const parsedData = new window.DOMParser ().parseFromString ( data, "text/html" );
+	
+		/* Navigates the HTMLDocument */
+		if ( parsedData.childNodes.length === 0 ) return;
+
+		let root = [];
+		const navigateTree = async ( node, props ) => {
+
+			node.childNodes.forEach ( ( child ) => {
+
+				if ( child.childNodes.length > 0 ) {
+
+					// Iterates through the children
+					return navigateTree ( child, [...props, child.nodeName] );
+				} else {
+
+					// Found a root node
+					root.push ( [child, [props]] );
+				}
+			});
+		}
+
+		await navigateTree ( parsedData, [] );
+
+		for ( var y = 0; y < root.length; y++ ) {
+			const node = root[y][0];
+			const props = root[y][1][0];
+			const PROP_MAP = {
+				"EM": "italic",
+				"U": "underline",
+				"CODE": "code",
+				"STRONG": "bold"
+			};
+
+			switch ( node.nodeName ) {
+
+				case "#text":
+					var element = {
+						type: "paragraph",
+						children: [{ text: node.data }]
+					};
+
+					// Updates properties
+					props = props.filter ( prop => Object.keys ( PROP_MAP ).includes ( prop ) );
+					for ( const z = 0; z < props.length; z++ ) {
+						element[PROP_MAP[props[z]]] = true;
+					}
+
+					result.push ( element );
+					break;
+
+				case "IMG": 
+					result.push ({
+						type: "image",
+						isVoid: true,
+						src: node.src,
+						children: [{ text: "" }]
+					});
+					break;
+			}
+		}
+
+		console.log( result);
+		return result;
+	}
+
 	return {
 		withImages,
 		isMarkActive,
 		toggleMark,
 		saveLocalCopy,
+		setNodes,
 		fetchLocalCopy,
 		insertImage,
 		isImageUrl,
-		serializeEditor
+		serializeEditor,
+		deserializeEditor
 	}
 }
 
