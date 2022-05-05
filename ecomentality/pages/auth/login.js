@@ -50,7 +50,7 @@ const Login = ({ redirectTo }) => {
 export const getServerSideProps = ({ query }) => {
 	return {
 		props: {
-			redirectTo: query.redirect 
+			redirectTo: query.redirect || null
 		}
 	}
 }

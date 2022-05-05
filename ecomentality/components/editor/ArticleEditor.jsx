@@ -31,7 +31,12 @@ const ArticleEditor = ({ article }) => {
 	const renderLeaf = useCallback ( x => <EditorLeaf {...x} /> );
 	const [editor] = useState ( withImages ( withReact ( createEditor () ) ) );
 	const titleRef = useRef ();
-	const initialValue = body;
+	const initialValue = body || [{
+		type: "paragraph",
+		children: [{
+			text: ""
+		}]
+	}];
 
 	useEffect (() => {
 		setTimeout (() => {
@@ -73,8 +78,7 @@ const ArticleEditor = ({ article }) => {
 
 									// Prevents the hotkey from being entered and toggles the associated mark
 									e.preventDefault ();
-									const mark = HOTKEYS[hotkey];
-									toggleMark ( editor, mark );
+									toggleMark ( editor, HOTKEYS[hotkey] );
 									return;
 								}
 

@@ -150,7 +150,7 @@ const useEditor = ( id ) => {
 
 		// Checks if the mark is already active
 		if ( isMarkActive ( editor, format ) ) {
-			
+
 			// Disables the mark
 			Editor.removeMark ( editor, format );
 		} else {

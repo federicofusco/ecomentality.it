@@ -54,6 +54,11 @@ const useArticle = () => {
 					author: user.uid
 				});
 
+				// Clears the local copy
+				if ( typeof window === "undefined" ) {
+					window.localStorage.removeItem ( id );
+				}
+
 				resolve ({
 					status: "OK",
 					message: "Published article!",
