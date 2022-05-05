@@ -1,10 +1,12 @@
 import { firestore } from "./firebase"
 import { doc, updateDoc, serverTimestamp } from "firebase/firestore";
 import useAuth from "./auth"
+import { useSnackbar } from "notistack"
 
 const useArticle = () => {
 
 	const { isLoggedIn, user } = useAuth ();
+	const { enqueueSnackbar } = useSnackbar ();
 
 	/**
 	 * Publishes a new article
@@ -33,6 +35,12 @@ const useArticle = () => {
 
 			// Checks if the article ID is valid
 			if ( !id.match ( new RegExp ( /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i ) ) ) {
+				
+				enqueueSnackbar ( "Invalid article ID!", {
+					variant: "error",
+					autoHideDuration: 3000
+				});
+
 				reject ({
 					status: "ERROR",
 					message: "The article ID is invalid!",
@@ -59,6 +67,11 @@ const useArticle = () => {
 					window.localStorage.removeItem ( id );
 				}
 
+				enqueueSnackbar ( "Published article!", {
+					variant: "success",
+					autoHideDuration: 3000
+				});
+
 				resolve ({
 					status: "OK",
 					message: "Published article!",
@@ -67,7 +80,10 @@ const useArticle = () => {
 
 			} catch ( error ) {
 
-				console.error ( error );
+				enqueueSnackbar ( "Something went wrong! Try again", {
+					variant: "error",
+					autoHideDuration: 3000
+				});
 
 				reject ({
 					status: "ERROR",
@@ -95,10 +111,19 @@ const useArticle = () => {
 				.then (( response ) => response.json () )
 				.then (( data ) => {
 
+					console.log(data);
 					if ( data.status === 200 ) {
+
+						// Successfully liked the post
 						resolve ();
 						return;
 					}
+
+					// Something went wrong
+					enqueueSnackbar ( "Whoops, something went wrong!", {
+						variant: "error",
+						autoHideDuration: 3000
+					});
 
 					reject ( data.message );
 				});
@@ -117,6 +142,12 @@ const useArticle = () => {
 						resolve ();
 						return;
 					}
+
+					// Something went wrong
+					enqueueSnackbar ( "Whoops, something went wrong!", {
+						variant: "error",
+						autoHideDuration: 3000
+					});
 
 					reject ( data.message );
 				});

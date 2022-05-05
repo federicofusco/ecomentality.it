@@ -4,7 +4,7 @@ import { isUUID } from "./../../../lib/auth.admin"
 
 // Updates the like counter on a given article
 const dislikeHandler = async ( req, res ) => {
-	
+
 	// Checks if the id is valid
 	if ( !isUUID ( req.query.id ) ) {
 		res.status ( 400 ).json ({

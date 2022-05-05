@@ -15,7 +15,18 @@ const LikeButton = ({ article }) => {
 	const { likeCount, id } = article;
 
 	const onClick = () => {
-		liked ? dislikeArticle ( id ) : likeArticle ( id );
+		if ( liked ) {
+
+			// Attempts to dislike the article
+			dislikeArticle ( id )
+				.catch (() => setLiked ( true ));
+		} else {
+
+			// Attemps to like that article
+			likeArticle ( id )
+				.catch (() => setLiked ( false ));
+		}
+
 		setLiked ( !liked );
 	}
 
