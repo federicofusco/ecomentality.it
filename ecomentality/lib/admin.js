@@ -1,5 +1,6 @@
 const admin = require ( "firebase-admin" )
 import { getAuth } from "firebase-admin/auth"
+import { getFirestore } from "firebase-admin/firestore"
 
 const config = {
 	type: process.env.FIREBASE_ADMIN_TYPE,
@@ -22,8 +23,10 @@ if ( !admin.apps.length ) {
 }
 
 const auth = getAuth ( admin.apps[0] );
+const firestore = getFirestore ( admin.apps[0] );
 
 export {
 	admin,
-	auth
+	auth,
+	firestore
 };

@@ -1,25 +1,24 @@
-import { useRouter } from "next/router"
-import { authRedirect } from "../../../lib/auth.admin"
+import { authRedirect, isUUID } from "./../../../lib/auth.admin"
+import { firestore } from "./../../../lib/firebase"
+import { getDoc, doc } from "firebase/firestore"
 import { v4 as uuid } from "uuid"
 import ArticleEditor from "../../../components/editor/ArticleEditor"
+import { deserializeEditor } from "../../../lib/editor"
 
-const NewArticle = () => {
-	const router = useRouter ();
-	const articleId = router.query.id;
-
+const NewArticle = ({ article }) => {
 	return (
-		<div>
-			<ArticleEditor articleId={ articleId } />
-		</div>
+		<>
+			<ArticleEditor article={ article } />
+		</>
 	)
 }
 
 export default NewArticle;
 
-export const getServerSideProps = ( context ) => {
+export const getServerSideProps = async ({ req, res, params, resolvedUrl }) => {
 
 	// Verifies that the article UUID is valid
-	if ( !context.params.id.match ( new RegExp ( /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i ) ) ) {
+	if ( !isUUID ( params.id ) ) {
 
 		// Redirects the user to a URL with a valid UUID
 		return {
@@ -30,5 +29,56 @@ export const getServerSideProps = ( context ) => {
 		};
 	}
 
-	return authRedirect ( context ); 
+	let response;
+
+	await authRedirect ({ req, res, resolvedUrl })
+		.then ( async () => {
+			try {
+
+				// Fetches the article
+				const articleData = await getDoc ( doc ( firestore, "articles", params.id ) );
+		
+				// Checks if the article exists
+				if ( !articleData.exists () ) {
+
+					// The article doesn't exist, creates a new one
+					response = {
+						props: {
+							article: {
+								id: params.id
+							}
+						}
+					};
+				} else {
+		
+					// Found the article
+					const { title, body, author, likeCount } = articleData.data ();
+					response = {
+						props: {
+							article: {
+								title: title,
+								body: await deserializeEditor ( body ),
+								author: author,
+								likeCount: likeCount || 0,
+								id: params.id
+							}
+						}
+					}
+				}
+		
+			} catch ( error ) {
+				
+				// Something went wrong
+				return;
+			}
+		})
+		.catch (( redirect ) => {
+
+			// Redirects the user
+			response = redirect;
+		});
+
+	return response || {
+		notFound: true
+	}
 }

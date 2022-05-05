@@ -1,5 +1,5 @@
 import { firestore } from "./firebase"
-import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
+import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import useAuth from "./auth"
 
 const useArticle = () => {
@@ -33,9 +33,10 @@ const useArticle = () => {
 
 			// Checks if the article ID is valid
 			if ( !id.match ( new RegExp ( /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i ) ) ) {
+				
 				reject ({
 					status: "ERROR",
-					message: "The article ID is invalid!",
+					message: "Invalid article ID!",
 					data: {
 						error: {
 							message: `Invalid article ID (${ id })!`,
@@ -54,6 +55,11 @@ const useArticle = () => {
 					author: user.uid
 				});
 
+				// Clears the local copy
+				if ( typeof window === "undefined" ) {
+					window.localStorage.removeItem ( id );
+				}
+
 				resolve ({
 					status: "OK",
 					message: "Published article!",
@@ -61,12 +67,10 @@ const useArticle = () => {
 				});
 
 			} catch ( error ) {
-
-				console.error ( error );
-
+				
 				reject ({
 					status: "ERROR",
-					message: "Something went wrong while publishing!",
+					message: "Something went wrong! Try again",
 					data: {
 						error: error
 					}
@@ -77,76 +81,71 @@ const useArticle = () => {
 	} 
 
 	/**
-	 * Fetches an article based on its ID
+	 * Increments the like count of an article
 	 * 
-	 * @param {String} id - The atricle's UUID
+	 * @param {String} id - The article's UUID
 	 * @returns A promise
 	 */
-	const fetchArticle = async ( id ) => {
-		return new Promise ( async ( resolve, reject ) => {
+	const likeArticle = async ( id ) => {
+		return new Promise ( ( resolve, reject ) => {
 
-			// Checks if the article ID is valid
-			if ( !id.match ( new RegExp ( /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i ) ) ) {
-				reject ({
-					status: "ERROR",
-					message: "The article ID is invalid!",
-					data: {
-						error: {
-							message: `Invalid article ID (${ id })!`,
-							code: "article/invalid-id"
-						}
+			// Sends a request to the like API
+			fetch ( `${ process.env.NEXT_PUBLIC_URL }/api/like/${ id }` )
+				.then (( response ) => response.json () )
+				.then (( data ) => {
+
+					if ( data.status === 200 ) {
+
+						// Successfully liked the post
+						resolve ();
+						return;
 					}
-				});
-			}
 
-			try {
-
-				// Fetches the article
-				const articleData = await getDoc ( doc ( firestore, "articles", id ) );
-
-				// Checks if the article exists
-				if ( !articleData.exists () ) {
 					reject ({
 						status: "ERROR",
-						message: "This article doesn't exists!",
+						message: "Whoops something went wrong!",
 						data: {
 							error: {
-								message: `The article ${ id } doesn't exist!`,
-								code: "article/no-article"
+								message: data.message,
+								code: "article/dislike-failed"
 							}
 						}
 					});
-				} else {
+				});
+		});	
+	}
 
-					// Found the article
-					resolve ({
-						status: "OK",
-						message: "Found article!",
+	const dislikeArticle = async ( id ) => {
+		return new Promise ( ( resolve, reject ) => {
+
+			// Sends a request to the dislike API
+			fetch ( `${ process.env.NEXT_PUBLIC_URL }/api/dislike/${ id }` )
+				.then (( response ) => response.json () ) 
+				.then (( data ) => {
+
+					if ( data.status === 200 ) {
+						resolve ();
+						return;
+					}
+
+					reject ({
+						status: "ERROR",
+						message: "Whoops something went wrong!",
 						data: {
-							article: articleData.data ()
+							error: {
+								message: data.message,
+								code: "article/dislike-failed"
+							}
 						}
 					});
-				}
-
-			} catch ( error ) {
-
-				console.error ( error );
-
-				reject ({
-					status: "ERROR",
-					message: "Something went wrong while fetching the article!",
-					data: {
-						error: error
-					}
 				});
-			}
-
-		});
+		})
 	}
 
 	return {
 		publishArticle,
-		fetchArticle
+		likeArticle,
+		dislikeArticle
 	}
 }
 

@@ -1,39 +1,26 @@
-import useArticle from "../../lib/article"
-import { useEffect, useState } from "react"
 import ArticleTitle from "./ArticleTitle"
 import ArticleBody from "./ArticleBody"
+import ArticleNavbar from "../nav/ArticleNavbar"
+import ArticleSidebar from "../nav/ArticleSidebar"
 
 /**
  * Displays an article
  * 
- * @param {String} id - The article's UUID
+ * @param {Object} article - The article
  * @returns Displays an article
  */
-const Article = ({ id }) => {
-
-	const { fetchArticle } = useArticle ();
-	const [article, setArticle] = useState ( null );
-	const [loading, setLoading] = useState ( true );
-
-	// Fetches the article data
-	useEffect (() => {
-		fetchArticle ( id )
-			.then ( ( data ) => {
-				setArticle ( data.data.article );
-				setLoading ( false );
-			})
-			.catch ( ( error ) => {
-				
-				// An error occurred while fetching the article
-				console.log(error);
-			});
-	}, []);
-
+const Article = ({ article }) => {
 	return (
 		<div className="w-screen h-screen overflow-x-hidden">
-			<div className="mx-auto max-w-2xl">
-				{ !loading && <ArticleTitle title={ article.title } author={ article.author } /> }
-				{ !loading && <ArticleBody body={ article.body } /> }
+			
+			<ArticleNavbar article={ article } />
+			
+			<div className="flex">
+				<ArticleSidebar article={ article } />
+				<div className="mx-auto max-w-2xl">
+					<ArticleTitle article={ article } />
+					<ArticleBody article={ article } />
+				</div>
 			</div>
 		</div>
 	)

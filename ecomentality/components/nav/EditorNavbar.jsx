@@ -5,18 +5,20 @@ import { useSlate } from "slate-react"
 import { useState } from "react"
 import InsertImageButton from "../buttons/InsertImageButton"
 import Button from "../buttons/Button"
+import { useSnackbar } from "notistack"
 
 /**
- * Displays a toolbar in the editor
+ * Displays a navbar in the editor
  * 
  * @param {String} articleId - The article's UUID
  * @param {Ref} articleTitleRef - A ref (see react useRef) to the title input
- * @returns A toolbar
+ * @returns A navbar
  */
-const EditorToolbar = ({ articleId, articleTitleRef }) => {
+const ArticleToolbar = ({ articleId, articleTitleRef }) => {
 
-	const { serializeEditor } = useEditor ( articleId );
+	const { serializeEditor, deserializeEditor } = useEditor ( articleId );
 	const { publishArticle } = useArticle ();
+	const { enqueueSnackbar } = useSnackbar ();
 	const editor = useSlate ();
 	const [publishStatus, setPublishStatus] = useState ( "Publish" );
 
@@ -27,18 +29,34 @@ const EditorToolbar = ({ articleId, articleTitleRef }) => {
 
 		setPublishStatus ( "Hold on..." );
 		await publishArticle ( articleId, articleTitleRef.current.value, serializeEditor ( editor ) )
-			.then ( () => {
+			.then (( result ) => {
 
 				// Updates the status
 				setTimeout (() => { 
+
+					// Updates the button
 					setPublishStatus ( "Done!" );
-					setTimeout (() => { setPublishStatus ( "Publish" ) }, 3000 ); 
+
+					// Displays notification
+					enqueueSnackbar ( result.message, {
+						variant: "success",
+						autoHideDuration: 3000
+					});
+					
+					// Resets the button
+					setTimeout (() => setPublishStatus ( "Publish" ), 3000 ); 
 				}, 1000 );
 			})
 			.catch ( ( error ) => {
 
+				// Resets the button
+				setPublishStatus ( "Publish" );
+
 				// Error handling
-				setError ( error.data.error );
+				enqueueSnackbar ( error.message, {
+					variant: "error",
+					autoHideDuration: 3000
+				});
 			});
 	}
 
@@ -59,4 +77,4 @@ const EditorToolbar = ({ articleId, articleTitleRef }) => {
 	)
 }
 
-export default EditorToolbar;
+export default ArticleToolbar;

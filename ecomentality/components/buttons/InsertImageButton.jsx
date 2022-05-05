@@ -2,10 +2,16 @@ import useEditor from "../../lib/editor"
 import { useSlateStatic } from "slate-react"
 import { MdPhotoCamera } from "react-icons/md"
 
+/**
+ * A button which inserts images
+ * 
+ * @param {String} id - The article's id
+ * @returns A button for inserting images
+ */
 const InsertImageButton = ({ id }) => {
 
 	const editor = useSlateStatic ();
-	const { isImageUrl, insertImage, saveLocalCopy } = useEditor ( id );
+	const { isImageUrl, insertImage } = useEditor ( id );
 
 	return (
 		<button
@@ -22,7 +28,6 @@ const InsertImageButton = ({ id }) => {
 
 				// Inserts the image
 				insertImage ( editor, url )
-				saveLocalCopy ( editor, id );
 			}}
 			>
 			<MdPhotoCamera className="m-auto" />

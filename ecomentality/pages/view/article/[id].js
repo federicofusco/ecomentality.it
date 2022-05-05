@@ -1,34 +1,69 @@
-import { useRouter } from "next/router"
 import Article from "../../../components/article/Article"
+import { isUUID } from "./../../../lib/auth.admin"
+import { firestore } from "../../../lib/firebase"
+import { getDoc, doc } from "firebase/firestore"
 
-const ViewArticle = () => {
-	const router = useRouter ();
-	const articleId = router.query.id;
-
+const ViewArticle = ({ article }) => {
 	return (
 		<div>
-			<Article id={ articleId } />
+			<Article article={ article } />
 		</div>
 	)
 }
 
-export const getServerSideProps = ( context ) => {
+export const getServerSideProps = async ( context ) => {
 
 	// Verifies that the article UUID is valid
-	if ( !context.params.id.match ( new RegExp ( /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i ) ) ) {
+	if ( !isUUID ( context.params.id ) ) {
 
 		// The article doesn't exist
 		return {
 			redirect: {
-				destination: "/unknown-article",
+				destination: "/error/404",
 				permanent: false
 			}
 		};
 	}
 
-	return {
-		props: {}
+	try {
+
+		// Fetches the article
+		const articleData = await getDoc ( doc ( firestore, "articles", context.params.id ) );
+
+		// Checks if the article exists
+		if ( !articleData.exists () ) {
+			
+			// The article doesn't exist
+			return {
+				notFound: true
+			}
+		} else {
+
+			// Found the article
+			const { title, body, author, likeCount, timestamp } = articleData.data ();
+			return {
+				props: {
+					article: {
+						title: title,
+						body: body,
+						author: author,
+						likeCount: likeCount || null,
+						timestamp: String ( timestamp.toDate() ),
+						id: context.params.id
+					}
+				}
+			}
+		}
+
+	} catch ( error ) {
+
+		console.error ( error );
+
+		return {
+			notFound: true
+		}
 	}
+
 }
 
 export default ViewArticle;

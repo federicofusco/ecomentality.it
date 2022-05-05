@@ -1,7 +1,9 @@
 import { Editor, Text, Transforms } from "slate"
-import DOMPurify from "dompurify"
 import isUrl from "is-url"
 import { useState } from "react"
+import { useSnackbar } from "notistack"
+import DOMPurify from "isomorphic-dompurify"
+const parse5 = require('parse5');
 
 /**
  * Author: https://usehooks.com/useLocalStorage/
@@ -12,6 +14,8 @@ import { useState } from "react"
  * @returns A persistent state
  */
 const useLocalStorage = ( key, initialValue ) => {
+
+	const { enqueueSnackbar } = useSnackbar ();
 
 	// State to store our value
 	// Pass initial state function to useState so logic is only executed once
@@ -27,8 +31,13 @@ const useLocalStorage = ( key, initialValue ) => {
 			// Parse stored json or if none return initialValue
 			return item ? JSON.parse ( item ) : initialValue;
 		} catch ( error ) {
+
 			// If error also return initialValue
-			console.error ( error );
+			enqueueSnackbar ( "Failed to save draft", {
+				variant: "error",
+				autoHideDuration: 3000
+			});
+
 			return initialValue;
 		}
 	});
@@ -49,9 +58,10 @@ const useLocalStorage = ( key, initialValue ) => {
 				window.localStorage.setItem ( key, JSON.stringify ( valueToStore ) );
 			}
 		} catch ( error ) {
-
-			// A more advanced implementation would handle the error case
-			console.log ( error );
+			enqueueSnackbar ( "Something went wrong!", {
+				variant: "error",
+				autoHideDuration: 3000
+			});
 		}
 	};
   
@@ -145,7 +155,7 @@ const useEditor = ( id ) => {
 
 		// Checks if the mark is already active
 		if ( isMarkActive ( editor, format ) ) {
-			
+
 			// Disables the mark
 			Editor.removeMark ( editor, format );
 		} else {
@@ -162,13 +172,16 @@ const useEditor = ( id ) => {
 	 * @param {String} editor - The editor object
 	 * @returns The editor node (editor content)
 	 */
-	const fetchLocalCopy = ( editor ) => {
+	const fetchLocalCopy = ( article, editor ) => {
 
 		// Get initial total nodes to prevent deleting affecting the loop
 		const totalNodes = editor.children.length;
 
 		// No saved content, don't delete anything to prevent errors
-		if (!localCopy.data) return;
+		if ( !localCopy ) return;
+
+		// Checks if the local copy is up to date
+		if ( localCopy === article.body ) return;
 
 		// Remove every node except the last one
 		// Otherwise SlateJS will return error as there's no content
@@ -201,6 +214,36 @@ const useEditor = ( id ) => {
 		// Serializes the data text in the editor and saves it to localStorage
 		setLocalCopy ({ data: editor.children });
 	}
+	
+	/**
+	 * Inserts an image into the editor
+	 * 
+	 * @param {Object} editor - The editor object
+	 * @param {String} url - The image's URL
+	 */
+	const insertImage = ( editor, url ) => {
+		Transforms.insertNodes ( editor, {
+			type: "image",
+			src: url,
+			isVoid: true,
+			children: [{ text: "" }]
+		}, {
+			at: [editor.children.length]
+		});
+	}
+	
+	/**
+	 * Checks whether or not a URL leads to an image
+	 * TODO: ADD EXT CHECK
+	 * 
+	 * @param {String} url - The image's URL
+	 * @returns Whether or not the URL is an image
+	 */
+	const isImageUrl = ( url ) => {
+		if ( !url ) return false;
+		if ( !isUrl ( url ) ) return false;
+		return true;
+	}
 
 	/**
 	 * Serializes any given node and its children
@@ -208,12 +251,11 @@ const useEditor = ( id ) => {
 	 * @param {Object} node - A slate node which needs to be serialized
 	 * @returns A string representation of the given node
 	 */
-	const serializeEditor = ( node ) => {
+	 const serializeEditor = ( node ) => {
 
 		if ( Text.isText ( node ) ) {
-			let string = `<p class="w-full mt-4">${DOMPurify.sanitize ( node.text )}</p>`;
+			let string = `<p class="w-full mt-4">${ DOMPurify.sanitize ( node.text ) }</p>`;
 			
-			// Leaf formatting
 			if ( node.bold ) {
 				string = `<strong>${ string }</strong>`;
 			}
@@ -237,41 +279,12 @@ const useEditor = ( id ) => {
 		switch ( node.type ) {
 
 			case "image": 
-				return `<img src=${ node.src } className="block max-w-full max-h-80 h-full select-none" />`;
+				return `<div class="w-full flex justify-center"><img src=${ node.src } className="block max-w-full w-auto max-h-80 h-full select-none" /></div>`;
 			
 			default:
 				return children;
 		}
 
-	}
-	
-	/**
-	 * Inserts an image into the editor
-	 * 
-	 * @param {Object} editor - The editor object
-	 * @param {String} url - The image's URL
-	 */
-	const insertImage = ( editor, url, id ) => {
-		const image = {
-			type: "image",
-			src: url,
-			isVoid: true,
-			children: [{ text: "" }]
-		}
-		Transforms.insertNodes ( editor, image );
-	}
-	
-	/**
-	 * Checks whether or not a URL leads to an image
-	 * TODO: ADD EXT CHECK
-	 * 
-	 * @param {String} url - The image's URL
-	 * @returns Whether or not the URL is an image
-	 */
-	const isImageUrl = ( url ) => {
-		if ( !url ) return false;
-		if ( !isUrl ( url ) ) return false;
-		return true;
 	}
 
 	return {
@@ -280,10 +293,88 @@ const useEditor = ( id ) => {
 		toggleMark,
 		saveLocalCopy,
 		fetchLocalCopy,
-		serializeEditor,
 		insertImage,
-		isImageUrl
+		isImageUrl,
+		serializeEditor
 	}
+}
+
+/**
+* Deserializes an HTML string into a valid JSON value for SlateJS
+* 
+* @param {String} data - The HTML string
+* @returns The deserialized HTML string
+*/
+export const deserializeEditor = async ( data ) => {
+
+	let result = [];
+
+	// Parses the html data
+	const parsedData = parse5.parse ( data );
+
+	// const parsedData = new window.DOMParser ().parseFromString ( data, "text/html" );
+
+	/* Navigates the HTMLDocument */
+
+	let root = [];
+	const navigateTree = async ( node, props ) => {
+		node.childNodes.forEach ( ( child ) => {
+
+			if ( child.childNodes?.length > 0 ) {
+
+				// Iterates through the children
+				return navigateTree ( child, [...props, child.nodeName] );
+			} else {
+
+				// Found a root node
+				root.push ( [child, [props]] );
+			}
+		});
+	}
+
+	await navigateTree ( parsedData, [] );
+
+	for ( var y = 0; y < root.length; y++ ) {
+		const node = root[y][0];
+		const props = root[y][1][0];
+		const PROP_MAP = {
+			"em": "italic",
+			"u": "underline",
+			"code": "code",
+			"strong": "bold"
+		};
+
+		switch ( node.nodeName ) {
+
+			case "#text":
+				var element = {
+					type: "paragraph",
+					children: [{ text: node.value }]
+				};
+
+				// Updates properties
+				for ( var z = 0; z < props.length; z++ ) {
+					if ( Object.keys ( PROP_MAP ).includes ( props[z] ) ) {
+						element.children[0][PROP_MAP[props[z]]] = true;
+					} 
+				}
+
+				result.push ( element );
+				break;
+
+			case "IMG": 
+				result.push ({
+					type: "image",
+					isVoid: true,
+					src: node.src,
+					children: [{ text: "" }]
+				});
+				break;
+		} 
+
+	}
+
+	return result;
 }
 
 export default useEditor;
