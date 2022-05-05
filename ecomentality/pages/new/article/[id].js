@@ -3,6 +3,7 @@ import { firestore } from "./../../../lib/firebase"
 import { getDoc, doc } from "firebase/firestore"
 import { v4 as uuid } from "uuid"
 import ArticleEditor from "../../../components/editor/ArticleEditor"
+import { deserializeEditor } from "../../../lib/editor"
 
 const NewArticle = ({ article }) => {
 	return (
@@ -30,7 +31,7 @@ export const getServerSideProps = async ({ req, res, params, resolvedUrl }) => {
 
 	let response;
 
-	await  authRedirect ({ req, res, resolvedUrl })
+	await authRedirect ({ req, res, resolvedUrl })
 		.then ( async () => {
 			try {
 
@@ -39,7 +40,7 @@ export const getServerSideProps = async ({ req, res, params, resolvedUrl }) => {
 		
 				// Checks if the article exists
 				if ( !articleData.exists () ) {
-					
+
 					// The article doesn't exist, creates a new one
 					response = {
 						props: {
@@ -56,9 +57,9 @@ export const getServerSideProps = async ({ req, res, params, resolvedUrl }) => {
 						props: {
 							article: {
 								title: title,
-								body: body,
+								body: await deserializeEditor ( body ),
 								author: author,
-								likeCount: likeCount || null,
+								likeCount: likeCount || 0,
 								id: params.id
 							}
 						}
@@ -76,20 +77,6 @@ export const getServerSideProps = async ({ req, res, params, resolvedUrl }) => {
 			// Redirects the user
 			response = redirect;
 		});
-
-	// return {
-	// 	props: {
-	// 		article: {
-	// 			title: "hello",
-	// 			body: [{
-	// 				type: "paragraph",
-	// 				children: [{ text:"test"}]
-	// 			}],
-	// 			author: "my ass",
-	// 			id: params.id
-	// 		}
-	// 	}
-	// }
 
 	return response || {
 		notFound: true

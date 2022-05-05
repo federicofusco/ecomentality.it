@@ -11,7 +11,6 @@
   "dependencies": {
     "cookie-cutter": "^0.2.0",
     "cookies": "^0.8.0",
-    "escape-html": "^1.0.3",
     "firebase": "^9.6.11",
     "firebase-admin": "^10.1.0",
     "image-type": "^4.1.0",
@@ -21,6 +20,7 @@
     "isomorphic-dompurify": "^0.18.0",
     "next": "12.1.5",
     "notistack": "^2.0.4",
+    "parse5": "^7.0.0",
     "react": "18.0.0",
     "react-dom": "18.0.0",
     "react-firebase-hooks": "^5.0.3",

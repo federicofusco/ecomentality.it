@@ -3,7 +3,7 @@ import isUrl from "is-url"
 import { useState } from "react"
 import { useSnackbar } from "notistack"
 import DOMPurify from "isomorphic-dompurify"
-import { ReactEditor } from "slate-react"
+const parse5 = require('parse5');
 
 /**
  * Author: https://usehooks.com/useLocalStorage/
@@ -287,112 +287,6 @@ const useEditor = ( id ) => {
 
 	}
 
-	/**
-	 * Deserializes an HTML string into a valid JSON value for SlateJS
-	 * 
-	 * @param {String} data - The HTML string
-	 * @returns The deserialized HTML string
-	 */
-	const deserializeEditor = async ( editor, data ) => {
-
-		let result = [];
-
-		if ( typeof window === "undefined" ) {
-			return;
-		}
-
-		// Parses the html data
-		const parsedData = new window.DOMParser ().parseFromString ( data, "text/html" );
-	
-		/* Navigates the HTMLDocument */
-		if ( parsedData.childNodes.length === 0 ) return;
-
-		let root = [];
-		const navigateTree = async ( node, props ) => {
-
-			node.childNodes.forEach ( ( child ) => {
-
-				if ( child.childNodes.length > 0 ) {
-
-					// Iterates through the children
-					return navigateTree ( child, [...props, child.nodeName] );
-				} else {
-
-					// Found a root node
-					root.push ( [child, [props]] );
-				}
-			});
-		}
-
-		await navigateTree ( parsedData, [] );
-
-		for ( var y = 0; y < root.length; y++ ) {
-			const node = root[y][0];
-			const props = root[y][1][0];
-			const PROP_MAP = {
-				"EM": "italic",
-				"U": "underline",
-				"CODE": "code",
-				"STRONG": "bold"
-			};
-
-			switch ( node.nodeName ) {
-
-				case "#text":
-					var element = {
-						type: "paragraph",
-						children: [{ text: node.data }]
-					};
-
-					// Updates properties
-					props = props.filter ( prop => Object.keys ( PROP_MAP ).includes ( prop ) );
-					for ( const z = 0; z < props.length; z++ ) {
-						element[PROP_MAP[props[z]]] = true;
-					}
-
-					result.push ( element );
-					break;
-
-				case "IMG": 
-					result.push ({
-						type: "image",
-						isVoid: true,
-						src: node.src,
-						children: [{ text: "" }]
-					});
-					break;
-			}
-		}
-
-		Transforms.setNodes ( editor, )
-
-		// Get initial total nodes to prevent deleting affecting the loop
-		const totalNodes = editor.children.length;
-
-		// Remove every node except the last one
-		// Otherwise SlateJS will return error as there's no content
-		for ( let i = 0; i < totalNodes - 1; i++ ) {
-			Transforms.removeNodes ( editor, {
-				at: [totalNodes - i - 1],
-			});
-		}
-
-		// Add content to SlateJS
-		for ( const value of result ) {
-			Transforms.insertNodes ( editor, value, {
-				at: [editor.children.length],
-			});
-		}
-	
-		// Remove the last node that was leftover from before
-		Transforms.removeNodes ( editor, {
-			at: [0],
-		});
-
-		ReactEditor.focus ( editor );
-		Transforms.select ( editor, Editor.end ( editor, [] ) );
-	}
-
 	return {
 		withImages,
 		isMarkActive,
@@ -401,9 +295,86 @@ const useEditor = ( id ) => {
 		fetchLocalCopy,
 		insertImage,
 		isImageUrl,
-		serializeEditor,
-		deserializeEditor
+		serializeEditor
 	}
+}
+
+/**
+* Deserializes an HTML string into a valid JSON value for SlateJS
+* 
+* @param {String} data - The HTML string
+* @returns The deserialized HTML string
+*/
+export const deserializeEditor = async ( data ) => {
+
+	let result = [];
+
+	// Parses the html data
+	const parsedData = parse5.parse ( data );
+
+	// const parsedData = new window.DOMParser ().parseFromString ( data, "text/html" );
+
+	/* Navigates the HTMLDocument */
+
+	let root = [];
+	const navigateTree = async ( node, props ) => {
+		node.childNodes.forEach ( ( child ) => {
+
+			if ( child.childNodes?.length > 0 ) {
+
+				// Iterates through the children
+				return navigateTree ( child, [...props, child.nodeName] );
+			} else {
+
+				// Found a root node
+				root.push ( [child, [props]] );
+			}
+		});
+	}
+
+	await navigateTree ( parsedData, [] );
+
+	for ( var y = 0; y < root.length; y++ ) {
+		const node = root[y][0];
+		const props = root[y][1][0];
+		const PROP_MAP = {
+			"em": "italic",
+			"u": "underline",
+			"code": "code",
+			"strong": "bold"
+		};
+
+		switch ( node.nodeName ) {
+
+			case "#text":
+				var element = {
+					type: "paragraph",
+					children: [{ text: node.value }]
+				};
+
+				// Updates properties
+				for ( var z = 0; z < props.length; z++ ) {
+					if ( Object.keys ( PROP_MAP ).includes ( props[z] ) ) {
+						element.children[0][PROP_MAP[props[z]]] = true;
+					} 
+				}
+
+				result.push ( element );
+				break;
+
+			case "IMG": 
+				result.push ({
+					type: "image",
+					isVoid: true,
+					src: node.src,
+					children: [{ text: "" }]
+				});
+				break;
+		} 
+
+	}
+
+	return result;
 }
 
 export default useEditor;
