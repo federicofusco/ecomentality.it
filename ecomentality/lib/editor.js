@@ -3,6 +3,7 @@ import isUrl from "is-url"
 import { useState } from "react"
 import { useSnackbar } from "notistack"
 import DOMPurify from "isomorphic-dompurify"
+import { ReactEditor } from "slate-react"
 
 /**
  * Author: https://usehooks.com/useLocalStorage/
@@ -165,13 +166,22 @@ const useEditor = ( id ) => {
 		}
 	}
 
-	const setNodes = ( editor, nodes ) => {
+	/**
+	 * Fetches editor from localStorage (if there is any) based on a given UUID
+	 * 
+	 * @param {String} editor - The editor object
+	 * @returns The editor node (editor content)
+	 */
+	const fetchLocalCopy = ( article, editor ) => {
 
 		// Get initial total nodes to prevent deleting affecting the loop
 		const totalNodes = editor.children.length;
 
 		// No saved content, don't delete anything to prevent errors
-		if ( !nodes ) return;
+		if ( !localCopy ) return;
+
+		// Checks if the local copy is up to date
+		if ( localCopy === article.body ) return;
 
 		// Remove every node except the last one
 		// Otherwise SlateJS will return error as there's no content
@@ -182,7 +192,7 @@ const useEditor = ( id ) => {
 		}
 	
 		// Add content to SlateJS
-		for ( const value of nodes ) {
+		for ( const value of localCopy.data ) {
 			Transforms.insertNodes ( editor, value, {
 				at: [editor.children.length],
 			});
@@ -192,17 +202,6 @@ const useEditor = ( id ) => {
 		Transforms.removeNodes ( editor, {
 			at: [0],
 		});
-	}
-
-	/**
-	 * Fetches editor from localStorage (if there is any) based on a given UUID
-	 * 
-	 * @param {String} editor - The editor object
-	 * @returns The editor node (editor content)
-	 */
-	const fetchLocalCopy = ( article, editor ) => {
-		if ( localCopy === article.body ) return;
-		setNodes ( editor, localCopy );
 	}
 
 	/**
@@ -294,7 +293,7 @@ const useEditor = ( id ) => {
 	 * @param {String} data - The HTML string
 	 * @returns The deserialized HTML string
 	 */
-	const deserializeEditor = async ( data ) => {
+	const deserializeEditor = async ( editor, data ) => {
 
 		let result = [];
 
@@ -365,8 +364,33 @@ const useEditor = ( id ) => {
 			}
 		}
 
-		console.log( result);
-		return result;
+		Transforms.setNodes ( editor, )
+
+		// Get initial total nodes to prevent deleting affecting the loop
+		const totalNodes = editor.children.length;
+
+		// Remove every node except the last one
+		// Otherwise SlateJS will return error as there's no content
+		for ( let i = 0; i < totalNodes - 1; i++ ) {
+			Transforms.removeNodes ( editor, {
+				at: [totalNodes - i - 1],
+			});
+		}
+
+		// Add content to SlateJS
+		for ( const value of result ) {
+			Transforms.insertNodes ( editor, value, {
+				at: [editor.children.length],
+			});
+		}
+	
+		// Remove the last node that was leftover from before
+		Transforms.removeNodes ( editor, {
+			at: [0],
+		});
+
+		ReactEditor.focus ( editor );
+		Transforms.select ( editor, Editor.end ( editor, [] ) );
 	}
 
 	return {
@@ -374,7 +398,6 @@ const useEditor = ( id ) => {
 		isMarkActive,
 		toggleMark,
 		saveLocalCopy,
-		setNodes,
 		fetchLocalCopy,
 		insertImage,
 		isImageUrl,
