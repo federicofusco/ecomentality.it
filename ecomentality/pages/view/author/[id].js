@@ -20,15 +20,13 @@ export const getServerSideProps = async ({ params }) => {
 
 	let notFound = false;
 
-	// Fetches all of the author's articles
+	// Fetches all of the authors articles
 	let articles = [];
 	await fetchArticles ( "author", "==", params.id )
 		.then (( result ) => articles = result.data.articles )
 		.catch (( error ) => notFound = true ); // CHANGE THIS!!!
 
-	console.log(articles);
-
-	// Fetches the author's data
+	// Fetches the authors data
 	let author = null;
 	await fetchUser ( params.id )
 		.then (( user ) => author = user.data.user )
