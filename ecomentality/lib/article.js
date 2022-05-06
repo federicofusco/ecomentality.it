@@ -12,7 +12,7 @@ const useArticle = () => {
 	 * 
 	 * @param {String} id - The article's UUID
 	 * @param {String} title - The article's title
-	 * @param {String} body - The article's bodddy
+	 * @param {String} body - The article's body
 	 * @returns A new promise
 	 */
 	const publishArticle = async ( id, title, body ) => {

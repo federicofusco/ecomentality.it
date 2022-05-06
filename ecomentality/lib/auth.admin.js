@@ -1,7 +1,5 @@
-import { auth } from "./admin"
-import Cookies from "cookies";
-import { firestore } from "./firebase"
-import { getDoc, doc } from "firebase/firestore"
+import { auth, firestore } from "./admin"
+import Cookies from "cookies"
 
 /**
  * Verifies that the request is authenticated
@@ -62,10 +60,10 @@ export const fetchUser = async ( id ) => {
 		try {
 
 			// Fetches the user
-			const userData = await getDoc ( doc ( firestore, "users", id ) );
-	
+			const userData = await firestore.collection ( "users" ).doc ( id ).get ();
+
 			// Checks if the user exists
-			if ( !userData.exists () ) {
+			if ( !userData.exists ) {
 				
 				// The user doesn't exist
 				reject ({

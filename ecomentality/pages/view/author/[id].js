@@ -1,12 +1,17 @@
 import { fetchUser } from "./../../../lib/auth.admin"
-import { isUUID } from "./../../../lib/auth"
 import { fetchArticles } from "./../../../lib/article"
+import ArticleList from "../../../components/article/ArticleList"
+import GenericNavbar from "../../../components/nav/GenericNavbar"
+import Profile from "../../../components/profile/Profile"
 
 const ViewAuthor = ({ articles, author }) => {
 	return (
 		<>
-			<p>{ author.name }</p>
-			{ articles?.map ( article => <p key={ article.id }>{ article.title }</p> )}
+			<GenericNavbar />
+			<div className="mt-24">
+				<Profile user={ author } />
+				<ArticleList articles={ articles } author={ author } />
+			</div>
 		</>
 	)
 }
@@ -19,7 +24,7 @@ export const getServerSideProps = async ({ params }) => {
 	let articles = [];
 	await fetchArticles ( "author", "==", params.id )
 		.then (( result ) => articles = result.data.articles )
-		.catch (( error ) => notFound = true ); // CHANGE THIS
+		.catch (( error ) => notFound = true ); // CHANGE THIS!!!
 
 	console.log(articles);
 
@@ -27,7 +32,7 @@ export const getServerSideProps = async ({ params }) => {
 	let author = null;
 	await fetchUser ( params.id )
 		.then (( user ) => author = user.data.user )
-		.catch (( error ) => notFound = true ); // CHANGE THIS
+		.catch (( error ) => notFound = true ); // CHANGE THIS!!!
 
 	return {
 		props: !notFound ? {

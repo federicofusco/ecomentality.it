@@ -6,6 +6,7 @@ import { useState } from "react"
 import InsertImageButton from "../buttons/InsertImageButton"
 import Button from "../buttons/Button"
 import { useSnackbar } from "notistack"
+import GenericNavbar from "./GenericNavbar"
 
 /**
  * Displays a navbar in the editor
@@ -16,7 +17,7 @@ import { useSnackbar } from "notistack"
  */
 const ArticleToolbar = ({ articleId, articleTitleRef }) => {
 
-	const { serializeEditor, deserializeEditor } = useEditor ( articleId );
+	const { serializeEditor } = useEditor ( articleId );
 	const { publishArticle } = useArticle ();
 	const { enqueueSnackbar } = useSnackbar ();
 	const editor = useSlate ();
@@ -60,21 +61,7 @@ const ArticleToolbar = ({ articleId, articleTitleRef }) => {
 			});
 	}
 
-	return (
-		<div className="w-screen border-b top-0 fixed z-50 h-16 bg-white px-4 sm:px-16 md:px-48">
-			<div className="h-full flex items-center">
-				<div className="flex-1 flex">
-					<Logo iconOnly={ true } />
-					<p className="ml-2 text-sm font-medium text-gray-600 my-auto">Draft saved locally</p>
-				</div>
-
-				<div className="flex">
-					<InsertImageButton id={ articleId } />
-					<Button onClick={ publish }>{ publishStatus }</Button>
-				</div>
-			</div>
-		</div>
-	)
+	return <GenericNavbar actions={ <div className="flex"><InsertImageButton id={ articleId } /><Button onClick={ publish }>{ publishStatus }</Button></div> } />
 }
 
 export default ArticleToolbar;
