@@ -85,7 +85,7 @@ export const fetchUser = async ( id ) => {
 					message: "Found user!",
 					data: {
 						user: {
-							name: displayName,
+							name: displayName, // CHANGE THIS!!
 							profile: profileURL,
 							bio: bio,
 							created: String ( created.toDate () )
