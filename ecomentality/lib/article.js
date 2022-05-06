@@ -98,7 +98,11 @@ const useArticle = () => {
 					if ( data.status === 200 ) {
 
 						// Successfully liked the post
-						resolve ();
+						resolve ({
+							status: "OK",
+							message: "Liked article!",
+							data: {}
+						});
 						return;
 					}
 
@@ -108,7 +112,7 @@ const useArticle = () => {
 						data: {
 							error: {
 								message: data.message,
-								code: "article/dislike-failed"
+								code: "article/like-failed"
 							}
 						}
 					});
@@ -125,7 +129,11 @@ const useArticle = () => {
 				.then (( data ) => {
 
 					if ( data.status === 200 ) {
-						resolve ();
+						resolve ({
+							status: "OK",
+							message: "Disliked article!",
+							data: {}
+						});
 						return;
 					}
 
@@ -172,9 +180,7 @@ export const fetchArticle = async ( id, deserialize ) => {
 				reject ({
 					status: "ERROR",
 					message: "The article doesn't exist!",
-					data: {
-						notFound: true
-					}
+					data: {}
 				});
 			} else {
 	
@@ -203,9 +209,7 @@ export const fetchArticle = async ( id, deserialize ) => {
 			reject ({
 				status: "ERROR",
 				message: "Something went wrong!",
-				data: {
-					notFound: true
-				}
+				data: {}
 			});
 		}
 
@@ -250,9 +254,7 @@ export const fetchArticles = async ( key, operation, value ) => {
 			reject ({
 				status: "ERROR",
 				message: "Something went wrong!",
-				data: {
-					notFound: true
-				}
+				data: {}
 			});
 		}
 

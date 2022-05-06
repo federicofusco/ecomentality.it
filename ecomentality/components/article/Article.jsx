@@ -9,7 +9,7 @@ import ArticleSidebar from "../nav/ArticleSidebar"
  * @param {Object} article - The article
  * @returns Displays an article
  */
-const Article = ({ article }) => {
+const Article = ({ article, author }) => {
 	return (
 		<div className="w-screen h-screen overflow-x-hidden">
 			
@@ -18,7 +18,7 @@ const Article = ({ article }) => {
 			<div className="flex">
 				<ArticleSidebar article={ article } />
 				<div className="mx-auto max-w-2xl">
-					<ArticleTitle article={ article } />
+					<ArticleTitle article={ article } author={ author } />
 					<ArticleBody article={ article } />
 				</div>
 			</div>
