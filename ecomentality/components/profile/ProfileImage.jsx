@@ -5,6 +5,7 @@ const ProfileImage = ({ src, width = 64, height = 64 }) => {
 		src={ src } 
 		loader={({ src }) => src } 
 		unoptimized 
+		alt="Profile"
 		width={ width }
 		height={ height }
 		className="rounded-full" />

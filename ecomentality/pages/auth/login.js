@@ -8,7 +8,7 @@ import { useSnackbar } from "notistack"
 import { v4 as uuid } from "uuid"
 import isUrl from "is-url"
 
-const Login = ({ redirectTo }) => {
+const Login = () => {
 
 	const router = useRouter ();
 	const { updateIdToken } = useAuth ();
@@ -36,7 +36,7 @@ const Login = ({ redirectTo }) => {
 				.then ( () => {
 
 					// Redirects the user
-					router.push ( redirectTo && !isUrl ( redirectTo ) ? redirectTo : `/new/article/${ uuid () }` );
+					router.push ( router.query.redirect && !isUrl ( router.query.redirect ) ? router.query.redirect : `/new/article/${ uuid () }` );
 				})
 				.catch ( ( error ) => {
 					console.error(error);
@@ -53,14 +53,6 @@ const Login = ({ redirectTo }) => {
 			<LoginForm onSubmit={ login } />
 		</div>
 	)
-}
-
-export const getServerSideProps = ({ query }) => {
-	return {
-		props: {
-			redirectTo: query.redirect || null
-		}
-	}
 }
 
 export default Login;
