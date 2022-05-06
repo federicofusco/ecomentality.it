@@ -5,6 +5,7 @@ import useAuth from "../../lib/auth"
 import { useEffect } from "react"
 import { useRouter } from "next/router"
 import { useSnackbar } from "notistack"
+import { v4 as uuid } from "uuid"
 import isUrl from "is-url"
 
 const Login = ({ redirectTo }) => {
@@ -31,12 +32,18 @@ const Login = ({ redirectTo }) => {
 		// Checks if the user is logged in
 		if ( !loading && user && !error ) {
 
-			// Updates the user's ID token
 			updateIdToken ( true )
 				.then ( () => {
 
 					// Redirects the user
-					router.push ( !isUrl ( redirectTo ) ? redirectTo : "/new/article/random-id" );
+					router.push ( redirectTo && !isUrl ( redirectTo ) ? redirectTo : `/new/article/${ uuid () }` );
+				})
+				.catch ( ( error ) => {
+					console.error(error);
+					enqueueSnackbar ( error.message, {
+						variant: "error",
+						autoHideDuration: 3000
+					});
 				});
 		}
 	}, [user, loading, error, updateIdToken, router])
