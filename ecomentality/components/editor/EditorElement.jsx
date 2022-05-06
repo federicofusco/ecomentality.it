@@ -1,5 +1,8 @@
 import ArticleImage from "./EditorImage";
 
+/**
+ * See SlateJS "rendering" documentation
+ */
 const EditorElement = ( props ) => {
 
 	const { attributes, children, element } = props;

@@ -1,3 +1,7 @@
+/**
+ * The GEM Auth Hook
+ */
+
 import { auth } from "./firebase"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { getIdToken } from "firebase/auth"
@@ -5,6 +9,14 @@ import { useRouter } from "next/router"
 
 import cookieCutter from "cookie-cutter"
 
+/**
+ * A hook used to interact with authentication from the client
+ * 
+ * @returns {Object} - The following:
+ * 					 * updateIdToken
+ * 					 * isLoggedIn
+ * 					 * user 
+ */
 const useAuth = () => {
 
 	// Hooks
@@ -14,8 +26,9 @@ const useAuth = () => {
 	/**
 	 * Updates the user's ID token in cookies
 	 * 
-	 * @param {Boolean|Null} forceUpdate - Whether to ignore the presence of a token 
-	 * @returns A promise
+	 * @param {?Boolean} forceUpdate - Whether to ignore the presence of a token 
+	 * @async
+	 * @returns {Promise} A promise
 	 */
 	const updateIdToken = async ( forceUpdate ) => {
 		return new Promise ( async ( resolve, _ ) => {
@@ -50,7 +63,7 @@ const useAuth = () => {
 	/**
 	 * Checks if the user is logged in
 	 * 
-	 * @returns Whether or not the user is logged in
+	 * @returns {Boolean} Whether or not the user is logged in
 	 */
 	const isLoggedIn = () => {
 		return !loading && user && !error 
@@ -67,7 +80,7 @@ const useAuth = () => {
  * Checks if a given UUID is valid
  * 
  * @param {String} uuid - The UUId which needs to be checked
- * @returns Whether or not the UUID is valid
+ * @returns {Boolean} Whether or not the UUID is valid
  */
  export const isUUID = ( uuid ) => {
 	return uuid.match ( new RegExp ( /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i ) );

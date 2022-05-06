@@ -1,13 +1,22 @@
 import Link from "next/link"
 
-const ArticleLink = ({ article, author }) => {
+/**
+ * Displays a link to an article
+ * 
+ * @param {String} timestamp - The article's publish timestamp
+ * @param {String} title - The article's title
+ * @param {String} id - The article's ID
+ * @param {String} author - The author's display name
+ * @returns A link to an article
+ */
+const ArticleLink = ({ timestamp, title, id, author }) => {
 
-	const date = new Date ( article.timestamp );
+	const date = new Date ( timestamp );
 
-	return <Link href={`/view/article/${ article.id }`}>
+	return <Link href={`/view/article/${ id }`}>
 		<a>
-			<h2>{ article.title }</h2>
-			<p>Published by { author.name }  · {date.getDate ()}/{date.getMonth () + 1}/{date.getFullYear ()}</p>
+			<h2>{ title }</h2>
+			<p>Published by { author }  · {date.getDate ()}/{date.getMonth () + 1}/{date.getFullYear ()}</p>
 		</a>
 	</Link>
 }

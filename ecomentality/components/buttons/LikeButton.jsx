@@ -5,14 +5,14 @@ import { MdThumbUp, MdThumbUpOffAlt } from "react-icons/md";
 /**
  * A button which likes an article
  * 
- * @param {Object} article - The article
+ * @param {Number} likeCount - The article's like count
+ * @param {String} id - The article's ID
  * @returns A button for liking an article
  */
-const LikeButton = ({ article }) => {
+const LikeButton = ({ likeCount, id }) => {
 
 	const [liked, setLiked] = useState ( false );
 	const { likeArticle, dislikeArticle } = useArticle ();
-	const { likeCount, id } = article;
 
 	const onClick = () => {
 		if ( liked ) {

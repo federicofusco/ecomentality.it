@@ -6,8 +6,8 @@ import Image from "next/image"
  * Displays the GEM logo
  * 
  * @param {Boolean} iconOnly - Whether or not to only display the logo icon
- * @param {Number} width - The logo's width (default: 32)
- * @param {Number} height - The logo's height (default: 32)
+ * @param {?Number} width - The logo's width (default: 32)
+ * @param {?Number} height - The logo's height (default: 32)
  * @returns The GEM logo
  */
 const Logo = ({ iconOnly, width = 32, height = 32 }) => {

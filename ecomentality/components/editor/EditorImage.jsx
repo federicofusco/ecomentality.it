@@ -3,7 +3,7 @@ import DeleteImageButton from "../buttons/DeleteImageButton"
 /**
  * Displays an image in the editor
  * 
- * @param {Object} node - The SlateJS attributes
+ * @param {Boolean} hideDeleteButton - Whether or not to hide the delete button
  * @returns An image
  */
 const ArticleImage = ({ attributes, element, children, hideDeleteButton }) => {

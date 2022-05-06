@@ -9,7 +9,7 @@ const ViewAuthor = ({ articles, author }) => {
 		<>
 			<GenericNavbar />
 			<div className="mt-24">
-				<Profile user={ author } />
+				<Profile displayName={ author.displayName } created={ author.created } profileURL={ author.profileURL } />
 				<ArticleList articles={ articles } author={ author } />
 			</div>
 		</>

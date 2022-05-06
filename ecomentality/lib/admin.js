@@ -1,3 +1,15 @@
+/**
+ * The Firebase Admin SDK
+ * 
+ * This file exports various files:
+ * @exports auth - The admin auth handler
+ * @exports firestore - The admin firestore handler
+ * 
+ * Note: While looking through the firebase documentation,
+ * 		 remember to always select the Node.JS option in the
+ * 		 snippets when using the Admin SDK
+ */
+
 const admin = require ( "firebase-admin" )
 
 const config = {
