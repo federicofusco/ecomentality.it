@@ -1,6 +1,7 @@
 import { firestore } from "./firebase"
-import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { doc, setDoc, getDoc, getDocs, serverTimestamp, collection, query, where } from "firebase/firestore";
 import useAuth from "./auth"
+import { deserializeEditor } from "./editor"
 
 const useArticle = () => {
 
@@ -147,6 +148,115 @@ const useArticle = () => {
 		likeArticle,
 		dislikeArticle
 	}
+}
+
+/**
+ * Fetches an article based on its ID
+ * 
+ * @param {String} id - The article's UUID
+ * @param {Boolean} deserialize - Whether or not the body of the article should be deserialized
+ * @returns A promise
+ */
+export const fetchArticle = async ( id, deserialize ) => {
+	return new Promise ( async ( resolve, reject ) => {
+
+		try {
+
+			// Fetches the article
+			const articleData = await getDoc ( doc ( firestore, "articles", id ) );
+	
+			// Checks if the article exists
+			if ( !articleData.exists () ) {
+				
+				// The article doesn't exist
+				reject ({
+					status: "ERROR",
+					message: "The article doesn't exist!",
+					data: {
+						notFound: true
+					}
+				});
+			} else {
+	
+				// Found the article
+				const { title, body, author, likeCount, timestamp } = articleData.data ();
+				resolve ({
+					status: "OK",
+					message: "Found article!",
+					data: {
+						article: {
+							title: title,
+							body: deserialize ? await deserializeEditor ( body ) : body,
+							author: author,
+							likeCount: likeCount || 0,
+							timestamp: String ( timestamp.toDate () ),
+							id: id
+						}
+					}
+				});
+			}
+	
+		} catch ( error ) {
+	
+			console.error ( error );
+	
+			reject ({
+				status: "ERROR",
+				message: "Something went wrong!",
+				data: {
+					notFound: true
+				}
+			});
+		}
+
+	});
+}
+
+export const fetchArticles = async ( key, operation, value ) => {
+	return new Promise ( async ( resolve, reject ) => {
+
+		try {
+
+			const articleCollection = collection ( firestore, "articles" );
+			const articleQuery = query ( articleCollection, where ( key, operation, value ) );
+
+			let articles = [];
+			const articleData = await getDocs ( articleQuery );
+			articleData.forEach (( article ) => { 
+				const { title, body, author, likeCount, timestamp } = article.data ();
+				articles.push ({ 
+					title,
+					body, 
+					author, 
+					likeCount: likeCount || 0, 
+					timestamp: String ( timestamp.toDate () ),
+					id: article.id
+				});
+			});
+
+			// Found the articles
+			resolve ({
+				status: "OK",
+				message: "Found article!",
+				data: {
+					articles
+				}
+			});
+
+		} catch ( error ) {
+			
+			console.error ( error );
+	
+			reject ({
+				status: "ERROR",
+				message: "Something went wrong!",
+				data: {
+					notFound: true
+				}
+			});
+		}
+
+	});
 }
 
 export default useArticle;

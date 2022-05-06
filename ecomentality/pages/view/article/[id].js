@@ -1,7 +1,7 @@
 import Article from "../../../components/article/Article"
-import { isUUID } from "./../../../lib/auth.admin"
-import { firestore } from "../../../lib/firebase"
-import { getDoc, doc } from "firebase/firestore"
+import { isUUID } from "./../../../lib/auth"
+import { fetchArticle } from "../../../lib/article"
+
 
 const ViewArticle = ({ article }) => {
 	return (
@@ -11,58 +11,26 @@ const ViewArticle = ({ article }) => {
 	)
 }
 
-export const getServerSideProps = async ( context ) => {
+export const getServerSideProps = async ({ params }) => {
 
 	// Verifies that the article UUID is valid
-	if ( !isUUID ( context.params.id ) ) {
+	if ( !isUUID ( params.id ) ) {
 
 		// The article doesn't exist
 		return {
-			redirect: {
-				destination: "/error/404",
-				permanent: false
-			}
+			notFound: true
 		};
 	}
 
-	try {
-
-		// Fetches the article
-		const articleData = await getDoc ( doc ( firestore, "articles", context.params.id ) );
-
-		// Checks if the article exists
-		if ( !articleData.exists () ) {
-			
-			// The article doesn't exist
-			return {
-				notFound: true
-			}
-		} else {
-
-			// Found the article
-			const { title, body, author, likeCount, timestamp } = articleData.data ();
-			return {
-				props: {
-					article: {
-						title: title,
-						body: body,
-						author: author,
-						likeCount: likeCount || null,
-						timestamp: String ( timestamp.toDate() ),
-						id: context.params.id
-					}
-				}
-			}
-		}
-
-	} catch ( error ) {
-
-		console.error ( error );
-
-		return {
-			notFound: true
-		}
+	let response = {
+		notFound: true
 	}
+
+	await fetchArticle ( params.id )
+		.then (( result ) => response = { props: result.data })
+		.catch (( error ) => response = error.data );
+
+	return response;
 
 }
 

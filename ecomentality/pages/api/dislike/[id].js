@@ -1,6 +1,6 @@
 import { firestore } from "./../../../lib/firebase"
 import { doc, updateDoc, getDoc } from "firebase/firestore"
-import { isUUID } from "./../../../lib/auth.admin"
+import { isUUID } from "./../../../lib/auth"
 
 // Updates the like counter on a given article
 const dislikeHandler = async ( req, res ) => {

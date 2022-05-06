@@ -63,4 +63,14 @@ const useAuth = () => {
 	};
 }
 
+/**
+ * Checks if a given UUID is valid
+ * 
+ * @param {String} uuid - The UUId which needs to be checked
+ * @returns Whether or not the UUID is valid
+ */
+ export const isUUID = ( uuid ) => {
+	return uuid.match ( new RegExp ( /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i ) );
+}
+
 export default useAuth;

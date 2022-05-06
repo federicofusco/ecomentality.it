@@ -1,6 +1,7 @@
 import { auth } from "./admin"
-
 import Cookies from "cookies";
+import { firestore } from "./firebase"
+import { getDoc, doc } from "firebase/firestore"
 
 /**
  * Verifies that the request is authenticated
@@ -50,11 +51,63 @@ export const authRedirect = ({ req, res, resolvedUrl }) => {
 }
 
 /**
- * Checks if a given UUID is valid
+ * Fetches a user fomr the database
  * 
- * @param {String} uuid - The UUId which needs to be checked
- * @returns Whether or not the UUID is valid
+ * @param {String} id - The user's ID
+ * @returns A promise
  */
-export const isUUID = ( uuid ) => {
-	return uuid.match ( new RegExp ( /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i ) );
+export const fetchUser = async ( id ) => {
+	return new Promise ( async ( resolve, reject ) => {
+
+		try {
+
+			// Fetches the user
+			const userData = await getDoc ( doc ( firestore, "users", id ) );
+	
+			// Checks if the user exists
+			if ( !userData.exists () ) {
+				
+				// The user doesn't exist
+				reject ({
+					status: "ERROR",
+					message: "No such user!",
+					data: {
+						error: {
+							message: "User not found!",
+							code: "admin/no-user"
+						}
+					}
+				});
+			} else {
+	
+				// Found the user
+				const { displayName, profileURL, bio, created } = userData.data ();
+				resolve ({
+					status: "OK",
+					message: "Found user!",
+					data: {
+						user: {
+							name: displayName,
+							profile: profileURL,
+							bio: bio,
+							created: String ( created.toDate () )
+						}
+					}
+				});
+			}
+	
+		} catch ( error ) {
+	
+			console.error ( error );
+	
+			reject ({
+				status: "ERROR",
+				message: "Something went wrong!",
+				data: {
+					error: error
+				}
+			});
+		}
+
+	});
 }

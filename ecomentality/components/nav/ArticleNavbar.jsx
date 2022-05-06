@@ -14,7 +14,7 @@ const ArticleNavbar = ({ article }) => {
 	const { author } = article;
 
 	const redirectToAuthor = () => {
-		router.push ( `/view/profile/${ author }` );
+		router.push ( `/view/author/${ author }` );
 	}
 
 	return (
