@@ -36,7 +36,15 @@ export const getServerSideProps = async ({ req, res, params, resolvedUrl }) => {
 		.then ( async () => {
 			await fetchArticle ( params.id, true )
 				.then (( result ) => response = { props: result.data })
-				.catch (( error ) => response = error.data );
+				.catch (( error ) => {
+					response = error.data?.notFound ? {
+						props: {
+							article: {
+								id: params.id
+							}
+						}
+					} : error.data;
+				});
 		})
 		.catch (( redirect ) => {
 
