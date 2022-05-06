@@ -2,7 +2,13 @@ import { firestore } from "./../../../lib/firebase"
 import { doc, updateDoc, getDoc } from "firebase/firestore"
 import { isUUID } from "./../../../lib/auth"
 
-// Updates the like counter on a given article
+/**
+ * Decrements a given artcle's like count
+ * 
+ * @param {Object} req - The HTTPS request
+ * @param {Object} res - The HTTPS response
+ * @async
+ */
 const dislikeHandler = async ( req, res ) => {
 
 	// Checks if the id is valid

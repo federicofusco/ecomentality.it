@@ -1,3 +1,7 @@
+/**
+ * The GEM Admin Auth Hook
+ */
+
 import { auth, firestore } from "./admin"
 import Cookies from "cookies"
 
@@ -5,7 +9,7 @@ import Cookies from "cookies"
  * Verifies that the request is authenticated
  * 
  * @param {Object} context - The HTTPS request context
- * @returns A promise
+ * @returns {Promise} A promise
  */
 export const authRedirect = ({ req, res, resolvedUrl }) => {
 	return new Promise ( async ( resolve, reject ) => {
@@ -52,7 +56,8 @@ export const authRedirect = ({ req, res, resolvedUrl }) => {
  * Fetches a user fomr the database
  * 
  * @param {String} id - The user's ID
- * @returns A promise
+ * @async
+ * @returns {Promise} A promise
  */
 export const fetchUser = async ( id ) => {
 	return new Promise ( async ( resolve, reject ) => {
@@ -85,10 +90,11 @@ export const fetchUser = async ( id ) => {
 					message: "Found user!",
 					data: {
 						user: {
-							name: displayName, // CHANGE THIS!!
-							profile: profileURL,
-							bio: bio,
-							created: String ( created.toDate () )
+							displayName,
+							profileURL,
+							bio,
+							created: String ( created.toDate () ),
+							id: id
 						}
 					}
 				});

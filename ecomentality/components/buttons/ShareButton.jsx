@@ -7,14 +7,14 @@ import { useSnackbar } from "notistack"
  * @param {Object} param0 - The article
  * @returns A button for sharing the article
  */
-const ShareButton = ({ article }) => {
+const ShareButton = ({ id }) => {
 
 	const { enqueueSnackbar } = useSnackbar ();
 
 	const onClick = () => {
 
 		// Copies the article URL to the clipboard
-		navigator.clipboard.writeText ( `${ process.env.NEXT_PUBLIC_URL }/view/article/${ article.id }` );
+		navigator.clipboard.writeText ( `${ process.env.NEXT_PUBLIC_URL }/view/article/${ id }` );
 
 		// Displays notification
 		enqueueSnackbar ( "Copied link to clipboard!", {

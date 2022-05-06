@@ -7,7 +7,7 @@ import { fetchArticle } from "../../../lib/article"
 const NewArticle = ({ article }) => {
 	return (
 		<>
-			<ArticleEditor article={ article } />
+			<ArticleEditor title={ article.title } body={ article.body } id={ article.id } />
 		</>
 	)
 }
@@ -29,21 +29,27 @@ export const getServerSideProps = async ({ req, res, params, resolvedUrl }) => {
 	}
 
 	let response = {
-		notFound: true
+		props: {},
+		notFound: false
 	}
 
+	// Verifies that the user is logged in
 	await authRedirect ({ req, res, resolvedUrl })
 		.then ( async () => {
+
+			// Fetches the article
 			await fetchArticle ( params.id, true )
-				.then (( result ) => response = { props: result.data })
+				.then (( article ) => {
+					response.props = {
+						article: article.data.article
+					}
+				})
 				.catch (( error ) => {
-					response = error.data?.notFound ? {
-						props: {
-							article: {
-								id: params.id
-							}
+					response.props = {
+						article: {
+							id: params.id
 						}
-					} : error.data;
+					}
 				});
 		})
 		.catch (( redirect ) => {
@@ -51,6 +57,6 @@ export const getServerSideProps = async ({ req, res, params, resolvedUrl }) => {
 			// Redirects the user
 			response = redirect;
 		});
-
+	
 	return response;
 }

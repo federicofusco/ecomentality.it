@@ -1,4 +1,3 @@
-import Logo from "../Logo"
 import useEditor from "../../lib/editor"
 import useArticle from "../../lib/article"
 import { useSlate } from "slate-react"
@@ -11,13 +10,13 @@ import GenericNavbar from "./GenericNavbar"
 /**
  * Displays a navbar in the editor
  * 
- * @param {String} articleId - The article's UUID
- * @param {Ref} articleTitleRef - A ref (see react useRef) to the title input
+ * @param {String} id - The article's ID
+ * @param {Ref} titleRef - A ref (see react useRef) to the title input
  * @returns A navbar
  */
-const ArticleToolbar = ({ articleId, articleTitleRef }) => {
+const ArticleToolbar = ({ id, titleRef }) => {
 
-	const { serializeEditor } = useEditor ( articleId );
+	const { serializeEditor } = useEditor ( id );
 	const { publishArticle } = useArticle ();
 	const { enqueueSnackbar } = useSnackbar ();
 	const editor = useSlate ();
@@ -29,7 +28,7 @@ const ArticleToolbar = ({ articleId, articleTitleRef }) => {
 	const publish = async () => {
 
 		setPublishStatus ( "Hold on..." );
-		await publishArticle ( articleId, articleTitleRef.current.value, serializeEditor ( editor ) )
+		await publishArticle ( id, titleRef.current.value, serializeEditor ( editor ) )
 			.then (( result ) => {
 
 				// Updates the status
@@ -61,7 +60,7 @@ const ArticleToolbar = ({ articleId, articleTitleRef }) => {
 			});
 	}
 
-	return <GenericNavbar actions={ <div className="flex"><InsertImageButton id={ articleId } /><Button onClick={ publish }>{ publishStatus }</Button></div> } />
+	return <GenericNavbar actions={ <div className="flex"><InsertImageButton id={ id } /><Button onClick={ publish }>{ publishStatus }</Button></div> } />
 }
 
 export default ArticleToolbar;

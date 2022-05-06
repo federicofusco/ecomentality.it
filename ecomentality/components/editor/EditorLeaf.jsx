@@ -1,3 +1,6 @@
+/**
+ * See SlateJS "rendering" documentation
+ */
 const EditorLeaf = ({ attributes, children, leaf }) => {
 	return <span className={`
 			${ leaf.bold ? "font-bold" : "" }

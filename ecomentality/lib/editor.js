@@ -1,3 +1,7 @@
+/**
+ * The GEM Editor Hook
+ */
+
 import { Editor, Text, Transforms } from "slate"
 import isUrl from "is-url"
 import { useState } from "react"
@@ -68,6 +72,20 @@ const useLocalStorage = ( key, initialValue ) => {
 	return [storedValue, setValue];
 }
 
+/**
+ * A hook used to interact with the editor from the client
+ * 
+ * @param {String} id - The article's ID
+ * @returns {Object} - The following functions:
+ * 					 * withImages
+ * 					 * isMarkActive
+ * 					 * toggleMark 
+ * 					 * fetchLocalCopy
+ * 					 * saveLocalCopy
+ * 					 * insertImage
+ * 					 * isImageUrl
+ * 					 * serializeEditor
+ */
 const useEditor = ( id ) => {
 
 	const [localCopy, setLocalCopy] = useLocalStorage ( id, "" );
@@ -169,10 +187,11 @@ const useEditor = ( id ) => {
 	/**
 	 * Fetches editor from localStorage (if there is any) based on a given UUID
 	 * 
+	 * @param {String|Object} body - The article's body 
 	 * @param {String} editor - The editor object
 	 * @returns The editor node (editor content)
 	 */
-	const fetchLocalCopy = ( article, editor ) => {
+	const fetchLocalCopy = ( body, editor ) => {
 
 		// Get initial total nodes to prevent deleting affecting the loop
 		const totalNodes = editor.children.length;
@@ -181,7 +200,7 @@ const useEditor = ( id ) => {
 		if ( !localCopy ) return;
 
 		// Checks if the local copy is up to date
-		if ( localCopy === article.body ) return;
+		if ( localCopy === body ) return;
 
 		// Remove every node except the last one
 		// Otherwise SlateJS will return error as there's no content
@@ -237,7 +256,7 @@ const useEditor = ( id ) => {
 	 * TODO: ADD EXT CHECK
 	 * 
 	 * @param {String} url - The image's URL
-	 * @returns Whether or not the URL is an image
+	 * @returns {Boolean} Whether or not the URL is an image
 	 */
 	const isImageUrl = ( url ) => {
 		if ( !url ) return false;
@@ -300,19 +319,18 @@ const useEditor = ( id ) => {
 }
 
 /**
-* Deserializes an HTML string into a valid JSON value for SlateJS
-* 
-* @param {String} data - The HTML string
-* @returns The deserialized HTML string
-*/
+ * Deserializes an HTML string into a valid JSON value for SlateJS
+ * 
+ * @param {String} data - The HTML string
+ * @async
+ * @returns {String} The deserialized HTML string
+ */
 export const deserializeEditor = async ( data ) => {
 
 	let result = [];
 
 	// Parses the html data
 	const parsedData = parse5.parse ( data );
-
-	// const parsedData = new window.DOMParser ().parseFromString ( data, "text/html" );
 
 	/* Navigates the HTMLDocument */
 

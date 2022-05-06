@@ -1,8 +1,20 @@
+/**
+ * The GEM Article Hook
+ */
+
 import { firestore } from "./firebase"
 import { doc, setDoc, getDoc, getDocs, serverTimestamp, collection, query, where } from "firebase/firestore";
-import useAuth from "./auth"
+import useAuth, { isUUID } from "./auth"
 import { deserializeEditor } from "./editor"
 
+/**
+ * A hook used to interact with articles from the client
+ * 
+ * @returns {Object} - The following functions:
+ * 					 * publishArticle
+ * 					 * likeArticle
+ * 					 * dislikeArticle 
+ */
 const useArticle = () => {
 
 	const { isLoggedIn, user } = useAuth ();
@@ -10,10 +22,11 @@ const useArticle = () => {
 	/**
 	 * Publishes a new article
 	 * 
-	 * @param {String} id - The article's UUID
+	 * @param {String} id - The article's ID
 	 * @param {String} title - The article's title
 	 * @param {String} body - The article's body
-	 * @returns A new promise
+	 * @async 
+	 * @returns {Promise} A new promise
 	 */
 	const publishArticle = async ( id, title, body ) => {
 		return new Promise ( async ( resolve, reject ) => {
@@ -33,8 +46,7 @@ const useArticle = () => {
 			}
 
 			// Checks if the article ID is valid
-			if ( !id.match ( new RegExp ( /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i ) ) ) {
-				
+			if ( !isUUID ( id ) ) {
 				reject ({
 					status: "ERROR",
 					message: "Invalid article ID!",
@@ -68,7 +80,6 @@ const useArticle = () => {
 				});
 
 			} catch ( error ) {
-				
 				reject ({
 					status: "ERROR",
 					message: "Something went wrong! Try again",
@@ -85,7 +96,8 @@ const useArticle = () => {
 	 * Increments the like count of an article
 	 * 
 	 * @param {String} id - The article's UUID
-	 * @returns A promise
+	 * @async
+	 * @returns {Promise} A promise
 	 */
 	const likeArticle = async ( id ) => {
 		return new Promise ( ( resolve, reject ) => {
@@ -120,6 +132,13 @@ const useArticle = () => {
 		});	
 	}
 
+	/**
+	 * Decrements the like count of an article
+	 * 
+	 * @param {String} id - The article's ID
+	 * @async
+	 * @returns {Promise} A promise
+	 */
 	const dislikeArticle = async ( id ) => {
 		return new Promise ( ( resolve, reject ) => {
 
@@ -163,7 +182,8 @@ const useArticle = () => {
  * 
  * @param {String} id - The article's UUID
  * @param {Boolean} deserialize - Whether or not the body of the article should be deserialized
- * @returns A promise
+ * @async
+ * @returns {Promise} A promise
  */
 export const fetchArticle = async ( id, deserialize ) => {
 	return new Promise ( async ( resolve, reject ) => {
@@ -216,6 +236,17 @@ export const fetchArticle = async ( id, deserialize ) => {
 	});
 }
 
+/**
+ * Fetches all the articles which match a given query
+ * 
+ * NOTE: See the Firestore query documentation
+ * 
+ * @param {String} key - The query key
+ * @param {String} operation - The query operation (e.i "==", "=>", etc)
+ * @param {String} value - The query operation value
+ * @async 
+ * @returns {Array} The articles which match the query
+ */
 export const fetchArticles = async ( key, operation, value ) => {
 	return new Promise ( async ( resolve, reject ) => {
 

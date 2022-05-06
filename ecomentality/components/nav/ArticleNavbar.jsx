@@ -6,16 +6,15 @@ import GenericNavbar from "./GenericNavbar";
 /**
  * Displays a navbar for the article
  * 
- * @param {Object} article - The article
+ * @param {String} authorId - The author's ID
  * @returns A navbar
  */
-const ArticleNavbar = ({ article }) => {
+const ArticleNavbar = ({ authorId }) => {
 
 	const router = useRouter ();
-	const { author } = article;
 
 	const redirectToAuthor = () => {
-		router.push ( `/view/author/${ author }` );
+		router.push ( `/view/author/${ authorId }` );
 	}
 
 	return <GenericNavbar actions={ <div className="flex"><Button onClick={ redirectToAuthor }>Follow</Button></div> } />

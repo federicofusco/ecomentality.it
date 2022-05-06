@@ -10,13 +10,14 @@ import EditorNavbar from "../nav/EditorNavbar"
 /**
  * An editor for articles
  * 
- * @param {String} articleId - The article's UUID
+ * @param {String} title - The article's title
+ * @param {String} body - The article's body
+ * @param {String} id - The article's ID
  * @returns An article editor
  */
-const ArticleEditor = ({ article }) => {
+const ArticleEditor = ({ title, body, id }) => {
 
-	const { title, body } = article;
-	const { withImages, toggleMark, saveLocalCopy, fetchLocalCopy } = useEditor ( article.id );
+	const { withImages, toggleMark, saveLocalCopy, fetchLocalCopy } = useEditor ( id );
 
 	// Defines the editor values
 	const HOTKEYS = {
@@ -38,7 +39,7 @@ const ArticleEditor = ({ article }) => {
 
 	useEffect (() => {
 		setTimeout (() => {
-			fetchLocalCopy ( article, editor );
+			fetchLocalCopy ( body, editor );
 		}, 500 );
 	}, []);
 
@@ -49,7 +50,7 @@ const ArticleEditor = ({ article }) => {
 				value={ initialValue }
 				className="w-screen h-screen">
 
-				<EditorNavbar articleId={ article.id } articleTitleRef={ titleRef } />
+				<EditorNavbar id={ id } titleRef={ titleRef } />
 		
 				<div className="mx-auto max-w-2xl">
 

@@ -7,19 +7,20 @@ import ArticleSidebar from "../nav/ArticleSidebar"
  * Displays an article
  * 
  * @param {Object} article - The article
+ * @param {Object} author - The article's author
  * @returns Displays an article
  */
 const Article = ({ article, author }) => {
 	return (
 		<div className="w-screen h-screen overflow-x-hidden">
 			
-			<ArticleNavbar article={ article } />
+			<ArticleNavbar authorId={ author.id } />
 			
 			<div className="flex">
-				<ArticleSidebar article={ article } />
+				<ArticleSidebar likeCount={ article.likeCount } id={ article.id } />
 				<div className="mx-auto max-w-2xl">
-					<ArticleTitle article={ article } author={ author } />
-					<ArticleBody article={ article } />
+					<ArticleTitle title={ article.title } timestamp={ article.timestamp } author={ author.displayName } />
+					<ArticleBody body={ article.body } />
 				</div>
 			</div>
 		</div>
