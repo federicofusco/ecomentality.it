@@ -12,8 +12,9 @@ const Logo = ({ iconOnly }) => {
 	return <Image 
 		alt="GEM"
 		src={ iconOnly ? Icon : Full }
-		width={ iconOnly ? 292 : 967 }
-		height={ 292 } />
+		width={ iconOnly ? 32 : 106 }
+		layout="fixed"
+		height={ 32 } />
 } 
 
 export default Logo;
