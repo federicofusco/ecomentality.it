@@ -3,10 +3,14 @@ import { fetchArticles } from "./../../../lib/article"
 import ArticleList from "../../../components/article/ArticleList"
 import GenericNavbar from "../../../components/nav/GenericNavbar"
 import Profile from "../../../components/profile/Profile"
+import Head from "next/head"
 
 const ViewAuthor = ({ articles, author }) => {
 	return (
 		<>
+			<Head>
+				<title>{ author.displayName } - GEM</title>
+			</Head>
 			<GenericNavbar />
 			<div className="mt-24">
 				<Profile displayName={ author.displayName } created={ author.created } profileURL={ author.profileURL } />

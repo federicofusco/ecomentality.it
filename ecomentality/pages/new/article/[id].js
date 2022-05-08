@@ -3,10 +3,14 @@ import { isUUID } from "./../../../lib/auth"
 import { v4 as uuid } from "uuid"
 import ArticleEditor from "../../../components/editor/ArticleEditor"
 import { fetchArticle } from "../../../lib/article"
+import Head from "next/head"
 
 const NewArticle = ({ article }) => {
 	return (
 		<>
+			<Head>
+				<title>{ ( article && article.title ) || "New article" } - GEM </title>
+			</Head>
 			<ArticleEditor title={ article.title } body={ article.body } id={ article.id } />
 		</>
 	)

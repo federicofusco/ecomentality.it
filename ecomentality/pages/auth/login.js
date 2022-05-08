@@ -7,6 +7,7 @@ import { useRouter } from "next/router"
 import { useSnackbar } from "notistack"
 import { v4 as uuid } from "uuid"
 import isUrl from "is-url"
+import Head from "next/head"
 
 const Login = () => {
 
@@ -49,9 +50,12 @@ const Login = () => {
 	}, [user, loading, error, updateIdToken, router, enqueueSnackbar])
 
 	return (
-		<div>
+		<>
+			<Head>
+				<title>Login - GEM</title>
+			</Head>
 			<LoginForm onSubmit={ login } />
-		</div>
+		</>
 	)
 }
 

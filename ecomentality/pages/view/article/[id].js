@@ -2,13 +2,17 @@ import Article from "../../../components/article/Article"
 import { isUUID } from "./../../../lib/auth"
 import { fetchArticle } from "../../../lib/article"
 import { fetchUser } from "../../../lib/auth.admin"
+import Head from "next/head"
 
 
 const ViewArticle = ({ article, author }) => {
 	return (
-		<div>
+		<>
+			<Head>
+				<title>{ article.title } - GEM</title>
+			</Head>
 			<Article article={ article } author={ author } />
-		</div>
+		</>
 	)
 }
 
