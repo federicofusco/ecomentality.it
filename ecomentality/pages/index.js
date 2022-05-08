@@ -5,7 +5,6 @@ export default function Home() {
 		<>
 			<Head>
 				<title>Home - GEM</title>
-				<meta name="author" content={ author.displayName } />
 				<meta name="language" content="EN" />
 				<meta name="robots" content="index, follow" />
 			</Head>
