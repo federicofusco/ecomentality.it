@@ -11,8 +11,10 @@ const ViewArticle = ({ article, author }) => {
 			<Head>
 				<title>{ article.title } - GEM</title>
 				<meta name="language" content="EN" />
-				<meta name="robots" content="index,follow" />
+				<meta name="robots" content="index, follow" />
 				<meta name="author" content={ author.displayName } />
+				<meta name="description" content={`${ article.title }, written by ${ author.displayName }`} />
+				<meta name="revised" content={ article.timestamp } />
 			</Head>
 			<Article article={ article } author={ author } />
 		</>

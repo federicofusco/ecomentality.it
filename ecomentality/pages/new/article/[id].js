@@ -12,6 +12,7 @@ const NewArticle = ({ article }) => {
 				<title>{ ( article && article.title ) || "New article" } - GEM </title>
 				<meta name="language" content="EN" />
 				<meta name="robots" content="none" />
+				<meta name="description" content="The article creation page" />
 			</Head>
 			<ArticleEditor title={ article.title } body={ article.body } id={ article.id } />
 		</>
