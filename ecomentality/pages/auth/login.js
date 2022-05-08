@@ -24,7 +24,7 @@ const Login = () => {
 				autoHideDuration: 3000
 			});
 		}
-	}, [error]);
+	}, [error, enqueueSnackbar]);
 
 	// Redirects the user to the home page when they successfully log in
 	useEffect (() => {
@@ -46,7 +46,7 @@ const Login = () => {
 					});
 				});
 		}
-	}, [user, loading, error, updateIdToken, router])
+	}, [user, loading, error, updateIdToken, router, enqueueSnackbar])
 
 	return (
 		<div>

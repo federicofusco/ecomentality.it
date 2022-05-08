@@ -36,7 +36,7 @@ export const getServerSideProps = async ({ params }) => {
 		props: !notFound ? {
 			articles: articles,
 			author: author
-		} : null,
+		} : {},
 		notFound
 	}
 }

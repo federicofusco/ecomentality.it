@@ -3,7 +3,7 @@
  */
 
 import { firestore } from "./firebase"
-import { doc, setDoc, getDoc, getDocs, serverTimestamp, collection, query, where } from "firebase/firestore";
+import { doc, setDoc, getDoc, updateDoc, getDocs, serverTimestamp, collection, query, where } from "firebase/firestore";
 import useAuth, { isUUID } from "./auth"
 import { deserializeEditor } from "./editor"
 
@@ -80,6 +80,7 @@ const useArticle = () => {
 				});
 
 			} catch ( error ) {
+				console.error(error);
 				reject ({
 					status: "ERROR",
 					message: "Something went wrong! Try again",
@@ -100,35 +101,41 @@ const useArticle = () => {
 	 * @returns {Promise} A promise
 	 */
 	const likeArticle = async ( id ) => {
-		return new Promise ( ( resolve, reject ) => {
+		return new Promise ( async ( resolve, reject ) => {
 
-			// Sends a request to the like API
-			fetch ( `${ process.env.NEXT_PUBLIC_URL }/api/like/${ id }` )
-				.then (( response ) => response.json () )
-				.then (( data ) => {
+			// Gets the current like count
+			const articleRef = doc ( firestore, "articles", id );
+			const articleData = await getDoc ( articleRef );
 
-					if ( data.status === 200 ) {
-
-						// Successfully liked the post
-						resolve ({
-							status: "OK",
-							message: "Liked article!",
-							data: {}
-						});
-						return;
-					}
-
-					reject ({
-						status: "ERROR",
-						message: "Whoops something went wrong!",
-						data: {
-							error: {
-								message: data.message,
-								code: "article/like-failed"
-							}
+			// Checks if the article exists
+			if ( !articleData.exists () ) {
+				reject ({
+					status: "ERROR",
+					message: "Whoops something went wrong!",
+					data: {
+						error: {
+							message: "Article doesn't exist!",
+							code: "article/like-failed"
 						}
-					});
+					}
 				});
+				return;
+			} 
+
+			const article = articleData.data ();
+
+			// Updates the like count
+			await updateDoc ( articleRef, {
+				likeCount: ( article.likeCount || 0 ) + 1
+			});
+
+			resolve ({
+				status: "OK",
+				message: "Liked article!",
+				data: {
+					likeCount: article.likeCount + 1
+				}
+			});
 		});	
 	}
 
@@ -140,33 +147,41 @@ const useArticle = () => {
 	 * @returns {Promise} A promise
 	 */
 	const dislikeArticle = async ( id ) => {
-		return new Promise ( ( resolve, reject ) => {
+		return new Promise ( async ( resolve, reject ) => {
 
-			// Sends a request to the dislike API
-			fetch ( `${ process.env.NEXT_PUBLIC_URL }/api/dislike/${ id }` )
-				.then (( response ) => response.json () ) 
-				.then (( data ) => {
+			// Gets the current like count
+			const articleRef = doc ( firestore, "articles", id );
+			const articleData = await getDoc ( articleRef );
 
-					if ( data.status === 200 ) {
-						resolve ({
-							status: "OK",
-							message: "Disliked article!",
-							data: {}
-						});
-						return;
-					}
-
-					reject ({
-						status: "ERROR",
-						message: "Whoops something went wrong!",
-						data: {
-							error: {
-								message: data.message,
-								code: "article/dislike-failed"
-							}
+			// Checks if the article exists
+			if ( !articleData.exists () ) {
+				reject ({
+					status: "ERROR",
+					message: "Whoops something went wrong!",
+					data: {
+						error: {
+							message: "Article doesn't exist!",
+							code: "article/dislike-failed"
 						}
-					});
+					}
 				});
+				return;
+			} 
+
+			const article = articleData.data ();
+
+			// Updates the like count
+			await updateDoc ( articleRef, {
+				likeCount: ( article.likeCount || 1 ) - 1
+			});
+
+			resolve ({
+				status: "OK",
+				message: "Disliked article!",
+				data: {
+					likeCount: article.likeCount - 1
+				}
+			});
 		})
 	}
 

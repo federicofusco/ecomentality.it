@@ -57,6 +57,6 @@ export const getServerSideProps = async ({ req, res, params, resolvedUrl }) => {
 			// Redirects the user
 			response = redirect;
 		});
-	
+
 	return response;
 }
