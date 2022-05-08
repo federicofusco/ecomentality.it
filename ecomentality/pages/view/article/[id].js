@@ -10,6 +10,9 @@ const ViewArticle = ({ article, author }) => {
 		<>
 			<Head>
 				<title>{ article.title } - GEM</title>
+				<meta name="language" content="EN" />
+				<meta name="robots" content="index,follow" />
+				<meta name="author" content={ author.displayName } />
 			</Head>
 			<Article article={ article } author={ author } />
 		</>
