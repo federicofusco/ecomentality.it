@@ -1,4 +1,4 @@
-import useEditor from "../../lib/editor"
+import useEditor from "../../hooks/editor"
 import { useSlateStatic } from "slate-react"
 import { MdPhotoCamera } from "react-icons/md"
 

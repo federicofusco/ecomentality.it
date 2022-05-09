@@ -1,9 +1,7 @@
 import Article from "../../../components/article/Article"
-import { isUUID } from "./../../../lib/auth"
-import { fetchArticle } from "../../../lib/article"
+import { fetchArticle, fetchArticleIds } from "../../../lib/article"
 import { fetchUser } from "../../../lib/auth.admin"
 import Head from "next/head"
-
 
 const ViewArticle = ({ article, author }) => {
 	return (
@@ -21,16 +19,39 @@ const ViewArticle = ({ article, author }) => {
 	)
 }
 
-export const getServerSideProps = async ({ params }) => {
+export const getStaticPaths = async () => {
 
-	// Verifies that the article UUID is valid
-	if ( !isUUID ( params.id ) ) {
+	let response = {
+		paths: [],
+		fallback: false
+	};
 
-		// The article doesn't exist
-		return {
-			notFound: true
-		};
-	}
+	// Fetches all the article ids
+	await fetchArticleIds ()
+		.then (( ids ) => {
+
+			// Forms the paths
+			var paths = [];
+			ids.data.ids.forEach ( id => paths.push ({
+				params: {
+					id: id 
+				}
+			}) );
+
+			response = {
+				paths,
+				fallback: false
+			};
+
+		})
+		.catch (( error ) => {
+			throw Error ( "Failed to form paths!" ) // CHANGE THIS!!!
+		});
+
+	return response;
+}
+
+export const getStaticProps = async ({ params }) => {
 
 	let response = {
 		props: {},
@@ -41,17 +62,26 @@ export const getServerSideProps = async ({ params }) => {
 	await fetchArticle ( params.id )
 		.then ( async ( article ) => {
 
+			console.log(article);
+
 			// Fetches the user
 			await fetchUser ( article.data.article.author )
 				.then (( user ) => {
+					console.log(user);
 					response.props = {
 						article: article.data.article,
 						author: user.data.user
 					}
 				})
-				.catch (( error ) => response.notFound = true );
+				.catch (( error ) => {
+					console.error ( error );
+					response.notFound = true 
+				});
 		})
-		.catch (( error ) => response.notFound = true );
+		.catch (( error ) => {
+			console.error ( error );
+			response.notFound = true 
+		});
 
 	return response;
 

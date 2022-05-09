@@ -1,5 +1,5 @@
 /**
- * The GEM Admin Auth Hook
+ * The GEM Admin Auth Lib
  */
 
 import { auth, firestore } from "./admin"
@@ -114,4 +114,14 @@ export const fetchUser = async ( id ) => {
 		}
 
 	});
+}
+
+/**
+ * Checks if a given UUID is valid
+ * 
+ * @param {String} uuid - The UUId which needs to be checked
+ * @returns {Boolean} Whether or not the UUID is valid
+ */
+export const isUUID = ( uuid ) => {
+	return uuid.match ( new RegExp ( /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i ) );
 }

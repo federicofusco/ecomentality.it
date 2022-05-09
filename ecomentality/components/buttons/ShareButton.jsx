@@ -4,7 +4,7 @@ import { useSnackbar } from "notistack"
 /**
  * A button which shared the article
  * 
- * @param {Object} param0 - The article
+ * @param {String} id - The article's ID
  * @returns A button for sharing the article
  */
 const ShareButton = ({ id }) => {

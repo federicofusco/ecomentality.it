@@ -1,5 +1,4 @@
-import { authRedirect } from "./../../../lib/auth.admin"
-import { isUUID } from "./../../../lib/auth"
+import { authRedirect, isUUID } from "./../../../lib/auth.admin"
 import { v4 as uuid } from "uuid"
 import ArticleEditor from "../../../components/editor/ArticleEditor"
 import { fetchArticle } from "../../../lib/article"

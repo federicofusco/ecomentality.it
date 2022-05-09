@@ -4,7 +4,7 @@ import { createEditor } from "slate"
 import { isHotkey } from "is-hotkey"
 import EditorElement from "./EditorElement"
 import EditorLeaf from "./EditorLeaf"
-import useEditor from "../../lib/editor"
+import useEditor from "../../hooks/editor"
 import EditorNavbar from "../nav/EditorNavbar"
 
 /**

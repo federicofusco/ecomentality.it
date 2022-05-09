@@ -1,5 +1,5 @@
-import useEditor from "../../lib/editor"
-import useArticle from "../../lib/article"
+import useEditor from "../../hooks/editor"
+import useArticle from "../../hooks/article"
 import { useSlate } from "slate-react"
 import { useState } from "react"
 import InsertImageButton from "../buttons/InsertImageButton"
