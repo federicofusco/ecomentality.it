@@ -13,6 +13,7 @@ import ArticleSidebar from "../nav/ArticleSidebar"
  */
 const Article = ({ article, author, isFallback = false }) => {
 
+	// The fallback page needs to be seperate and can't drill components due to object destructuring
 	if ( isFallback ) {
 
 		// Displays fallback page
