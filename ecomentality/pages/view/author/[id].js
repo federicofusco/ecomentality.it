@@ -1,4 +1,4 @@
-import { fetchUser } from "./../../../lib/auth.admin"
+import { fetchUser, fetchUserIds } from "./../../../lib/auth.admin"
 import { fetchArticles } from "./../../../lib/article"
 import ArticleList from "../../../components/article/ArticleList"
 import GenericNavbar from "../../../components/nav/GenericNavbar"
@@ -24,7 +24,39 @@ const ViewAuthor = ({ articles, author }) => {
 	)
 }
 
-export const getServerSideProps = async ({ params }) => {
+export const getStaticPaths = async () => {
+
+	let response = {
+		paths: [],
+		fallback: false
+	};
+
+	// Fetches all the article ids
+	await fetchUserIds ()
+		.then (( ids ) => {
+
+			// Forms the paths
+			var paths = [];
+			ids.data.ids.forEach ( id => paths.push ({
+				params: {
+					id: id 
+				}
+			}) );
+
+			response = {
+				paths,
+				fallback: false
+			};
+
+		})
+		.catch (( error ) => {
+			throw Error ( "Failed to form paths!" ) // CHANGE THIS!!!
+		});
+
+	return response;
+}
+
+export const getStaticProps = async ({ params }) => {
 
 	let notFound = false;
 

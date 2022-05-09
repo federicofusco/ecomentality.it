@@ -40,12 +40,12 @@ export const fetchArticle = async ( id, deserialize ) => {
 					message: "Found article!",
 					data: {
 						article: {
-							title: title,
+							title,
 							body: deserialize ? await deserializeEditor ( body ) : body,
-							author: author,
+							author,
 							likeCount: likeCount || 0,
 							timestamp: String ( timestamp.toDate () ),
-							id: id
+							id
 						}
 					}
 				});
@@ -58,7 +58,9 @@ export const fetchArticle = async ( id, deserialize ) => {
 			reject ({
 				status: "ERROR",
 				message: "Something went wrong!",
-				data: {}
+				data: {
+					error
+				}
 			});
 		}
 
@@ -115,7 +117,7 @@ export const fetchArticles = async ( key, operation, value ) => {
 				status: "ERROR",
 				message: "Something went wrong!",
 				data: {
-					error: error
+					error
 				}
 			});
 		}
@@ -145,7 +147,7 @@ export const fetchArticleIds = async () => {
 				status: "OK",
 				message: "Fetched all ids!",
 				data: {
-					ids: ids
+					ids
 				}
 			});
 
@@ -157,7 +159,7 @@ export const fetchArticleIds = async () => {
 				status: "ERROR",
 				message: "Something went wrong!",
 				data: {
-					error: error
+					error
 				}
 			});
 		}
