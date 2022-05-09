@@ -1,9 +1,18 @@
 import Article from "../../../components/article/Article"
+import ArticleFallback from "./../../../components/article/ArticleFallback"
 import { fetchArticle, fetchArticleIds } from "../../../lib/article"
 import { fetchUser } from "../../../lib/auth.admin"
 import Head from "next/head"
+import { useRouter } from "next/router"
 
 const ViewArticle = ({ article, author }) => {
+
+	const router = useRouter ();
+
+	// Displays fallback page while it's rendered
+	// This will not be displayed to crawlers
+	if ( router.isFallback ) return <ArticleFallback />;
+
 	return (
 		<>
 			<Head>
@@ -23,7 +32,7 @@ export const getStaticPaths = async () => {
 
 	let response = {
 		paths: [],
-		fallback: false
+		fallback: true
 	};
 
 	// Fetches all the article ids
@@ -40,7 +49,7 @@ export const getStaticPaths = async () => {
 
 			response = {
 				paths,
-				fallback: false
+				fallback: true
 			};
 
 		})
@@ -55,19 +64,17 @@ export const getStaticProps = async ({ params }) => {
 
 	let response = {
 		props: {},
-		notFound: false
+		notFound: false,
+		revalidate: 900 // Revalidate every 15 minutes
 	}
 
 	// Fetches the article
 	await fetchArticle ( params.id )
 		.then ( async ( article ) => {
 
-			console.log(article);
-
 			// Fetches the user
 			await fetchUser ( article.data.article.author )
 				.then (( user ) => {
-					console.log(user);
 					response.props = {
 						article: article.data.article,
 						author: user.data.user

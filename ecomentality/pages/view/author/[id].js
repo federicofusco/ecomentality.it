@@ -77,7 +77,7 @@ export const getStaticProps = async ({ params }) => {
 			articles: articles,
 			author: author
 		} : {},
-		notFound
+		notFound,
 	}
 }
 
