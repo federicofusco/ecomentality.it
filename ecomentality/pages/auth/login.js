@@ -1,12 +1,13 @@
 import LoginForm from "../../components/forms/LoginForm"
 import { auth } from "../../lib/firebase"
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth"
-import useAuth from "../../lib/auth"
+import useAuth from "../../hooks/auth"
 import { useEffect } from "react"
 import { useRouter } from "next/router"
 import { useSnackbar } from "notistack"
 import { v4 as uuid } from "uuid"
 import isUrl from "is-url"
+import Head from "next/head"
 
 const Login = () => {
 
@@ -24,7 +25,7 @@ const Login = () => {
 				autoHideDuration: 3000
 			});
 		}
-	}, [error]);
+	}, [error, enqueueSnackbar]);
 
 	// Redirects the user to the home page when they successfully log in
 	useEffect (() => {
@@ -46,12 +47,18 @@ const Login = () => {
 					});
 				});
 		}
-	}, [user, loading, error, updateIdToken, router])
+	}, [user, loading, error, updateIdToken, router, enqueueSnackbar])
 
 	return (
-		<div>
+		<>
+			<Head>
+				<title>Login - GEM</title>
+				<meta name="language" content="EN" />
+				<meta name="robots" content="index, follow" />
+				<meta name="description" content="The GEM panel login page" />
+			</Head>
 			<LoginForm onSubmit={ login } />
-		</div>
+		</>
 	)
 }
 

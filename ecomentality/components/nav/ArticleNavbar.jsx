@@ -1,4 +1,3 @@
-import Logo from "../Logo"
 import { useRouter } from "next/router"
 import Button from "../buttons/Button"
 import GenericNavbar from "./GenericNavbar";

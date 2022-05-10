@@ -1,10 +1,12 @@
 /**
  * Displays an article's header
  * 
- * @param {Object} article - The article
+ * @param {String} title - The article's title
+ * @param {String} timestamp - The article's publish datestring
+ * @param {String} author - The author's displayName
  * @returns Displays a header for a given article
  */
-const ArticleTitle = ({ title, timestamp, author }) => {
+const ArticleTitle = ({ title, timestamp, author}) => {
 
 	const date = new Date ( timestamp );
 

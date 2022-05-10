@@ -1,12 +1,18 @@
-import { authRedirect } from "./../../../lib/auth.admin"
-import { isUUID } from "./../../../lib/auth"
+import { authRedirect, isUUID } from "./../../../lib/auth.admin"
 import { v4 as uuid } from "uuid"
 import ArticleEditor from "../../../components/editor/ArticleEditor"
 import { fetchArticle } from "../../../lib/article"
+import Head from "next/head"
 
 const NewArticle = ({ article }) => {
 	return (
 		<>
+			<Head>
+				<title>{ ( article && article.title ) || "New article" } - GEM </title>
+				<meta name="language" content="EN" />
+				<meta name="robots" content="none" />
+				<meta name="description" content="The article creation page" />
+			</Head>
 			<ArticleEditor title={ article.title } body={ article.body } id={ article.id } />
 		</>
 	)
@@ -57,6 +63,6 @@ export const getServerSideProps = async ({ req, res, params, resolvedUrl }) => {
 			// Redirects the user
 			response = redirect;
 		});
-	
+
 	return response;
 }
