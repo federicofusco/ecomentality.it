@@ -6,7 +6,6 @@ import ShareButton from "./../buttons/ShareButton"
  * 
  * @param {Number} likeCount - The article's like count
  * @param {String} id - The article's ID
- * @param {?Boolean} isFallback - Whether or not to display a fallback sidebar (default: false)
  * @returns A sidebar for the current article
  */
 const ArticleSidebar = ({ likeCount, id, isFallback = false }) => {

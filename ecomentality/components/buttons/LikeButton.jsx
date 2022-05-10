@@ -18,8 +18,6 @@ const LikeButton = ({ likeCount, id, isFallback = false }) => {
 	const { likeArticle, dislikeArticle } = useArticle ();
 	const { enqueueSnackbar } = useSnackbar ();
 
-	console.log(likeCount);
-
 	const onClick = () => {
 
 		if ( isFallback ) {

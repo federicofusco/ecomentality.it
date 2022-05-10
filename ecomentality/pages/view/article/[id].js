@@ -1,5 +1,5 @@
 import Article from "../../../components/article/Article"
-import ArticleFallback from "./../../../components/article/ArticleFallback"
+import ArticleFallback from "./../../../components/fallbacks/article/ArticleFallback"
 import { fetchArticle, fetchArticleIds } from "../../../lib/article"
 import { fetchUser } from "../../../lib/auth.admin"
 import Head from "next/head"
