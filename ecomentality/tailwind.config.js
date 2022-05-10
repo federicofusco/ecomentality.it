@@ -15,9 +15,12 @@ module.exports = {
 			'logo-ratio' : '967 / 292',
 		  },
 		  spacing: {
-			  '400' : '400px',
+			  '550' : '550px',
+			  '470' : '470px',
 			  '90' : '90%',
 			  '111' : '111px',
+			  '520' : '520px',
+			  ',8' : '-32px',
 		  },
 		  fontFamily: {
 			  'comfortaa' : ['Rubik', 'sans-serif'],

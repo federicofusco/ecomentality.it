@@ -3,7 +3,7 @@ import Link from "next/link"
 const Home = () => {
 	return (
 		<div>
-			<div className="w-full h-400 flex items-center justify-center pt-24">
+			<div className="w-full h-470 flex items-center justify-center pt-24">
                 <span className="font-comfortaa text-white text-8xl text-center leading-tight">We work for the<br></br>
     			Planet.</span>
             </div>
@@ -28,23 +28,55 @@ const Home = () => {
 					{/* will be edited */}
 				</div>
 			</div>
+
+			<div className="flex items-center justify-center justify-around h-470 font-comfortaa text-white mt-,8">
+			<div className="flex flex-col justify-center items-center mt-24">
+					<span className="pb-20 text-3xl">Novità, consigli, curiosità, eventi sostenibili e molto altro!</span> {/*will be edited*/}
+					<Link href=""><a><button className="bg-black h-24 w-52 text-2xl rounded-2xl leading-8">Salta agli <br></br> Articoli!</button></a></Link>
+				</div>
+				<h1 className="text-dark-green text-8xl pb-20">Articoli.</h1>
+			</div>
 			
-			<div className="flex flex-col items-center justify-center items-around h-400 font-comfortaa text-white">
+			<div className="flex items-center justify-around items-center h-550 font-comfortaa text-white mt-28 mb-36 pr-12">
 				<h1 className="text-dark-green text-8xl pb-20">Envirotips.</h1>
-				<span className="pb-20 text-3xl">(provvisorio) Scopri i consigli per vivere con l'ambiente e le persone che ti stanno intorno!</span> {/*will be edited*/}
-				<Link href="https://www.theresilientactivist.org/wp-content/uploads/2018/08/EnviroTip-Logo-2-300x256-1-300x256.jpg"><a><button className="bg-black h-28 w-64 text-2xl rounded-2xl leading-8">Dai un'occhiata agli <br></br> Envirotips!</button></a></Link>
+				<div className="flex flex-col justify-center items-center mt-24 w-1/2">
+					<span className="pb-10 text-3xl text-center">Scopri i consigli per vivere con l'ambiente e le persone che ti stanno intorno!</span> {/*will be edited*/}
+					<Link href="https://www.theresilientactivist.org/wp-content/uploads/2018/08/EnviroTip-Logo-2-300x256-1-300x256.jpg"><a><button className="bg-black h-28 w-64 text-2xl rounded-2xl leading-8">Dai un'occhiata agli <br></br> Envirotips!</button></a></Link>
+				</div>
 			</div>
 
-			<footer className="h-96 mt-72 bg-dark-green text-white">
-				<div className="mr-96 flex items-center h-full">
-					<div className="px-52 text-3xl">
-						Links:<br></br>
+			<footer className="h-520 mt-28 bg-dark-green text-white">
+				<div className="mr-68 flex items-center h-full">
+					<div className="px-36 text-3xl text-left">
+						<span>Links:</span><br></br>
+							<ul>
+								<li><Link href="https://www.liceocalini.edu.it/"><a className="text-xl ml-8 hover:underline-offset-2"><u>Liceo Scientifico Annibale Calini</u></a></Link></li>
+								<li><Link href="https://unric.org/it/agenda-2030/"><a className="text-xl ml-8 hover:underline-offset-2"><u>Agenda 2030</u></a></Link></li>
+								<li><Link href="https://www.indire.it/2022/02/09/hubsteam-il-progetto-di-formazione-per-studenti-sulle-steam/"><a className="text-xl ml-8 hover:underline-offset-2"><u>#HUBSTEAM</u></a></Link></li>
+							</ul>
 					</div>
 					<div className="bg-white w-0.5 h-90 rounded-md"></div>
-					<div className="px-52 text-xl">
-						Federico Fusco<br></br>
-			            Davide Raschitelli<br></br>
-						Alessandro Curseri
+					<div className="px-52 text-base">
+						<ul>
+						<li>Federico Fusco</li>
+						<li>Davide Raschitelli</li>
+						<li>Alessandro Curseri</li>
+						<li>Chiara Volpi</li>
+						<li>Anna Graziani</li>
+						<li>Sabrina Arbore</li>
+						<li>Leonardo Marpicati</li>
+						<li>Davide Mezzaroma</li>
+						<li>Tommaso Palla</li>
+						<li>Riccardo Brognoli</li>
+						<li>Riccardo Di Palma</li>
+						<li>Tommaso Giuseppe Di Terlizzi</li>
+						<li>Jacopo Zani</li>
+						<li>Sofia Palazzani</li>
+						<li>Giulia Gozzini</li>
+				        <li>Veronica Cavicchi</li>
+						<li>Leonardo Barbarini</li>
+						<li>Fabrizio Filisina</li>
+						</ul>
 					</div>
 				</div>
 			</footer>
