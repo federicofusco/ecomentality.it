@@ -5,6 +5,9 @@ const nextConfig = {
 		defaultLocale: "en",
 	},
   	reactStrictMode: true,
+	images: {
+		domains: ['firebasestorage.googleapis.com']
+	}
 }
 
 module.exports = nextConfig

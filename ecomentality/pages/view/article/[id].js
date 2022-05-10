@@ -1,11 +1,18 @@
 import Article from "../../../components/article/Article"
-import { isUUID } from "./../../../lib/auth"
-import { fetchArticle } from "../../../lib/article"
+import ArticleFallback from "./../../../components/fallbacks/article/ArticleFallback"
+import { fetchArticle, fetchArticleIds } from "../../../lib/article"
 import { fetchUser } from "../../../lib/auth.admin"
 import Head from "next/head"
-
+import { useRouter } from "next/router"
 
 const ViewArticle = ({ article, author }) => {
+
+	const router = useRouter ();
+
+	// Displays fallback page while it's rendered
+	// This will not be displayed to crawlers
+	if ( router.isFallback ) return <ArticleFallback />;
+
 	return (
 		<>
 			<Head>
@@ -21,20 +28,44 @@ const ViewArticle = ({ article, author }) => {
 	)
 }
 
-export const getServerSideProps = async ({ params }) => {
+export const getStaticPaths = async () => {
 
-	// Verifies that the article UUID is valid
-	if ( !isUUID ( params.id ) ) {
+	let response = {
+		paths: [],
+		fallback: true
+	};
 
-		// The article doesn't exist
-		return {
-			notFound: true
-		};
-	}
+	// Fetches all the article ids
+	await fetchArticleIds ()
+		.then (( ids ) => {
+
+			// Forms the paths
+			var paths = [];
+			ids.data.ids.forEach ( id => paths.push ({
+				params: {
+					id: id 
+				}
+			}) );
+
+			response = {
+				paths,
+				fallback: true
+			};
+
+		})
+		.catch (( error ) => {
+			throw Error ( "Failed to form paths!" ) // CHANGE THIS!!!
+		});
+
+	return response;
+}
+
+export const getStaticProps = async ({ params }) => {
 
 	let response = {
 		props: {},
-		notFound: false
+		notFound: false,
+		revalidate: 900 // Revalidate every 15 minutes
 	}
 
 	// Fetches the article
@@ -49,9 +80,15 @@ export const getServerSideProps = async ({ params }) => {
 						author: user.data.user
 					}
 				})
-				.catch (( error ) => response.notFound = true );
+				.catch (( error ) => {
+					console.error ( error );
+					response.notFound = true 
+				});
 		})
-		.catch (( error ) => response.notFound = true );
+		.catch (( error ) => {
+			console.error ( error );
+			response.notFound = true 
+		});
 
 	return response;
 

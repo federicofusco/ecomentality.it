@@ -1,5 +1,5 @@
-import useEditor from "../../lib/editor"
-import useArticle from "../../lib/article"
+import useEditor from "../../hooks/editor"
+import useArticle from "../../hooks/article"
 import { useSlate } from "slate-react"
 import { useState } from "react"
 import InsertImageButton from "../buttons/InsertImageButton"
@@ -26,6 +26,8 @@ const ArticleToolbar = ({ id, titleRef }) => {
 	 * Attempts to publish the article
 	 */
 	const publish = async () => {
+
+		console.log(1);
 
 		setPublishStatus ( "Hold on..." );
 		await publishArticle ( id, titleRef.current.value, serializeEditor ( editor ) )

@@ -1,5 +1,5 @@
 /**
- * The GEM Admin Auth Hook
+ * The GEM Admin Auth Lib
  */
 
 import { auth, firestore } from "./admin"
@@ -53,7 +53,7 @@ export const authRedirect = ({ req, res, resolvedUrl }) => {
 }
 
 /**
- * Fetches a user fomr the database
+ * Fetches a user from the database
  * 
  * @param {String} id - The user's ID
  * @async
@@ -108,10 +108,60 @@ export const fetchUser = async ( id ) => {
 				status: "ERROR",
 				message: "Something went wrong!",
 				data: {
-					error: error
+					error
 				}
 			});
 		}
 
 	});
+}
+
+/**
+ * Fetches all user ids from the users/ collection
+ * 
+ * @returns {Promise} A promise
+ */
+export const fetchUserIds = async () => {
+	return new Promise ( async ( resolve, reject ) => {
+
+		try {
+
+			const collectionData = await firestore.collection ( "users" ).get ();
+
+			// Fetches all the ids
+			var ids = [];
+			collectionData.forEach ( user => ids.push ( user.id ));
+
+			resolve ({
+				status: "OK",
+				message: "Found user!",
+				data: {
+					ids
+				}
+			});
+	
+		} catch ( error ) {
+	
+			console.error ( error );
+	
+			reject ({
+				status: "ERROR",
+				message: "Something went wrong!",
+				data: {
+					error
+				}
+			});
+		}
+
+	});
+}
+
+/**
+ * Checks if a given UUID is valid
+ * 
+ * @param {String} uuid - The UUId which needs to be checked
+ * @returns {Boolean} Whether or not the UUID is valid
+ */
+export const isUUID = ( uuid ) => {
+	return uuid.match ( new RegExp ( /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i ) );
 }
