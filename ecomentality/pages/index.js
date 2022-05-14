@@ -13,3 +13,5 @@ export default function Home() {
 		</>
 	)
 }
+
+export default Home
