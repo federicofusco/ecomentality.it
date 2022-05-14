@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Allow: /view/article
+Allow: /view/author
+Allow: /auth/login
+Disallow: /new/article

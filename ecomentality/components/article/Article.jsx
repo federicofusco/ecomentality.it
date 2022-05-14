@@ -1,32 +1,55 @@
-import useArticle from "../../lib/article.lib"
-import { useEffect, useState } from "react"
 import ArticleTitle from "./ArticleTitle"
 import ArticleBody from "./ArticleBody"
+import ArticleNavbar from "../nav/ArticleNavbar"
+import ArticleSidebar from "../nav/ArticleSidebar"
 
-const Article = ({ id }) => {
+/**
+ * Displays an article
+ * 
+ * @param {Object} article - The article
+ * @param {Object} author - The article's author
+ * @param {?Boolean} isFallback - Whether or not to display a fallback article (default: false)
+ * @returns Displays an article
+ */
+const Article = ({ article, author, isFallback = false }) => {
 
-	const { fetchArticle } = useArticle ();
-	const [article, setArticle] = useState ( null );
-	const [loading, setLoading] = useState ( true );
+	// The fallback page needs to be seperate and can't drill components due to object destructuring
+	if ( isFallback ) {
 
-	// Fetches the article data
-	useEffect (() => {
-		fetchArticle ( id )
-			.then ( ( data ) => {
-				setArticle ( data.data.article );
-				setLoading ( false );
-			})
-			.catch ( ( error ) => {
-				console.log(error);
-				// An error occurred while fetching the article
+		// Displays fallback page
+		return (
+			<div className="w-screen h-screen overflow-x-hidden">
+				
+				<ArticleNavbar isFallback={ true } />
+				
+				<div className="flex">
+					<ArticleSidebar isFallback={ true } />
+					<div className="sm:ml-20 w-full md:mx-auto max-w-2xl">
+						<ArticleTitle isFallback={ true } />
+						<ArticleBody isFallback={ true } />
+					</div>
+				</div>
+			</div>
+		)
+	}
 
-			});
-	}, []);
+	const { likeCount, title, timestamp, body } = article;
+	const { displayName } = author;
+	const articleId = article.id;
+	const authorId = author.id;
 
 	return (
-		<div>
-			{ !loading && <ArticleTitle title={ article.title } author={ article.author } /> }
-			{ !loading && <ArticleBody body={ article.body } /> }
+		<div className="w-screen h-screen overflow-x-hidden">
+			
+			<ArticleNavbar authorId={ authorId } />
+			
+			<div className="flex">
+				<ArticleSidebar likeCount={ likeCount } id={ articleId } />
+				<div className="sm:ml-20 md:mx-auto max-w-2xl">
+					<ArticleTitle title={ title } timestamp={ timestamp } author={ displayName } />
+					<ArticleBody body={ body } />
+				</div>
+			</div>
 		</div>
 	)
 

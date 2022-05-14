@@ -1,13 +1,13 @@
 import '../styles/globals.css'
-import Navbar from "../components/nav/Navbar"
+import { SnackbarProvider } from "notistack"
 
-function MyApp({ Component, pageProps }) {
+const MyApp = ({ Component, pageProps }) => {
+	
 	return (
-		<div className="w-full h-full bg-all-green select-none">
-			<Navbar />
+		<SnackbarProvider maxSnack={ 3 } preventDuplicate>
 			<Component {...pageProps} />
-		</div>
-	) 
+		</SnackbarProvider>
+	)
 }
 
 export default MyApp;

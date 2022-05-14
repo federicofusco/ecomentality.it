@@ -1,11 +1,22 @@
+/**
+ * The Firebase Admin SDK
+ * 
+ * This file exports various files:
+ * @exports auth - The admin auth handler
+ * @exports firestore - The admin firestore handler
+ * 
+ * Note: While looking through the firebase documentation,
+ * 		 remember to always select the Node.JS option in the
+ * 		 snippets when using the Admin SDK
+ */
+
 const admin = require ( "firebase-admin" )
-import { getAuth } from "firebase-admin/auth"
 
 const config = {
 	type: process.env.FIREBASE_ADMIN_TYPE,
 	project_id: process.env.FIREBASE_ADMIN_PROJECT_ID,
 	private_key_id: process.env.FIREBASE_ADMIN_PRIVATE_KEY_ID,
-	private_key: JSON.parse ( process.env.FIREBASE_ADMIN_PRIVATE_KEY ).key,
+	private_key: process.env.FIREBASE_ADMIN_PRIVATE_KEY.replace(/\\n/g, '\n'),
 	client_email: process.env.FIREBASE_ADMIN_CLIENT_EMAIL,
 	client_id: process.env.FIREBASE_ADMIN_CLIENT_ID,
 	auth_uri: process.env.FIREBASE_ADMIN_AUTH_URI,
@@ -21,9 +32,10 @@ if ( !admin.apps.length ) {
 	});
 }
 
-const auth = getAuth ( admin.apps[0] );
+const auth = admin.auth ();
+const firestore = admin.firestore ();
 
 export {
-	admin,
-	auth
+	auth,
+	firestore
 };
