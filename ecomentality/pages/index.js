@@ -3,6 +3,7 @@ import HomeNavbar from "../components/nav/HomeNavbar"
 import HeroTitle from "../components/home/HeroTitle"
 import InfoSection from "./../components/home/InfoSection"
 import ArticleList from "../components/home/ArticleList"
+import EventList from "./../components/home/EventList"
 import Footer from "./../components/nav/Footer"
 
 import { fetchAllArticles } from "./../lib/article"
@@ -31,6 +32,8 @@ const Home = ({ articles }) => {
 			<InfoSection rightToLeft={ true } title="About us" />
 
 			<ArticleList articles={ articles } />
+
+			<EventList />
 
 			<Footer />
 		</div>
