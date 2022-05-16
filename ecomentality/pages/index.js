@@ -26,7 +26,7 @@ const Home = ({ articles }) => {
 			<HomeNavbar />
 
 			<div className="pt-6">
-				<HeroTitle title="We work for the planet" />
+				<HeroTitle title="We work for the planet" redirect="/404" subtitle="Lorem ipsum is just dummy text used in demos to give examples without any content" />
 			</div>
 
 			<InfoSection rightToLeft={ true } title="About us" />
