@@ -1,5 +1,7 @@
 import Logo from "../Logo"
 import MenuButton from "./../buttons/MenuButton"
+import NavLink from "./NavLink"
+import SearchBar from "./SearchBar"
 
 /**
  * Displays a navbar dedicated to the homepage
@@ -14,13 +16,35 @@ const HomeNavbar = () => {
 					<Logo iconOnly={ true } />
 				</div>
 
-				{/* <div className="flex flex-auto">
-					<NavLink title="About Us" href="/about" />
-					<NavLink title="Articles" />
-					<NavLink title="Envirotips" />
-					<NavLink title="Interviews" />
-					<NavLink title="Calini Green" />
-				</div> */}
+
+				<div className="hidden sm:flex flex-auto">
+					{
+						[
+							{
+								section: "Abous Us",
+								link: "/about"
+							},
+							{
+								section: "Articles",
+								link: "/view/articles"
+							},
+							{
+								section: "Envirotips",
+								link: "/envirotips"
+							},
+							{
+								section: "Interviews",
+								link: "/view/interviews"
+							},
+							{
+								section: "Calini Green",
+								link: "/calini"
+							}
+						].map (({ section, link }) => <NavLink key={ section } title={ section } href={ link } /> )
+					}
+				</div>
+				
+				<SearchBar />
 
 				<MenuButton />
 
