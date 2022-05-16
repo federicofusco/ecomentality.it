@@ -77,8 +77,6 @@ export const getStaticPaths = async () => {
 			throw Error ( "Failed to form paths!" ) // CHANGE THIS!!!
 		});
 
-	console.log("x", response);
-
 	return response;
 }
 

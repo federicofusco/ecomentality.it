@@ -3,7 +3,7 @@
  */
 
 import { firestore } from "./firebase"
-import { doc, getDoc, getDocs, collection, query, where } from "firebase/firestore";
+import { doc, getDoc, getDocs, collection, query, where, limit } from "firebase/firestore";
 import { deserializeEditor } from "./editor"
 
 /**
@@ -155,6 +155,89 @@ export const fetchArticleIds = async () => {
 
 			console.error ( error );
 
+			reject ({
+				status: "ERROR",
+				message: "Something went wrong!",
+				data: {
+					error
+				}
+			});
+		}
+
+	});
+}
+
+/**
+ * Fetches all the articles
+ * 
+ * @param {?Number} articleLimit - The limit of articles to fetch (default: null)
+ * @async 
+ * @returns {Array} The articles 
+ */
+ export const fetchAllArticles = async ( articleLimit = null ) => {
+	return new Promise ( async ( resolve, reject ) => {
+
+		try {
+
+			const articleCollection = collection ( firestore, "articles" );
+
+			// Refactor this to not repeat code
+			if ( articleLimit ) {
+
+				const articleQuery = query ( articleCollection, limit ( articleLimit ) );
+
+				let articles = [];
+				const articleData = await getDocs ( articleQuery );
+				articleData.forEach (( article ) => { 
+					const { title, body, author, likeCount, timestamp } = article.data ();
+					articles.push ({ 
+						title,
+						body, 
+						author, 
+						likeCount: likeCount || 0, 
+						timestamp: String ( timestamp.toDate () ),
+						id: article.id
+					});
+				});
+
+				// Found the articles
+				resolve ({
+					status: "OK",
+					message: "Found article!",
+					data: {
+						articles
+					}
+				});
+				return;
+			}
+
+			let articles = [];
+			const articleData = await getDocs ( articleCollection );
+			articleData.forEach (( article ) => { 
+				const { title, body, author, likeCount, timestamp } = article.data ();
+				articles.push ({ 
+					title,
+					body, 
+					author, 
+					likeCount: likeCount || 0, 
+					timestamp: String ( timestamp.toDate () ),
+					id: article.id
+				});
+			});
+
+			// Found the articles
+			resolve ({
+				status: "OK",
+				message: "Found article!",
+				data: {
+					articles
+				}
+			});
+
+		} catch ( error ) {
+			
+			console.error ( error );
+	
 			reject ({
 				status: "ERROR",
 				message: "Something went wrong!",
