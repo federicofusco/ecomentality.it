@@ -54,7 +54,7 @@ const Login = () => {
 			<Head>
 				<title>Login - GEM</title>
 				<meta name="language" content="EN" />
-				<meta name="robots" content="index, follow" />
+				<meta name="robots" content="all" />
 				<meta name="description" content="The GEM panel login page" />
 			</Head>
 			<LoginForm onSubmit={ login } />

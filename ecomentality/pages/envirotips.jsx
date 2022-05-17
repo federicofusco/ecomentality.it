@@ -9,7 +9,7 @@ const CaliniGreen = () => {
 			<Head>
 				<title>Envirotips - GEM</title>
 				<meta name="language" content="EN" />
-				<meta name="robots" content="index, follow" />
+				<meta name="robots" content="all" />
 				<meta name="description" content="A helpful page containing a list of tips and tricks to help the environment" />
 			</Head>
 

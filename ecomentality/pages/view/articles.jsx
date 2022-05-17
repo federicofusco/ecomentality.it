@@ -11,7 +11,7 @@ const Articles = ({ articles }) => {
 			<Head>
 				<title>Articles - GEM</title>
 				<meta name="language" content="EN" />
-				<meta name="robots" content="index, follow" />
+				<meta name="robots" content="all" />
 				<meta name="description" content="A list of articles" />
 			</Head>
 
