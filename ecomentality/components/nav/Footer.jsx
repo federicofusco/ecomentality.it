@@ -10,7 +10,7 @@ const LinkList = () => {
 
 					{ ["1", "2", "3", "4"].map ( link => (
 						<Link key={ link } href={`/${ link }`}>
-							<a className="block text-white">Link { link }</a>
+							<a className="block text-white w-14 mt-1">Link { link }</a>
 						</Link>
 					))}
 
@@ -29,7 +29,7 @@ const MemberList = () => {
 
 					{ ["1", "2", "3", "4"].map ( link => (
 						<Link key={ link } href={`/${ link }`}>
-							<a className="block text-white">Member { link }</a>
+							<a className="block text-white w-auto mt-1">Member { link }</a>
 						</Link>
 					))}
 
@@ -41,7 +41,6 @@ const MemberList = () => {
 
 const SocialList = () => {
 	return (
-
 		<div className="w-full flex sm:block sm:my-auto justify-center mt-4 sm:mt-0">
 				<h3 className="uppercase my-auto font-poppins font-black text-white text-center">Find Us</h3>
 				<div className="flex justify-center text-white sm:mt-3 text-xl">
@@ -53,21 +52,15 @@ const SocialList = () => {
 }
 
 const Footer = () => {
-	return <div className="bg-dark-green w-screen p-8 h-auto sm:flex sm:justify-center">
-		<div className="flex justify-between w-full">
-			<LinkList />
-			<MemberList />
-		</div>
-		<SocialList />
-	</div>
+	return (
+		<footer className="bg-dark-green w-screen p-8 h-auto sm:flex sm:justify-center">
+			<div className="flex justify-between w-full">
+				<LinkList />
+				<MemberList />
+			</div>
+			<SocialList />
+		</footer>
+	)
 }
 
 export default Footer;
-
-// const Footer = () => {
-// 	return <div className="bg-dark-green w-screen p-8 h-auto">
-// 		a
-// 	</div>
-// }
-
-// export default Footer;
