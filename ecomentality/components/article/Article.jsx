@@ -45,7 +45,7 @@ const Article = ({ article, author, isFallback = false }) => {
 			
 			<div className="flex">
 				<ArticleSidebar likeCount={ likeCount } id={ articleId } />
-				<div className="sm:ml-20 md:mx-auto max-w-2xl">
+				<div className="sm:ml-20 md:mx-auto w-full max-w-2xl">
 					<ArticleTitle title={ title } timestamp={ timestamp } author={ displayName } />
 					<ArticleBody body={ body } />
 				</div>

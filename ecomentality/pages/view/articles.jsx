@@ -1,0 +1,51 @@
+import { fetchAllArticles } from "./../../lib/article"
+import Head from "next/head"
+import ArticleList from "../../components/home/ArticleList"
+import HomeNavbar from "../../components/nav/HomeNavbar"
+import Footer from "../../components/nav/Footer"
+
+const Articles = ({ articles }) => {
+
+	return (
+		<div className="bg-all-green">
+			<Head>
+				<title>Home - GEM</title>
+				<meta name="language" content="EN" />
+				<meta name="robots" content="index, follow" />
+				<meta name="description" content="The GEM homepage" />
+
+				<link rel="preconnect" href="https://fonts.googleapis.com" />
+				<link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
+				<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;800;900&display=swap" rel="stylesheet" /> 
+			</Head>
+
+			<HomeNavbar />
+			
+			<div className="mt-16">
+				<ArticleList articles={ articles } />
+			</div>
+
+			<Footer />
+
+		</div>
+	)
+}
+
+export const getStaticProps = async () => {
+
+	let response = {
+		props: {}
+	}
+
+	// Fetches all the relevant articles
+	await fetchAllArticles ()
+		.then ( articles => response.props.articles = articles.data.articles )
+		.catch ( error => {
+			console.error ( error );
+			response.notFound = true
+		});
+
+	return response;
+}
+
+export default Articles

@@ -30,7 +30,7 @@ const ArticleLink = ({ article }) => {
 const ArticleList = ({ articles }) => {
 
 	return (
-		<div className="w-full text-white px-8 mb-16">
+		<div className="w-full text-white pt-12 px-8 mb-16">
 			
 			{/* Title */}
 			<h1 className="text-3xl mb-8 text-center font-black font-poppins uppercase">Articles</h1>
