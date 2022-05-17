@@ -27,8 +27,6 @@ const ArticleToolbar = ({ id, titleRef }) => {
 	 */
 	const publish = async () => {
 
-		console.log(1);
-
 		setPublishStatus ( "Hold on..." );
 		await publishArticle ( id, titleRef.current.value, serializeEditor ( editor ) )
 			.then (( result ) => {

@@ -3,9 +3,9 @@ import Button from "../../buttons/Button"
 
 const EditorImageModal = ({ visible, onClick }) => {
 
-	if ( !visible ) return null;
-
 	const linkRef = useRef ( null );
+
+	if ( !visible ) return null;
 
 	const click = () => {
 		onClick ( linkRef.current.value );

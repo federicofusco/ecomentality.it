@@ -7,8 +7,6 @@ export const getServerSideProps = async ({ res }) => {
 
 	const generateSiteMap = async () => {
 
-		console.log("got res");
-
 		let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 			<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
