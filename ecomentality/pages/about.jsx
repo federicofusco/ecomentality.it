@@ -20,7 +20,7 @@ const AboutUs = () => {
 			<HomeNavbar />
 
 			<div className="mt-16">
-					<HeroTitle title="About Us" subtitle="Im using lorem ipsum because I cant be bothered to write an actual subtitle" />
+				<HeroTitle title="About Us" subtitle="Im using lorem ipsum because I cant be bothered to write an actual subtitle" />
 			</div>
 
 			<Footer />

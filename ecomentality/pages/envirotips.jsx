@@ -20,7 +20,7 @@ const CaliniGreen = () => {
 			<HomeNavbar />
 
 			<div className="mt-16">
-					<HeroTitle title="Envirotips" subtitle="Im using lorem ipsum because I cant be bothered to write an actual subtitle" />
+				<HeroTitle title="Envirotips" subtitle="Im using lorem ipsum because I cant be bothered to write an actual subtitle" />
 			</div>
 
 			<Footer />
