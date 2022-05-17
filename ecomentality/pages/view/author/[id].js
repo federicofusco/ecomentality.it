@@ -20,7 +20,7 @@ const ViewAuthor = ({ articles, author }) => {
 				<Head>
 					<title>Loading - GEM</title>
 					<meta name="language" content="EN" />
-					<meta name="robots" content="index, follow" />
+					<meta name="robots" content="all" />
 				</Head>
 				<GenericNavbar />
 				<div className="mt-24">
@@ -35,7 +35,7 @@ const ViewAuthor = ({ articles, author }) => {
 			<Head>
 				<title>{ author.displayName } - GEM</title>
 				<meta name="language" content="EN" />
-				<meta name="robots" content="index, follow" />
+				<meta name="robots" content="all" />
 				<meta name="author" content={ author.displayName } />
 				<meta name="description" content={`Articles written by ${ author.displayName }`} />
 			</Head>

@@ -9,7 +9,7 @@ const CaliniGreen = () => {
 			<Head>
 				<title>Calini Green - GEM</title>
 				<meta name="language" content="EN" />
-				<meta name="robots" content="index, follow" />
+				<meta name="robots" content="all" />
 				<meta name="description" content="A page dedicated to the Calini Green group" />
 			</Head>
 

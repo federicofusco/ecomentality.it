@@ -9,13 +9,12 @@ import Footer from "./../components/nav/Footer"
 import { fetchAllArticles } from "./../lib/article"
 
 const Home = ({ articles }) => {
-
 	return (
 		<div className="bg-all-green">
 			<Head>
 				<title>Home - GEM</title>
 				<meta name="language" content="EN" />
-				<meta name="robots" content="index, follow" />
+				<meta name="robots" content="all" />
 				<meta name="description" content="The GEM homepage" />
 			</Head>
 
