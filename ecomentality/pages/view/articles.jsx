@@ -9,10 +9,10 @@ const Articles = ({ articles }) => {
 	return (
 		<div className="bg-all-green">
 			<Head>
-				<title>Home - GEM</title>
+				<title>Articles - GEM</title>
 				<meta name="language" content="EN" />
 				<meta name="robots" content="index, follow" />
-				<meta name="description" content="The GEM homepage" />
+				<meta name="description" content="A list of articles" />
 
 				<link rel="preconnect" href="https://fonts.googleapis.com" />
 				<link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
