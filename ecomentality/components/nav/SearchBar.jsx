@@ -12,7 +12,7 @@ const SearchBar = () => {
 					<MdSearch className="text-gray-500 m-auto" />
 				</label>
 			</div>
-			<input tabindex="0" id="search" className="bg-white outline-none h-8 pr-4 py-1 hidden md:block text-black rounded-r-md my-auto" ref={ searchRef } placeholder="Search..." type="text" />
+			<input tabIndex="0" id="search" className="bg-white outline-none h-8 pr-4 py-1 hidden md:block text-black rounded-r-md my-auto" ref={ searchRef } placeholder="Search..." type="text" />
 		</form>
 	)
 }

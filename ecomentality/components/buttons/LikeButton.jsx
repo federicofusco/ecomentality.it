@@ -14,8 +14,6 @@ import { useSnackbar } from "notistack"
  */
 const LikeButton = ({ likeCount, id, isFallback = false }) => {
 
-	console.log(likeCount);
-
 	const [liked, setLiked] = useState ( false );
 	const { likeArticle, dislikeArticle } = useArticle ();
 	const { enqueueSnackbar } = useSnackbar ();
