@@ -4,9 +4,11 @@ import { SnackbarProvider } from "notistack"
 const MyApp = ({ Component, pageProps }) => {
 	
 	return (
-		<SnackbarProvider maxSnack={ 3 } preventDuplicate>
-			<Component {...pageProps} />
-		</SnackbarProvider>
+		<div className="w-full h-full overflow-x-hidden">
+			<SnackbarProvider maxSnack={ 3 } preventDuplicate>
+				<Component {...pageProps} />
+			</SnackbarProvider>
+		</div>
 	)
 }
 

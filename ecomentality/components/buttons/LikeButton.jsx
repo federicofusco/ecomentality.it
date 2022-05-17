@@ -14,6 +14,8 @@ import { useSnackbar } from "notistack"
  */
 const LikeButton = ({ likeCount, id, isFallback = false }) => {
 
+	console.log(likeCount);
+
 	const [liked, setLiked] = useState ( false );
 	const { likeArticle, dislikeArticle } = useArticle ();
 	const { enqueueSnackbar } = useSnackbar ();
@@ -48,7 +50,7 @@ const LikeButton = ({ likeCount, id, isFallback = false }) => {
 		<button onClick={ onClick } className={`w-16 h-16 bg-transparent mt-4 flex justify-center ${ liked ? "text-green-600" : "text-gray-600" } hover:text-green-600 transition-all duration-300`}>
 			<div className="my-auto text-2xl">
 				{ liked ? <MdThumbUp /> : <MdThumbUpOffAlt /> }
-				{ likeCount && <p className="text-xs">{ liked ? likeCount + 1 : likeCount }</p> }
+				<p className="text-xs">{ liked ? likeCount + 1 : likeCount }</p>
 			</div>
 		</button>
 	)
