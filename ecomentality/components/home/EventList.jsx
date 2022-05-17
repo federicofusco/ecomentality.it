@@ -18,6 +18,7 @@ const Event = ({ title, id }) => {
 					<Image
 						src="https://via.placeholder.com/320x384.png?text=GEM"
 						layout="fill"
+						alt="Event Image"
 						className="w-full h-full z-10" />
 				</div>
 			</a>

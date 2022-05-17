@@ -19,6 +19,7 @@ const InfoSection = ({ title, p = lorem_ipsum, rightToLeft = false, id }) => {
 						src="https://via.placeholder.com/320.png?text=ecomentality.life"
 						width="320"
 						height="320"
+						alt=""
 						className="w-72 h-72" />
 				</div>
 				<div className="w-full flex sm:w-1/2 h-80 text-white">
@@ -44,6 +45,7 @@ const InfoSection = ({ title, p = lorem_ipsum, rightToLeft = false, id }) => {
 					src="https://via.placeholder.com/320.png?text=ecomentality.life"
 					width="320"
 					height="320"
+					alt=""
 					className="w-72 h-72" />
 			</div>
 		</div>

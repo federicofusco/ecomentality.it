@@ -13,6 +13,7 @@ const ArticleLink = ({ article }) => {
 							src="https://via.placeholder.com/128.png?text=GEM"
 							height="128"
 							width="128"
+							alt=""
 							className="rounded-l-lg" />
 					</div>
 
