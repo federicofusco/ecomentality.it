@@ -14,9 +14,9 @@ const ViewVideo = ({ video }) => {
                 height="315" 
                 src={video.link} 
                 title="YouTube video player" 
-                frameborder="0" 
+                frameBorder="0" 
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                allowfullscreen>
+                allowFullScreen>
             </iframe>
             
 			{/* <Article article={ article } /> */}
@@ -25,16 +25,13 @@ const ViewVideo = ({ video }) => {
 }
 
 export const getServerSideProps = async ( context ) => {
-
+	
 	// Verifies that the video UUID is valid
 	if ( !isUUID ( context.params.id ) ) {
 
-		// The article doesn't exist
+		// The video doesn't exist
 		return {
-			redirect: {
-				destination: "/error/404",
-				permanent: false
-			}
+			notFound: true,
 		};
 	}
     
