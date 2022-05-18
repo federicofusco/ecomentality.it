@@ -14,9 +14,9 @@ const ViewVideo = ({ video }) => {
                 height="315" 
                 src={video.link} 
                 title="YouTube video player" 
-                frameborder="0" 
+                frameBorder="0" 
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                allowfullscreen>
+                allowFullScreen>
             </iframe>
             
 			{/* <Article article={ article } /> */}
@@ -25,7 +25,7 @@ const ViewVideo = ({ video }) => {
 }
 
 export const getServerSideProps = async ( context ) => {
-
+	
 	// Verifies that the video UUID is valid
 	if ( !isUUID ( context.params.id ) ) {
 
@@ -42,7 +42,7 @@ export const getServerSideProps = async ( context ) => {
 
 		// Fetches the article
 		const videoData = await getDoc ( doc ( firestore, "videos", context.params.id ) );
-
+		console.l
 		// Checks if the article exists
 		if ( !videoData.exists () ) {
 			
