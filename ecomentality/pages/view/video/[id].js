@@ -42,7 +42,7 @@ export const getServerSideProps = async ( context ) => {
 
 		// Fetches the article
 		const videoData = await getDoc ( doc ( firestore, "videos", context.params.id ) );
-		console.l
+
 		// Checks if the article exists
 		if ( !videoData.exists () ) {
 			
