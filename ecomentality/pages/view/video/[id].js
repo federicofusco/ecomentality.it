@@ -1,78 +1,95 @@
-// import Article from "../../../components/article/Article"
-import { isUUID } from "./../../../lib/auth.admin"
-import { firestore } from "../../../lib/firebase"
-import { getDoc, doc } from "firebase/firestore"
+import { fetchAllVideoIds, fetchVideo } from "../../../lib/video"
+import { fetchUser } from "./../../../lib/auth.admin"
+import { useRouter } from "next/router"
+import Head from "next/head" 
+import Video from "./../../../components/video/Video"
 
-const ViewVideo = ({ video }) => {
+const ViewVideo = ({ video, author }) => {
+
+	const { isFallback } = useRouter ();
+
+	if ( isFallback ) {
+		return <p>Loading...</p>
+	}
+
 	return (
-		<div>
-            <h1>{video.title}</h1>
-            <p>{video.body}</p>
-            <h1>{video.title}</h1>
-            <iframe 
-                width="560" 
-                height="315" 
-                src={video.link} 
-                title="YouTube video player" 
-                frameBorder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                allowFullScreen>
-            </iframe>
-            
-			{/* <Article article={ article } /> */}
-		</div>
+		<>
+			<Head>
+				<title>{ video.title } - GEM</title>
+				<meta name="language" content="EN" />
+				<meta name="robots" content="all" />
+				<meta name="author" content={ author.displayName } />
+				<meta name="description" content={`${ video.title }, published by ${ author.displayName }`} />
+				<meta name="revised" content={ video.timestamp } /> 
+			</Head>
+			<Video video={ video } author={ author } />
+		</>
 	)
 }
 
-export const getServerSideProps = async ( context ) => {
-	
-	// Verifies that the video UUID is valid
-	if ( !isUUID ( context.params.id ) ) {
+export const getStaticPaths = async () => {
 
-		// The video doesn't exist
-		return {
-			notFound: true,
-		};
-	}
-    
-	try {
+	let response = {
+		paths: [],
+		fallback: true
+	};
 
-		// Fetches the article
-		const videoData = await getDoc ( doc ( firestore, "videos", context.params.id ) );
+	// Fetches all the article ids
+	await fetchAllVideoIds ()
+		.then (( ids ) => {
 
-		// Checks if the article exists
-		if ( !videoData.exists () ) {
-			
-			// The article doesn't exist
-			return {
-				notFound: true
-			}
-		} else {
-
-			// Found the article
-			const { title, body, author, link } = videoData.data ();
-			return {
-				props: {
-					video: {
-						title: title,
-						body: body,
-						author: author,
-						link: link,
-						id: context.params.id
-					}
+			// Forms the paths
+			var paths = [];
+			ids.data.ids.forEach ( id => paths.push ({
+				params: {
+					id: id 
 				}
-			}
-		}
+			}) );
 
-	} catch ( error ) {
+			response = {
+				paths,
+				fallback: true
+			};
 
-		console.error ( error );
+		})
+		.catch (( error ) => {
+			throw Error ( "Failed to form paths!" ) // CHANGE THIS!!!
+		});
 
-		return {
-			notFound: true
-		}
+	return response;
+}
+
+export const getStaticProps = async ({ params }) => {
+
+	let response = {
+		props: {},
+		notFound: false,
+		revalidate: 900 // Revalidate every 15 minutes
 	}
 
+	// Fetches the video
+	await fetchVideo ( params.id )
+		.then ( async ( video ) => {
+
+			// Fetches the user
+			await fetchUser ( video.data.video.author )
+				.then (( user ) => {
+					response.props = {
+						video: video.data.video,
+						author: user.data.user
+					}
+				})
+				.catch (( error ) => {
+					console.error ( error );
+					response.notFound = true 
+				});
+		})
+		.catch (( error ) => {
+			console.error ( error );
+			response.notFound = true 
+		});
+
+	return response;
 }
 
 export default ViewVideo;
