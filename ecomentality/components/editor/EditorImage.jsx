@@ -1,4 +1,4 @@
-import DeleteImageButton from "./../buttons/icon/DeleteImageButton"
+import DeleteImageButton from "./../buttons/icon/editor/DeleteImageButton"
 
 /**
  * Displays an image in the editor
