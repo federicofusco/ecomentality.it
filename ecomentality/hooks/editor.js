@@ -72,8 +72,6 @@ const useEditor = ( id ) => {
 							// Gets the image data URL
 							const dataUrl = reader.result;
 
-							console.log(1);
-
 							// Uploads the image
 							await uploadDataURL ( dataUrl, `/assets/articles/${ uuid () }` )
 								.then ( url => insertImage ( editor, url.data.url ) )
@@ -94,8 +92,6 @@ const useEditor = ( id ) => {
 				}
 			} else if ( isImageUrl ( text ) ) {
 
-				console.log("text: ", text );
-	
 				// Inserts the image
 				insertImage ( editor, text );
 			} else {
@@ -198,16 +194,11 @@ const useEditor = ( id ) => {
 	 * @param {String} url - The image's URL
 	 */
 	const insertImage = ( editor, url ) => {
-
-		console.log("a", url)
-
-		Transforms.insertNodes ( editor, {
+		editor.insertNode ({
 			type: "image",
 			src: url,
 			isVoid: true,
 			children: [{ text: "" }]
-		}, {
-			at: [editor.children.length]
 		});
 	}
 	

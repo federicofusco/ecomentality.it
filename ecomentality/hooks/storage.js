@@ -4,6 +4,24 @@
 
 import { storage } from "./../lib/firebase"
 import { ref, uploadBytes, uploadString, getDownloadURL } from "firebase/storage"
+import imageType from "image-type"
+
+const dataUriToUint8Array = ( data ) => {
+
+	const BASE64_MARKER = ";base64,";
+
+	var base64Index = data.indexOf ( BASE64_MARKER ) + BASE64_MARKER.length;
+	var base64 = data.substring ( base64Index );
+	var raw = window.atob ( base64 );
+	var rawLength = raw.length;
+	var array = new Uint8Array ( new ArrayBuffer ( rawLength ) );;
+
+	for ( let x = 0; x < rawLength; x++ ) {
+		array[x] = raw.charCodeAt ( x );
+	}
+
+	return array;
+}
 
 
 /**
@@ -18,7 +36,9 @@ const useStorage = () => {
 		return new Promise ( async ( resolve, reject ) => {
 
 			const dataRef = ref ( storage, addr );
-			await uploadBytes ( dataRef, data )
+			await uploadBytes ( dataRef, data, {
+				contentType: imageType ( data ).mime
+			})
 				.then ( async ( result ) => {
 
 					// Fetches the download URL
@@ -50,38 +70,7 @@ const useStorage = () => {
 	}
 
 	const uploadDataURL = async ( data, addr ) => {
-		return new Promise ( async ( resolve, reject ) => {
-
-			const dataRef = ref ( storage, addr );
-			await uploadString ( dataRef, data )
-				.then ( async () => {
-
-					// Fetches the download URL
-					await getDownloadURL ( dataRef )
-						.then ( url => resolve ({
-							status: "OK",
-							message: "Uploaded image!",
-							data: {
-								url
-							}
-						}))
-						.catch ( error => reject ({
-							status: "ERROR",
-							message: "Failed to get URL!",
-							data: {
-								error
-							}
-						}));
-				})
-				.catch ( error => reject ({
-					status: "ERROR",
-					message: "Failed to upload string!",
-					data: {
-						error
-					}
-				}));
-
-		});
+		return await uploadUint8Array ( dataUriToUint8Array ( data ), addr );
 	}
 
 	return {
