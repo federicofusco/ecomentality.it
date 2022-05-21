@@ -1,12 +1,17 @@
-import useEditor from "../../hooks/editor"
+import useStorage from "./../../../../hooks/storage"
+import useEditor from "./../../../../hooks/editor"
+import EditorImageModal from "./../../../forms/modal/EditorImageModal"
+
+
 import { useSlateStatic } from "slate-react"
-import { MdPhotoCamera } from "react-icons/md"
 import { useState } from "react" 
-import useStorage from "./../../hooks/storage"
-import EditorImageModal from "./../forms/modal/EditorImageModal"
 import { useSnackbar } from "notistack"
 const axios = require ( "axios" ).default;
 import { v4 as uuid } from "uuid"
+
+import { MdPhotoCamera } from "react-icons/md"
+import GenericIconButton from "./../GenericIconButton"
+
 
 /**
  * A button which inserts images
@@ -73,13 +78,12 @@ const InsertImageButton = ({ id }) => {
 
 	return (
 		<>
-			<button
-				className="h-7 w-7 bg-white border-black border rounded-full mr-2"
+			<GenericIconButton
 				title="Insert image"
 				onClick={() => setModalVisibility ( true ) }
-				>
-			<MdPhotoCamera className="m-auto" />
-			</button>
+				className="mr-2">
+				<MdPhotoCamera className="m-auto" />
+			</GenericIconButton>
 			<EditorImageModal onClick={ updateImageLink } title="Insert image" visible={ isModalVisible } />
 		</>
 	)

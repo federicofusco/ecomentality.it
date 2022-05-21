@@ -1,5 +1,5 @@
 import { useRef } from "react"
-import Button from "../../buttons/Button"
+import Button from "./../../buttons/Button"
 
 const EditorImageModal = ({ visible, onClick }) => {
 

@@ -1,14 +1,14 @@
-import LoginForm from "../../components/forms/LoginForm"
-import { auth } from "../../lib/firebase"
+import LoginForm from "./../../components/forms/LoginForm"
+import { auth } from "./../../lib/firebase"
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth"
-import useAuth from "../../hooks/auth"
+import useAuth from "./../../hooks/auth"
 import { useEffect } from "react"
 import { useRouter } from "next/router"
 import { useSnackbar } from "notistack"
 import { v4 as uuid } from "uuid"
 import isUrl from "is-url"
 import Head from "next/head"
-import HomeNavbar from "./../../components/nav/HomeNavbar"
+import Navbar from "./../../components/nav/navbars/Navbar"
 
 const Login = () => {
 
@@ -59,7 +59,7 @@ const Login = () => {
 				<meta name="description" content="The GEM panel login page" />
 			</Head>
 
-			<HomeNavbar />
+			<Navbar />
 
 			<LoginForm onSubmit={ login } />
 		</div>

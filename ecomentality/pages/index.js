@@ -1,8 +1,8 @@
 import Head from "next/head"
-import HomeNavbar from "../components/nav/HomeNavbar"
-import HeroTitle from "../components/home/HeroTitle"
+import Navbar from "./../components/nav/navbars/Navbar"
+import HeroTitle from "./../components/home/HeroTitle"
 import InfoSection from "./../components/home/InfoSection"
-import ArticleList from "../components/home/ArticleList"
+import ArticleList from "./../components/home/ArticleList"
 import EventList from "./../components/home/EventList"
 import Footer from "./../components/nav/Footer"
 
@@ -18,7 +18,7 @@ const Home = ({ articles }) => {
 				<meta name="description" content="The GEM homepage" />
 			</Head>
 
-			<HomeNavbar />
+			<Navbar />
 
 			<div className="pt-6">
 				<HeroTitle title="We work for the planet" redirect="/404" subtitle="Lorem ipsum is just dummy text used in demos to give examples without any content" />

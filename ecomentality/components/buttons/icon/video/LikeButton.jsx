@@ -1,10 +1,12 @@
 import { useState } from "react"
-import useVideo from "../../hooks/video"
-import { MdThumbUp, MdThumbUpOffAlt } from "react-icons/md";
+import useVideo from "./../../../../hooks/video"
 import { useSnackbar } from "notistack"
 
+import { MdThumbUp, MdThumbUpOffAlt } from "react-icons/md";
+import GenericActionButton from "./../GenericActionButton"
+
 /**
- * A button which likes an video
+ * A button which likes a video
  * 
  * @param {Number} likeCount - The video's like count
  * @param {String} id - The video's ID
@@ -45,12 +47,12 @@ const VideoLikeButton = ({ likeCount, id, isFallback = false }) => {
 	}
 
 	return (
-		<button onClick={ onClick } className={`w-16 h-16 bg-transparent mt-4 flex justify-center ${ liked ? "text-green-600" : "text-gray-600" } hover:text-green-600 transition-all duration-300`}>
-			<div className="my-auto text-2xl">
-				{ liked ? <MdThumbUp /> : <MdThumbUpOffAlt /> }
-				<p className="text-xs">{ liked ? likeCount + 1 : likeCount }</p>
-			</div>
-		</button>
+		<GenericActionButton
+			onClick={ onClick }
+			className={ liked ? "text-green-600" : "text-gray-600" }>
+			{ liked ? <MdThumbUp /> : <MdThumbUpOffAlt /> }
+			<p className="text-xs">{ liked ? likeCount + 1 : likeCount }</p>
+		</GenericActionButton>
 	)
 }
 

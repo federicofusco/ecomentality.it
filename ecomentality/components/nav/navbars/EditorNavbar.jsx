@@ -1,11 +1,14 @@
-import useEditor from "../../hooks/editor"
-import useArticle from "../../hooks/article"
+import useEditor from "./../../../hooks/editor"
+import useArticle from "./../../../hooks/article"
+
 import { useSlate } from "slate-react"
 import { useState } from "react"
-import InsertImageButton from "../buttons/InsertImageButton"
-import Button from "../buttons/Button"
 import { useSnackbar } from "notistack"
+
+import InsertImageButton from "./../../buttons/icon/editor/InsertImageButton"
 import GenericNavbar from "./GenericNavbar"
+import Button from "./../../buttons/Button"
+
 
 /**
  * Displays a navbar in the editor
@@ -20,6 +23,7 @@ const ArticleToolbar = ({ id, titleRef }) => {
 	const { publishArticle } = useArticle ();
 	const { enqueueSnackbar } = useSnackbar ();
 	const editor = useSlate ();
+	
 	const [publishStatus, setPublishStatus] = useState ( "Publish" );
 
 	/**
@@ -60,7 +64,16 @@ const ArticleToolbar = ({ id, titleRef }) => {
 			});
 	}
 
-	return <GenericNavbar actions={ <div className="flex"><InsertImageButton id={ id } /><Button onClick={ publish }>{ publishStatus }</Button></div> } />
+	return (
+		<GenericNavbar>
+			<div className="flex">
+				<InsertImageButton id={ id } />
+				<Button onClick={ publish }>
+					{ publishStatus }
+				</Button>
+			</div>
+		</GenericNavbar>
+	)
 }
 
 export default ArticleToolbar;

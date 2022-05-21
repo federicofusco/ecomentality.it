@@ -1,5 +1,5 @@
 import { fetchArticleIds } from "./../lib/article"
-import { fetchUserIds } from "../lib/auth.admin"
+import { fetchUserIds } from "./../lib/auth.admin"
 
 const SiteMap = () => {}
 

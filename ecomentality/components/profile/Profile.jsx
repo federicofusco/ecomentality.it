@@ -1,5 +1,5 @@
 import ProfileImage from "./ProfileImage"
-import Button from "../buttons/Button"
+import Button from "./../buttons/Button"
 
 /**
  * Displays a given user's profile

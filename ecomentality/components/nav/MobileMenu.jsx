@@ -1,5 +1,12 @@
 import { MdClose } from "react-icons/md"
 
+/**
+ * Displays a fullscreen menu for mobile users
+ * 
+ * @param {Boolean} param0 - Whether or not the menu should be visible
+ * @param {Function} onClose - A callback which is called when the menu is closed
+ * @returns A menu for mobile users
+ */
 const MobileMenu = ({ visible, onClose, children }) => {
 	
 	// Hides the menu

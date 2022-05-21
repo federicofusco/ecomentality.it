@@ -1,5 +1,5 @@
-import HeroTitle from "../components/home/HeroTitle"
-import HomeNavbar from "../components/nav/HomeNavbar"
+import HeroTitle from "./../components/home/HeroTitle"
+import Navbar from "./../components/nav/navbars/Navbar"
 import Footer from "./../components/nav/Footer"
 import Head from "next/head"
 
@@ -13,7 +13,7 @@ const AboutUs = () => {
 				<meta name="description" content="A page dedicated GEM group" />
 			</Head>
 
-			<HomeNavbar />
+			<Navbar />
 
 			<div className="mt-16">
 				<HeroTitle title="About Us" subtitle="Im using lorem ipsum because I cant be bothered to write an actual subtitle" />

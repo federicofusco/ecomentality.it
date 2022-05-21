@@ -1,8 +1,9 @@
-import Logo from "../Logo"
-import MenuButton from "./../buttons/MenuButton"
-import NavLink from "./NavLink"
-import SearchBar from "./SearchBar"
-import MobileMenu from "./MobileMenu"
+import Logo from "./../../Logo"
+import MenuButton from "./../../buttons/MenuButton"
+import NavLink from "./../NavLink" // OOPS
+import SearchBar from "./../SearchBar" // OOPS
+import MobileMenu from "./../MobileMenu" // OOPS
+
 import Link from "next/link"
 import { useState } from "react"
 
@@ -11,7 +12,7 @@ import { useState } from "react"
  * 
  * @returns A navbar
  */
-const HomeNavbar = () => {
+const Navbar = () => {
 
 	const links = [
 		{
@@ -75,4 +76,4 @@ const HomeNavbar = () => {
 	)
 }
 
-export default HomeNavbar;
+export default Navbar;

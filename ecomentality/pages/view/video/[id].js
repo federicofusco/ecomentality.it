@@ -1,4 +1,4 @@
-import { fetchAllVideoIds, fetchVideo } from "../../../lib/video"
+import { fetchAllVideoIds, fetchVideo } from "./../../../lib/video"
 import { fetchUser } from "./../../../lib/auth.admin"
 import { useRouter } from "next/router"
 import Head from "next/head" 
