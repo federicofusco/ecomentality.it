@@ -1,34 +1,97 @@
+import Article from "./../../../components/article/Article"
+import ArticleFallback from "./../../../components/fallbacks/article/ArticleFallback"
+import { fetchArticle, fetchArticleIds } from "./../../../lib/article"
+import { fetchUser } from "./../../../lib/auth.admin"
+import Head from "next/head"
 import { useRouter } from "next/router"
-import Article from "../../../components/article/Article"
 
-const ViewArticle = () => {
-	const router = useRouter ();
-	const articleId = router.query.id;
+const ViewArticle = ({ article, author }) => {
+
+	const router = useRouter (); 
+
+	// Displays fallback page while it's rendered
+	// This will not be displayed to crawlers
+	if ( router.isFallback ) return <ArticleFallback />;
 
 	return (
-		<div>
-			<Article id={ articleId } />
-		</div>
+		<>
+			<Head>
+				<title>{ article.title } - GEM</title>
+				<meta name="language" content="EN" />
+				<meta name="robots" content="all" />
+				<meta name="author" content={ author.displayName } />
+				<meta name="description" content={`${ article.title }, written by ${ author.displayName }`} />
+				<meta name="revised" content={ article.timestamp } /> 
+			</Head>
+			<Article article={ article } author={ author } />
+		</>
 	)
 }
 
-export const getServerSideProps = ( context ) => {
+export const getStaticPaths = async () => {
 
-	// Verifies that the article UUID is valid
-	if ( !context.params.id.match ( new RegExp ( /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i ) ) ) {
+	let response = {
+		paths: [],
+		fallback: true
+	};
 
-		// The article doesn't exist
-		return {
-			redirect: {
-				destination: "/unknown-article",
-				permanent: false
-			}
-		};
+	// Fetches all the article ids
+	await fetchArticleIds ()
+		.then (( ids ) => {
+
+			// Forms the paths
+			var paths = [];
+			ids.data.ids.forEach ( id => paths.push ({
+				params: {
+					id: id 
+				}
+			}) );
+
+			response = {
+				paths,
+				fallback: true
+			};
+
+		})
+		.catch (( error ) => {
+			throw Error ( "Failed to form paths!" ) // CHANGE THIS!!!
+		});
+
+	return response;
+}
+
+export const getStaticProps = async ({ params }) => {
+
+	let response = {
+		props: {},
+		notFound: false,
+		revalidate: 900 // Revalidate every 15 minutes
 	}
 
-	return {
-		props: {}
-	}
+	// Fetches the article
+	await fetchArticle ( params.id )
+		.then ( async ( article ) => {
+
+			// Fetches the user
+			await fetchUser ( article.data.article.author )
+				.then (( user ) => {
+					response.props = {
+						article: article.data.article,
+						author: user.data.user
+					}
+				})
+				.catch (( error ) => {
+					console.error ( error );
+					response.notFound = true 
+				});
+		})
+		.catch (( error ) => {
+			console.error ( error );
+			response.notFound = true 
+		});
+
+	return response;
+
 }
 
 export default ViewArticle;

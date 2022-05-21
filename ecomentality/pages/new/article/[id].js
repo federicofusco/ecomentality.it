@@ -1,25 +1,29 @@
-import { useRouter } from "next/router"
-import { authRedirect } from "../../../lib/auth.admin"
+import { authRedirect, isUUID } from "./../../../lib/auth.admin"
 import { v4 as uuid } from "uuid"
-import ArticleEditor from "../../../components/editor/ArticleEditor"
+import ArticleEditor from "./../../../components/editor/ArticleEditor"
+import { fetchArticle } from "./../../../lib/article"
+import Head from "next/head"
 
-const NewArticle = () => {
-	const router = useRouter ();
-	const articleId = router.query.id;
-
+const NewArticle = ({ article }) => {
 	return (
-		<div>
-			<ArticleEditor articleId={ articleId } />
-		</div>
+		<>
+			<Head>
+				<title>{ ( article && article.title ) || "New article" } - GEM </title>
+				<meta name="language" content="EN" />
+				<meta name="robots" content="none" />
+				<meta name="description" content="The article creation page" />
+			</Head>
+			<ArticleEditor title={ article.title } body={ article.body } id={ article.id } />
+		</>
 	)
 }
 
 export default NewArticle;
 
-export const getServerSideProps = ( context ) => {
+export const getServerSideProps = async ({ req, res, params, resolvedUrl }) => {
 
 	// Verifies that the article UUID is valid
-	if ( !context.params.id.match ( new RegExp ( /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i ) ) ) {
+	if ( !isUUID ( params.id ) ) {
 
 		// Redirects the user to a URL with a valid UUID
 		return {
@@ -30,5 +34,35 @@ export const getServerSideProps = ( context ) => {
 		};
 	}
 
-	return authRedirect ( context ); 
+	let response = {
+		props: {},
+		notFound: false
+	}
+
+	// Verifies that the user is logged in
+	await authRedirect ({ req, res, resolvedUrl })
+		.then ( async () => {
+
+			// Fetches the article
+			await fetchArticle ( params.id, true )
+				.then (( article ) => {
+					response.props = {
+						article: article.data.article
+					}
+				})
+				.catch (( error ) => {
+					response.props = {
+						article: {
+							id: params.id
+						}
+					}
+				});
+		})
+		.catch (( redirect ) => {
+
+			// Redirects the user
+			response = redirect;
+		});
+
+	return response;
 }

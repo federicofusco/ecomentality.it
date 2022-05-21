@@ -4,18 +4,20 @@ import { createEditor } from "slate"
 import { isHotkey } from "is-hotkey"
 import EditorElement from "./EditorElement"
 import EditorLeaf from "./EditorLeaf"
-import useEditor from "../../lib/editor"
-import Toolbar from "./EditorToolbar"
+import useEditor from "./../../hooks/editor"
+import EditorNavbar from "./../nav/navbars/EditorNavbar"
 
 /**
  * An editor for articles
  * 
- * @param {String} articleId - The article's UUID
+ * @param {String} title - The article's title
+ * @param {String} body - The article's body
+ * @param {String} id - The article's ID
  * @returns An article editor
  */
-const ArticleEditor = ({ articleId }) => {
+const ArticleEditor = ({ title, body, id }) => {
 
-	const { withImages, toggleMark, saveLocalCopy, fetchLocalCopy } = useEditor ( articleId );
+	const { withImages, toggleMark, saveLocalCopy, fetchLocalCopy } = useEditor ( id );
 
 	// Defines the editor values
 	const HOTKEYS = {
@@ -26,23 +28,20 @@ const ArticleEditor = ({ articleId }) => {
 	};
 
 	// Defines the editor and its elements
-	const renderElement = useCallback ( x => <EditorElement {...x} /> );
-	const renderLeaf = useCallback ( x => <EditorLeaf {...x} /> );
+	const renderElement = useCallback ( x => <EditorElement {...x} />, []);
+	const renderLeaf = useCallback ( x => <EditorLeaf {...x} />, []);
 	const [editor] = useState ( withImages ( withReact ( createEditor () ) ) );
 	const titleRef = useRef ();
-	const initialValue = [{
+	const initialValue = body || [{
 		type: "paragraph",
-		children: [{
-			text: "Almost there..."
-		}]
+		children: [{ text: "" }]
 	}];
 
 	useEffect (() => {
 		setTimeout (() => {
-			fetchLocalCopy ( editor );
-		}, 1000 );
+			fetchLocalCopy ( body, editor );
+		}, 500 );
 	}, []);
-
 
 	return (
 		<div className="w-screen h-screen overflow-x-hidden">
@@ -51,7 +50,7 @@ const ArticleEditor = ({ articleId }) => {
 				value={ initialValue }
 				className="w-screen h-screen">
 
-				<Toolbar articleId={ articleId } articleTitleRef={ titleRef } />
+				<EditorNavbar id={ id } titleRef={ titleRef } />
 		
 				<div className="mx-auto max-w-2xl">
 
@@ -60,6 +59,7 @@ const ArticleEditor = ({ articleId }) => {
 						type="text"
 						placeholder="Tell your story..."
 						ref={ titleRef }
+						defaultValue={ title }
 						className="mt-24 p-4 w-full text-gray-dark font-serif text-5xl outline-none" />
 					
 					{/* Editor */}
@@ -77,8 +77,7 @@ const ArticleEditor = ({ articleId }) => {
 
 									// Prevents the hotkey from being entered and toggles the associated mark
 									e.preventDefault ();
-									const mark = HOTKEYS[hotkey];
-									toggleMark ( editor, mark );
+									toggleMark ( editor, HOTKEYS[hotkey] );
 									return;
 								}
 
@@ -95,76 +94,3 @@ const ArticleEditor = ({ articleId }) => {
 }
 
 export default ArticleEditor;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import { createEditor } from "slate"
-// import { Slate, Editable, withReact } from "slate-react"
-// import { useState, useMemo } from "react"
-
-// const ArticleEditor = ({ id }) => {
-
-// 	// Creates a new editor object
-// 	const [editor] = useState (() => withReact ( createEditor () ) );
-
-// 	/**
-// 	 * Updates the local copy of the text in the editor to
-// 	 * maintain data even if the page refreshes
-// 	 * 
-// 	 * @param {Object} value - The current editor state
-// 	 */
-// 	const saveLocalCopy = ( value ) => {
-
-// 		// Determines if the actual text has changed
-// 		const isValidChange = editor.operations.some ( x => "set_selection" !== x.type );
-
-// 		if ( isValidChange ) {
-
-// 			// Saves the value to localStorage
-// 			localStorage.setItem ( `localCopy-${ id }`, JSON.stringify ( value ) );
-// 		} 
-// 	}
-
-// 	// Defines a placeholder which will be used in the absence of text
-// 	const placeholder = useMemo (() => {
-
-// 		if ( typeof window === "undefined" ) {
-// 			return [{
-// 				type: "paragraph",
-// 				children: [{
-// 					text: "Placeholder..."
-// 				}]
-// 			}];
-// 		}
-
-// 		return JSON.parse ( localStorage.getItem ( `localCopy-${ id }` ) ) || [{
-// 			type: "paragraph",
-// 			children: [{
-// 				text: "Placeholder..."
-// 			}]
-// 		}]
-// 	}, []);
-
-// 	return (
-// 		<Slate 
-// 			editor={ editor } 
-// 			value={ placeholder }
-// 			onChange={() => saveLocalCopy ()}
-// 		>
-// 			<Editable />
-// 		</Slate>
-// 	)
-// }
-
-// export default ArticleEditor;

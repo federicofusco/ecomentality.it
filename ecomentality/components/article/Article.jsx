@@ -1,39 +1,34 @@
-import useArticle from "../../lib/article"
-import { useEffect, useState } from "react"
 import ArticleTitle from "./ArticleTitle"
 import ArticleBody from "./ArticleBody"
+import ArticleNavbar from "./../nav/navbars/ArticleNavbar"
+import ArticleSidebar from "./../nav/sidebars/ArticleSidebar"
 
 /**
  * Displays an article
  * 
- * @param {String} id - The article's UUID
+ * @param {Object} article - The article
+ * @param {Object} author - The article's author
+ * @param {?Boolean} isFallback - Whether or not to display a fallback article (default: false)
  * @returns Displays an article
  */
-const Article = ({ id }) => {
+const Article = ({ article, author, isFallback = false }) => {
 
-	const { fetchArticle } = useArticle ();
-	const [article, setArticle] = useState ( null );
-	const [loading, setLoading] = useState ( true );
-
-	// Fetches the article data
-	useEffect (() => {
-		fetchArticle ( id )
-			.then ( ( data ) => {
-				setArticle ( data.data.article );
-				setLoading ( false );
-			})
-			.catch ( ( error ) => {
-				
-				// An error occurred while fetching the article
-				console.log(error);
-			});
-	}, []);
+	const { likeCount, title, timestamp, body } = article;
+	const { displayName } = author;
+	const articleId = article.id;
+	const authorId = author.id;
 
 	return (
 		<div className="w-screen h-screen overflow-x-hidden">
-			<div className="mx-auto max-w-2xl">
-				{ !loading && <ArticleTitle title={ article.title } author={ article.author } /> }
-				{ !loading && <ArticleBody body={ article.body } /> }
+			
+			<ArticleNavbar authorId={ authorId } />
+			
+			<div className="flex">
+				<ArticleSidebar likeCount={ likeCount } id={ articleId } />
+				<div className="sm:ml-20 md:mx-auto w-full max-w-2xl">
+					<ArticleTitle title={ title } timestamp={ timestamp } author={ displayName } />
+					<ArticleBody body={ body } />
+				</div>
 			</div>
 		</div>
 	)
