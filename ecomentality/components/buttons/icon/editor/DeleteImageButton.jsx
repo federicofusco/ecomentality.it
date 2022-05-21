@@ -1,4 +1,4 @@
-import GenericIconButton from "./GenericIconButton"
+import GenericIconButton from "./../GenericIconButton"
 
 import { Transforms } from "slate"
 import { useSelected, useFocused, useSlateStatic, ReactEditor } from "slate-react"
