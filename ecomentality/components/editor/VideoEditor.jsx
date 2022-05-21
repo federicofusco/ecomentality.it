@@ -5,17 +5,18 @@ import { isHotkey } from "is-hotkey"
 import EditorElement from "./EditorElement"
 import EditorLeaf from "./EditorLeaf"
 import useEditor from "./../../hooks/editor"
-import ArticleEditorNavbar from "./../nav/navbars/ArticleEditorNavbar"
+import VideoEditorNavbar from "./../nav/navbars/VideoEditorNavbar"
 
 /**
- * An editor for articles
+ * An editor for videos
  * 
- * @param {String} title - The article's title
- * @param {String} body - The article's body
- * @param {String} id - The article's ID
- * @returns An article editor
+ * @param {String} title - The video's title
+ * @param {String} body - The video's body
+ * @param {String} link - A link to the video
+ * @param {String} id - The video's ID
+ * @returns A video editor
  */
-const ArticleEditor = ({ title, body, id }) => {
+const VideoEditor = ({ title, body, link, id }) => {
 
 	const { withImages, toggleMark, saveLocalCopy, fetchLocalCopy } = useEditor ( id );
 
@@ -50,7 +51,7 @@ const ArticleEditor = ({ title, body, id }) => {
 				value={ initialValue }
 				className="w-screen h-screen">
 
-				<ArticleEditorNavbar id={ id } titleRef={ titleRef } />
+				<VideoEditorNavbar link="test" id={ id } titleRef={ titleRef } />
 		
 				<div className="mx-auto max-w-2xl">
 
@@ -93,4 +94,4 @@ const ArticleEditor = ({ title, body, id }) => {
 
 }
 
-export default ArticleEditor;
+export default VideoEditor;

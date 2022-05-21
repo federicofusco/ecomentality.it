@@ -1,9 +1,21 @@
 import { authRedirect, isUUID } from "./../../../lib/auth.admin"
 import { v4 as uuid } from "uuid"
 import { fetchVideo } from "./../../../lib/video"
+import Head from "next/head"
+import VideoEditor from "../../../components/editor/VideoEditor"
 
 const NewVideo = ({ video }) => {
-	return null;
+	return (
+		<>
+			<Head>
+				<title>{ ( video && video.title ) || "New video" } - GEM </title>
+				<meta name="language" content="EN" />
+				<meta name="robots" content="none" />
+				<meta name="description" content="The article creation page" />
+			</Head>
+			<VideoEditor title={ video.title } body={ video.body } id={ video.id } />
+		</>
+	)
 }
 
 export default NewVideo;
