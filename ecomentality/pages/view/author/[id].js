@@ -1,9 +1,10 @@
 import { fetchUser, fetchUserIds } from "./../../../lib/auth.admin"
 import { fetchArticles } from "./../../../lib/article"
-import ArticleList from "./../../../components/article/ArticleList"
-import GenericNavbar from "./../../../components/nav/navbars/GenericNavbar"
+import ArticleList from "./../../../components/lists/ArticleList"
+import Navbar from "./../../../components/nav/navbars/Navbar"
 import Profile from "./../../../components/profile/Profile"
 import ProfileFallback from "./../../../components/profile/ProfileFallback"
+import Footer from "./../../../components/nav/Footer"
 import Head from "next/head"
 import { useRouter } from "next/router"
 
@@ -13,22 +14,7 @@ const ViewAuthor = ({ articles, author }) => {
 	const { isFallback } = router;
 
 	// The fallback page needs to be seperate and can't drill components due to object destructuring
-	if ( isFallback ) {
-
-		return (
-			<>
-				<Head>
-					<title>Loading - GEM</title>
-					<meta name="language" content="EN" />
-					<meta name="robots" content="all" />
-				</Head>
-				<GenericNavbar />
-				<div className="mt-24">
-					<ProfileFallback />
-				</div>
-			</>
-		);
-	}
+	if ( isFallback ) return <ProfileFallback />
 
 	return (
 		<>
@@ -39,10 +25,17 @@ const ViewAuthor = ({ articles, author }) => {
 				<meta name="author" content={ author.displayName } />
 				<meta name="description" content={`Articles written by ${ author.displayName }`} />
 			</Head>
-			<GenericNavbar />
-			<div className="mt-24">
+			
+			<Navbar />
+
+			<div className="pt-24 bg-all-green">
+				
 				<Profile displayName={ author.displayName } created={ author.created } profileURL={ author.profileURL } />
-				<ArticleList articles={ articles } author={ author } />
+	
+				<ArticleList data={ articles } />
+
+				<Footer />
+
 			</div>
 		</>
 	)
@@ -89,16 +82,23 @@ export const getStaticProps = async ({ params }) => {
 	}
 
 	// Fetches all of the authors articles
-	let articles = [];
 	await fetchArticles ( "author", "==", params.id )
 		.then (( result ) => response.props.articles = result.data.articles )
 		.catch (( error ) => response.notFound = true ); // CHANGE THIS!!!
 
 	// Fetches the authors data
-	let author = null;
 	await fetchUser ( params.id )
 		.then (( user ) => response.props.author = user.data.user )
 		.catch (( error ) => response.notFound = true ); // CHANGE THIS!!!
+
+	if ( !response.notFound ) {
+		for ( var x = 0; x < response.props.articles.length; x++ ) {
+			response.props.articles[x] = {
+				article: response.props.articles[x],
+				author: response.props.author
+			}
+		}
+	}
 
 	return response;
 }

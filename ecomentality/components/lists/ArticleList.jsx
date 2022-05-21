@@ -1,7 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 
-const ArticleLink = ({ article }) => {
+const ArticleLink = ({ article, author }) => {
 	return (
 		<Link href={`/view/article/${ article.id }`}>
 			<a>
@@ -20,7 +20,7 @@ const ArticleLink = ({ article }) => {
 					{/* Article Content */}
 					<div className="my-auto p-4 sm:py-4 sm:pl-8 truncate">
 						<h2 className="text-ellipsis overflow-hidden text-2xl font-medium font-poppins">{ article.title }</h2>
-						<p className="text-ellipsis overflow-hidden font-poppins text-sm">Written by { article.author }</p>
+						<p className="text-ellipsis overflow-hidden font-poppins text-sm">Written by { author }</p>
 					</div>
 				</div>
 			</a>
@@ -28,7 +28,7 @@ const ArticleLink = ({ article }) => {
 	)
 }
 
-const ArticleList = ({ articles }) => {
+const ArticleList = ({ data }) => {
 
 	return (
 		<div className="w-full text-white pt-12 px-8 mb-16">
@@ -37,8 +37,8 @@ const ArticleList = ({ articles }) => {
 			<h1 className="text-3xl mb-8 text-center font-black font-poppins uppercase">Articles</h1>
 
 			{/* Article List */}
-			{ articles.map ( article => (
-				<ArticleLink key={ article.id } article={ article } />
+			{ data.map ( x => (
+				<ArticleLink key={ x.article.id } article={ x.article } author={ x.author.displayName } />
 			)) }
 		</div>
 	)

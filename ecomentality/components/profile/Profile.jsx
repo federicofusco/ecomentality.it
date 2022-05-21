@@ -15,16 +15,13 @@ const Profile = ({ created, profileURL, displayName }) => {
 	const joined = `${date.getDate ()}/${date.getMonth () + 1}/${date.getFullYear ()}`;
 
 	return (
-		<div className="mx-6 p-4 border border-gray-300 rounded-lg flex justify-between">
-			<div className="flex">
+		<div className="mx-6 p-4 flex justify-center">
+			<div className="">
 				<ProfileImage src={ profileURL } />
-				<div className="my-auto ml-6">
-					<h2 className="text-lg">{ displayName }</h2>
-					<h3 className="text-sm">Joined { joined }</h3>
+				<div className="mx-auto mt-3">
+					<h2 className="text-lg text-white text-center">{ displayName }</h2>
+					<h3 className="text-sm text-white text-center">Joined { joined }</h3>
 				</div>
-			</div>
-			<div className="max-h-20 my-auto">
-				<Button rounded={ false }>Random article</Button>
 			</div>
 		</div>
 	)
