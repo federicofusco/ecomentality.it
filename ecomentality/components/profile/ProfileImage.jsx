@@ -13,14 +13,16 @@ const ProfileImage = ({ src, width = 64, height = 64, isFallback = false }) => {
 
 	if ( isFallback ) return <div className="w-16 h-16 bg-gray-300 animate-pulse rounded-full text-transparent">a</div>;
 
-	return <Image 
-		src={ src } 
-		loader={({ src }) => src } 
-		unoptimized 
-		alt="Profile"
-		width={ width }
-		height={ height }
-		className="rounded-full" />
+	return (
+		<>
+			<Image 
+				src={ src } 
+				alt="Profile"
+				width={ width }
+				height={ height }
+				className="rounded-full" />
+		</>
+	);
 }
 
 export default ProfileImage;

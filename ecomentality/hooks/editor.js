@@ -6,6 +6,9 @@ import { Editor, Text, Transforms } from "slate"
 import isUrl from "is-url"
 import DOMPurify from "isomorphic-dompurify"
 import useLocalStorage from "./localStorage"
+import useStorage from "./storage"
+import { v4 as uuid } from "uuid"
+import { useSnackbar } from "notistack"
 
 /**
  * A hook used to interact with the editor from the client
@@ -24,6 +27,8 @@ import useLocalStorage from "./localStorage"
 const useEditor = ( id ) => {
 
 	const [localCopy, setLocalCopy] = useLocalStorage ( id, "" );
+	const { uploadDataURL } = useStorage ();
+	const { enqueueSnackbar } = useSnackbar ();
 
 	/**
 	 * An image plugin for the editor
@@ -62,18 +67,31 @@ const useEditor = ( id ) => {
 	
 					// Checks if the file is an image
 					if ( mime === "image" ) {
-						reader.addEventListener ( "load", () => {
+						reader.addEventListener ( "load", async () => {
 							
-							// Inserts the image
-							const url = reader.result;
-							insertImage ( editor, url );
+							// Gets the image data URL
+							const dataUrl = reader.result;
+
+							// Uploads the image
+							await uploadDataURL ( dataUrl, `/assets/articles/${ uuid () }` )
+								.then ( url => insertImage ( editor, url.data.url ) )
+								.catch ( error => {
+				
+									// Ar error occurredd (probably CORS)
+									console.error ( error );
+				
+									enqueueSnackbar ( "Whoops, failed to get asset!", {
+										variant: "error",
+										autoHideDuration: 3000
+									});
+								});
 						});
 	
 						reader.readAsDataURL ( file );
 					}
 				}
 			} else if ( isImageUrl ( text ) ) {
-	
+
 				// Inserts the image
 				insertImage ( editor, text );
 			} else {
@@ -176,13 +194,11 @@ const useEditor = ( id ) => {
 	 * @param {String} url - The image's URL
 	 */
 	const insertImage = ( editor, url ) => {
-		Transforms.insertNodes ( editor, {
+		editor.insertNode ({
 			type: "image",
 			src: url,
 			isVoid: true,
 			children: [{ text: "" }]
-		}, {
-			at: [editor.children.length]
 		});
 	}
 	
