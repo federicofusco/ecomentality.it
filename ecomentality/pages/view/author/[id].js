@@ -1,6 +1,6 @@
 import { fetchUser, fetchUserIds } from "./../../../lib/auth.admin"
 import { fetchArticles } from "./../../../lib/article"
-import ArticleList from "./../../../components/article/ArticleList"
+import ArticleList from "./../../../components/lists/ArticleList"
 import GenericNavbar from "./../../../components/nav/navbars/GenericNavbar"
 import Profile from "./../../../components/profile/Profile"
 import ProfileFallback from "./../../../components/profile/ProfileFallback"
@@ -13,22 +13,7 @@ const ViewAuthor = ({ articles, author }) => {
 	const { isFallback } = router;
 
 	// The fallback page needs to be seperate and can't drill components due to object destructuring
-	if ( isFallback ) {
-
-		return (
-			<>
-				<Head>
-					<title>Loading - GEM</title>
-					<meta name="language" content="EN" />
-					<meta name="robots" content="all" />
-				</Head>
-				<GenericNavbar />
-				<div className="mt-24">
-					<ProfileFallback />
-				</div>
-			</>
-		);
-	}
+	if ( isFallback ) return <ProfileFallback />
 
 	return (
 		<>
@@ -42,7 +27,7 @@ const ViewAuthor = ({ articles, author }) => {
 			<GenericNavbar />
 			<div className="mt-24">
 				<Profile displayName={ author.displayName } created={ author.created } profileURL={ author.profileURL } />
-				<ArticleList articles={ articles } author={ author } />
+				<ArticleList articles={ articles } />
 			</div>
 		</>
 	)
