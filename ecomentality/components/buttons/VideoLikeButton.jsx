@@ -1,21 +1,21 @@
 import { useState } from "react"
-import useArticle from "../../hooks/article"
+import useVideo from "../../hooks/video"
 import { MdThumbUp, MdThumbUpOffAlt } from "react-icons/md";
 import { useSnackbar } from "notistack"
 
 /**
- * A button which likes an article
+ * A button which likes an video
  * 
- * @param {Number} likeCount - The article's like count
- * @param {String} id - The article's ID
+ * @param {Number} likeCount - The video's like count
+ * @param {String} id - The video's ID
  * @param {?Boolean} isFallback - Whether or not to display a fallback button (default: false)
- * @note There is no grafical difference if isFallback is true, it just won't attempt to like the article
- * @returns A button for liking an article
+ * @note There is no grafical difference if isFallback is true, it just won't attempt to like the video
+ * @returns A button for liking an video
  */
-const LikeButton = ({ likeCount, id, isFallback = false }) => {
+const VideoLikeButton = ({ likeCount, id, isFallback = false }) => {
 
 	const [liked, setLiked] = useState ( false );
-	const { likeArticle, dislikeArticle } = useArticle ();
+	const { likeVideo, dislikeVideo } = useVideo ();
 	const { enqueueSnackbar } = useSnackbar ();
 
 	const onClick = () => {
@@ -31,13 +31,13 @@ const LikeButton = ({ likeCount, id, isFallback = false }) => {
 
 		if ( liked ) {
 
-			// Attempts to dislike the article
-			dislikeArticle ( id )
+			// Attempts to dislike the video
+			dislikeVideo ( id )
 				.catch (() => setLiked ( true ));
 		} else {
 
-			// Attemps to like that article
-			likeArticle ( id )
+			// Attemps to like that video
+			likeVideo ( id )
 				.catch (() => setLiked ( false ));
 		}
 
@@ -54,4 +54,4 @@ const LikeButton = ({ likeCount, id, isFallback = false }) => {
 	)
 }
 
-export default LikeButton;
+export default VideoLikeButton;

@@ -9,7 +9,7 @@ const AboutUs = () => {
 			<Head>
 				<title>About Us - GEM</title>
 				<meta name="language" content="EN" />
-				<meta name="robots" content="index, follow" />
+				<meta name="robots" content="all" />
 				<meta name="description" content="A page dedicated GEM group" />
 			</Head>
 

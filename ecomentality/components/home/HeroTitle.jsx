@@ -16,15 +16,15 @@ const HeroTitle = ({ title, subtitle, redirect }) => {
 					{ title }
 				</h1>
 
-				{ subtitle && <h3 className="text-white mt-3 max-w-lg text-md text-center px-4">
+				{ subtitle && <h2 className="text-white mt-3 max-w-lg text-md text-center px-4">
 					{ subtitle }
-				</h3> }
+				</h2> }
 
 				{ redirect && <div className="w-full mt-16 sm:mt-8 flex justify-center px-4">
 					<Link href={ redirect }>
 						<a className="w-full sm:w-auto">
 							<div className="bg-black text-center p-4 w-full sm:w-36 rounded-md text-white">
-								Learn More
+								<p>Learn More</p>
 							</div>
 						</a>
 					</Link>

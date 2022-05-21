@@ -1,29 +1,28 @@
-import Article from "../../../components/article/Article"
-import ArticleFallback from "./../../../components/fallbacks/article/ArticleFallback"
-import { fetchArticle, fetchArticleIds } from "../../../lib/article"
-import { fetchUser } from "../../../lib/auth.admin"
-import Head from "next/head"
+import { fetchAllVideoIds, fetchVideo } from "../../../lib/video"
+import { fetchUser } from "./../../../lib/auth.admin"
 import { useRouter } from "next/router"
+import Head from "next/head" 
+import Video from "./../../../components/video/Video"
 
-const ViewArticle = ({ article, author }) => {
+const ViewVideo = ({ video, author }) => {
 
-	const router = useRouter ();
+	const { isFallback } = useRouter ();
 
-	// Displays fallback page while it's rendered
-	// This will not be displayed to crawlers
-	if ( router.isFallback ) return <ArticleFallback />;
+	if ( isFallback ) {
+		return <p>Loading...</p>
+	}
 
 	return (
 		<>
 			<Head>
-				<title>{ article.title } - GEM</title>
+				<title>{ video.title } - GEM</title>
 				<meta name="language" content="EN" />
 				<meta name="robots" content="all" />
 				<meta name="author" content={ author.displayName } />
-				<meta name="description" content={`${ article.title }, written by ${ author.displayName }`} />
-				<meta name="revised" content={ article.timestamp } /> 
+				<meta name="description" content={`${ video.title }, published by ${ author.displayName }`} />
+				<meta name="revised" content={ video.timestamp } /> 
 			</Head>
-			<Article article={ article } author={ author } />
+			<Video video={ video } author={ author } />
 		</>
 	)
 }
@@ -36,7 +35,7 @@ export const getStaticPaths = async () => {
 	};
 
 	// Fetches all the article ids
-	await fetchArticleIds ()
+	await fetchAllVideoIds ()
 		.then (( ids ) => {
 
 			// Forms the paths
@@ -68,15 +67,15 @@ export const getStaticProps = async ({ params }) => {
 		revalidate: 900 // Revalidate every 15 minutes
 	}
 
-	// Fetches the article
-	await fetchArticle ( params.id )
-		.then ( async ( article ) => {
+	// Fetches the video
+	await fetchVideo ( params.id )
+		.then ( async ( video ) => {
 
 			// Fetches the user
-			await fetchUser ( article.data.article.author )
+			await fetchUser ( video.data.video.author )
 				.then (( user ) => {
 					response.props = {
-						article: article.data.article,
+						video: video.data.video,
 						author: user.data.user
 					}
 				})
@@ -91,7 +90,6 @@ export const getStaticProps = async ({ params }) => {
 		});
 
 	return response;
-
 }
 
-export default ViewArticle;
+export default ViewVideo;

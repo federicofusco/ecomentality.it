@@ -10,7 +10,7 @@ const ProfileFallback = () => {
 			<Head>
 				<title>Loading - GEM</title>
 				<meta name="language" content="EN" />
-				<meta name="robots" content="index, follow" />
+				<meta name="robots" content="all" />
 			</Head>
 			<GenericNavbar />
 			<div className="mt-24">
