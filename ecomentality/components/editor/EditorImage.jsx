@@ -3,13 +3,13 @@ import DeleteImageButton from "../buttons/DeleteImageButton"
 /**
  * Displays an image in the editor
  * 
- * @param {Boolean} hideDeleteButton - Whether or not to hide the delete button
+ * @param {Boolean} hideDeleteButton - Whether or not to hide the delete button 
  * @returns An image
  */
 const ArticleImage = ({ attributes, element, children, hideDeleteButton }) => {
 
 	return (
-		<div {...attributes} contentEditable={ false } className="relative select-none flex justify-center">
+		<div {...attributes} contentEditable={ false } className="relative object-contain select-none flex justify-center">
 			<img 
 				src={ element.src }
 				alt=""
