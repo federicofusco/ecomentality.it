@@ -5,7 +5,7 @@ import { useSlate } from "slate-react"
 import { useState } from "react"
 import { useSnackbar } from "notistack"
 
-import InsertImageButton from "./../../buttons/InsertImageButton"
+import InsertImageButton from "./../../buttons/icon/InsertImageButton"
 import GenericNavbar from "./GenericNavbar"
 import Button from "./../../buttons/Button"
 

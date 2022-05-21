@@ -1,5 +1,7 @@
-import { MdShare } from "react-icons/md"
 import { useSnackbar } from "notistack"
+
+import { MdShare } from "react-icons/md"
+import GenericActionButton from "./../GenericActionButton"
 
 /**
  * A button which shared the article
@@ -35,11 +37,11 @@ const ShareButton = ({ id, isFallback = false }) => {
 	}
 
 	return (
-		<button onClick={ onClick } className={`w-16 h-16 bg-transparent mt-4 flex justify-center text-gray-600 hover:text-green-600 transition-all duration-300`}>
-			<div className="my-auto text-2xl">
-				{ <MdShare /> }
-			</div>
-		</button>
+		<GenericActionButton
+			onClick={ onClick }
+			className="text-gray-600">
+			<MdShare />
+		</GenericActionButton>
 	)
 }
 

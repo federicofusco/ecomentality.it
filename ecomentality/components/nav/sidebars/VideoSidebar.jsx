@@ -1,5 +1,5 @@
-import VideoLikeButton from "./../../buttons/VideoLikeButton"
-import VideoShareButton from "./../../buttons/VideoShareButton"
+import LikeButton from "./../../buttons/icon/video/LikeButton"
+import ShareButton from "./../../buttons/icon/video/ShareButton"
 import GenericSidebar from "./GenericSidebar"
 
 /**
@@ -12,8 +12,8 @@ import GenericSidebar from "./GenericSidebar"
 const VideoSidebar = ({ likeCount, id, isFallback = false }) => {
 	return (
 		<GenericSidebar>
-				<VideoLikeButton isFallback={ isFallback } likeCount={ likeCount } id={ id } />
-				<VideoShareButton isFallback={ isFallback } id={ id } />
+				<LikeButton isFallback={ isFallback } likeCount={ likeCount } id={ id } />
+				<ShareButton isFallback={ isFallback } id={ id } />
 		</GenericSidebar>
 	)
 }
