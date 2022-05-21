@@ -2,8 +2,8 @@
  * The GEM Video Lib
  */
 
- import { firestore } from "./firebase"
- import { doc, getDoc, getDocs, collection, query, limit } from "firebase/firestore";
+import { firestore } from "./firebase"
+import { doc, getDoc, getDocs, collection, query, limit } from "firebase/firestore";
 
 export const fetchVideo = async ( id ) => {
 	return new Promise ( async ( resolve, reject ) => {
