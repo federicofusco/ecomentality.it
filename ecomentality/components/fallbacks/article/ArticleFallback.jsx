@@ -1,5 +1,5 @@
 import Head from "next/head"
-import ArticleNavbarFallback from "./../nav/ArticleNavbarFallback"
+import ArticleNavbarFallback from "./ArticleNavbarFallback"
 import ArticleSidebar from "./../../nav/sidebars/ArticleSidebar"
 import ArticleTitleFallback from "./ArticleTitleFallback"
 import ArticleBodyFallback from "./ArticleBodyFallback"
