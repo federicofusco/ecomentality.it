@@ -1,7 +1,7 @@
 import VideoTitle from "./VideoTitle"
 import VideoBody from "./VideoBody"
-import ArticleNavbar from "../nav/ArticleNavbar"
-import VideoSidebar from "../nav/VideoSidebar"
+import ArticleNavbar from "./../nav/navbars/ArticleNavbar"
+import VideoSidebar from "./../nav/sidebars/VideoSidebar"
 
 /**
  * Displays a video

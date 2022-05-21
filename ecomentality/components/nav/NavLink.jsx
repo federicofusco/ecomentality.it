@@ -9,7 +9,7 @@ import Link from "next/link"
  */
 const NavLink = ({ href = "/", title }) => {
 	return <Link href={ href }>
-		<a className="my-auto text-lg font-bold ml-3 text-white font-medium">
+		<a className="my-auto text-lg font-medium ml-3 text-white">
 			{ title }
 		</a>
 	</Link>

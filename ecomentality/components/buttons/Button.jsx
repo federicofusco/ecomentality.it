@@ -1,6 +1,7 @@
 /**
  * Displays a green rounded button
  * 
+ * @param {String} className - Any custom classes which should be applied
  * @param {Function} onClick - The click callback
  * @param {Object} children - The button's content
  * @param {?Boolean} rounded - Whether or not the button should be rounded (default: true)

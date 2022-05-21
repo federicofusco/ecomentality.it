@@ -1,5 +1,5 @@
 import { useRouter } from "next/router"
-import Button from "../buttons/Button"
+import Button from "./../../buttons/Button"
 import GenericNavbar from "./GenericNavbar";
 
 /**
@@ -16,7 +16,15 @@ const ArticleNavbar = ({ authorId }) => {
 		router.push ( `/view/author/${ authorId }` );
 	}
 
-	return <GenericNavbar actions={ <div className="flex"><Button onClick={ redirectToAuthor }>Follow</Button></div> } />
+	return (
+		<GenericNavbar>
+			<div className="flex">
+				<Button onClick={ redirectToAuthor }>
+					Follow
+				</Button>
+			</div>
+		</GenericNavbar>
+	)
 }
 
 export default ArticleNavbar;

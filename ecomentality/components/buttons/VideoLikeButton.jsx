@@ -1,10 +1,10 @@
 import { useState } from "react"
-import useVideo from "../../hooks/video"
+import useVideo from "./../../hooks/video"
 import { MdThumbUp, MdThumbUpOffAlt } from "react-icons/md";
 import { useSnackbar } from "notistack"
 
 /**
- * A button which likes an video
+ * A button which likes a video
  * 
  * @param {Number} likeCount - The video's like count
  * @param {String} id - The video's ID

@@ -1,6 +1,11 @@
 import { useRef } from "react"
 import { MdSearch } from "react-icons/md"
 
+/**
+ * Displays a searchbar
+ * 
+ * @returns A searchbar
+ */
 const SearchBar = () => {
 
 	const searchRef = useRef ( null );

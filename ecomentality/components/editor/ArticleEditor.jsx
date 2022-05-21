@@ -4,8 +4,8 @@ import { createEditor } from "slate"
 import { isHotkey } from "is-hotkey"
 import EditorElement from "./EditorElement"
 import EditorLeaf from "./EditorLeaf"
-import useEditor from "../../hooks/editor"
-import EditorNavbar from "../nav/EditorNavbar"
+import useEditor from "./../../hooks/editor"
+import EditorNavbar from "./../nav/navbars/EditorNavbar"
 
 /**
  * An editor for articles

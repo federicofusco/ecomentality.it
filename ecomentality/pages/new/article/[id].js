@@ -1,7 +1,7 @@
 import { authRedirect, isUUID } from "./../../../lib/auth.admin"
 import { v4 as uuid } from "uuid"
-import ArticleEditor from "../../../components/editor/ArticleEditor"
-import { fetchArticle } from "../../../lib/article"
+import ArticleEditor from "./../../../components/editor/ArticleEditor"
+import { fetchArticle } from "./../../../lib/article"
 import Head from "next/head"
 
 const NewArticle = ({ article }) => {

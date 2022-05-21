@@ -1,5 +1,5 @@
 import { useState } from "react"
-import useArticle from "../../hooks/article"
+import useArticle from "./../../hooks/article"
 import { MdThumbUp, MdThumbUpOffAlt } from "react-icons/md";
 import { useSnackbar } from "notistack"
 
