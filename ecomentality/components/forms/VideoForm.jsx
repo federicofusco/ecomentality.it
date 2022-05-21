@@ -1,6 +1,6 @@
 import { useRef, useState } from "react"
 import useVideo from "../../lib/video"
-import ErrorMessage from "../state/ErrorMessage";
+// import ErrorMessage from "../state/ErrorMessage";
 
 const VideoForm = ({ id }) => {
 
@@ -19,7 +19,7 @@ const VideoForm = ({ id }) => {
 
 	return (
 		<div>
-			<ErrorMessage message={ error } /><br />
+			{/* <ErrorMessage message={ error } /><br /> */}
 			<input type="text" placeholder="Title" ref={ titleRef } /><br />
 			<textarea placeholder="Body" ref={ bodyRef }></textarea><br />
             <input type="url" placeholder="Link" ref={ linkRef} /><br />

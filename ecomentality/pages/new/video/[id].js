@@ -1,26 +1,17 @@
-import { useRouter } from "next/router"
-import { authRedirect } from "../../../lib/auth.admin"
+import { authRedirect, isUUID } from "./../../../lib/auth.admin"
 import { v4 as uuid } from "uuid"
-import VideoForm from "../../../components/forms/VideoForm"
+import { fetchVideo } from "./../../../lib/video"
 
-const NewVideo = () => {
-	const router = useRouter ();
-	const videoId = router.query.id;
-
-	return (
-		<div>
-            <VideoForm id={videoId}/>
-			{/* <ArticleEditor articleId={ articleId } /> */}
-		</div>
-	)
+const NewVideo = ({ video }) => {
+	return null;
 }
 
 export default NewVideo;
 
-export const getServerSideProps = ( context ) => {
+export const getServerSideProps = async ({ req, res, params, resolvedUrl }) => {
 
-	// Verifies that the article UUID is valid
-	if ( !context.params.id.match ( new RegExp ( /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i ) ) ) {
+	// Verifies that the video UUID is valid
+	if ( !isUUID ( params.id ) ) {
 
 		// Redirects the user to a URL with a valid UUID
 		return {
@@ -31,5 +22,35 @@ export const getServerSideProps = ( context ) => {
 		};
 	}
 
-	return authRedirect ( context ); 
+	let response = {
+		props: {},
+		notFound: false
+	}
+
+	// Verifies that the user is logged in
+	await authRedirect ({ req, res, resolvedUrl })
+		.then ( async () => {
+
+			// Fetches the video
+			await fetchVideo ( params.id, true )
+				.then (( video ) => {
+					response.props = {
+						video: video.data.video
+					}
+				})
+				.catch (( error ) => {
+					response.props = {
+						video: {
+							id: params.id
+						}
+					}
+				});
+		})
+		.catch (( redirect ) => {
+
+			// Redirects the user
+			response = redirect;
+		});
+
+	return response;
 }
