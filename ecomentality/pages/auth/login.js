@@ -8,6 +8,7 @@ import { useSnackbar } from "notistack"
 import { v4 as uuid } from "uuid"
 import isUrl from "is-url"
 import Head from "next/head"
+import HomeNavbar from "./../../components/nav/HomeNavbar"
 
 const Login = () => {
 
@@ -50,15 +51,18 @@ const Login = () => {
 	}, [user, loading, error, updateIdToken, router, enqueueSnackbar])
 
 	return (
-		<>
+		<div className="bg-all-green w-screen h-screen">
 			<Head>
 				<title>Login - GEM</title>
 				<meta name="language" content="EN" />
 				<meta name="robots" content="all" />
 				<meta name="description" content="The GEM panel login page" />
 			</Head>
+
+			<HomeNavbar />
+
 			<LoginForm onSubmit={ login } />
-		</>
+		</div>
 	)
 }
 
