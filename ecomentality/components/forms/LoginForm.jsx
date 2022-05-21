@@ -16,13 +16,36 @@ const LoginForm = ({ onSubmit }) => {
 	}
 
 	return (
-		<>
-			<h1>Login</h1>
-			<input defaultValue="test@gmail.com" type="text" placeholder="Email" ref={ emailRef } />
-			<input defaultValue="123456" type="password" placeholder="Password" ref={ passwordRef } />
-			<button onClick={ submitForm }>Login</button>
-		</>
+		<div className="w-screen h-screen sm:flex pt-16 bg-green-all">
+			<div className="w-full sm:max-w-sm h-auto pt-16 sm:pt-0 px-8 sm:m-auto">
+				
+				<h1 className="font-black text-white text-3xl text-center mb-8 uppercase font-poppins">Login</h1>
+				
+				<div className="mt-3">
+					<label htmlFor="email" className="font-black block font-poppins uppercase text-xs text-white">Email</label>
+					<input id="email" className="w-full bg-transparent outline-none text-white focus:border-b-2 border-b border-white border-solid placeholder:text-white" type="text" placeholder="Email" ref={ emailRef } />
+				</div>
+				
+				<div className="mt-5">
+					<label htmlFor="email" className="font-black block font-poppins uppercase text-xs text-white">Password</label>
+					<input className="w-full bg-transparent outline-none text-white focus:border-b-2 border-b border-white border-solid placeholder:text-white" type="password" placeholder="Password" ref={ passwordRef } />
+				</div>
+				
+				<button className="w-full h-10 font-poppins bg-white mt-8 sm:mt-12 rounded-md" onClick={ submitForm }>
+					Login
+				</button>
+			</div>
+		</div>
 	)
+
+	// return (
+	// 	<>
+	// 		<h1>Login</h1>
+			// <input defaultValue="test@gmail.com" type="text" placeholder="Email" ref={ emailRef } />
+			// <input defaultValue="123456" type="password" placeholder="Password" ref={ passwordRef } />
+			// <button onClick={ submitForm }>Login</button>
+	// 	</>
+	// )
 }
 
 export default LoginForm;
