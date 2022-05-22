@@ -6,6 +6,7 @@ import EditorElement from "./EditorElement"
 import EditorLeaf from "./EditorLeaf"
 import useEditor from "./../../hooks/editor"
 import VideoEditorNavbar from "./../nav/navbars/VideoEditorNavbar"
+import VideoInput from "./VideoInput"
 
 /**
  * An editor for videos
@@ -62,6 +63,8 @@ const VideoEditor = ({ title, body, link, id }) => {
 						ref={ titleRef }
 						defaultValue={ title }
 						className="mt-24 p-4 w-full text-gray-dark font-serif text-5xl outline-none" />
+
+					<VideoInput />
 					
 					{/* Editor */}
 					<Editable 
