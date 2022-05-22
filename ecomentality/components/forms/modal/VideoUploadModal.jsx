@@ -1,20 +1,23 @@
 import { useRef } from "react"
 import Button from "./../../buttons/Button"
 import { MdClose } from "react-icons/md"
+import { useSnackbar } from "notistack"
 
 const VideoUploadModal = ({ visible, onClick, title, onHide }) => {
 
 	const linkRef = useRef ( null );
+	const { enqueueSnackbar } = useSnackbar ();
+	const YT_URL_REGEX = /(?:https?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch|v|embed)(?:\.php)?(?:\?.*v=|\/))([a-zA-Z0-9\_-]+)/; // Thanks xeon927 for this awesome regex!
 
 	if ( !visible ) return null;
 
 	const click = () => {
-		if ( linkRef.current.value.length > 0 ) {
+		if ( linkRef.current.value.length > 0 && linkRef.current.value.match ( YT_URL_REGEX ) ) {
 			onClick ( linkRef.current.value );
 		} else {
 
 			// The input is empty
-			enqueueSnackbar ( "Please enter a link", {
+			enqueueSnackbar ( "Please enter a valid YouTube link", {
 				variant: "error",
 				autoHideDuration: 1500
 			});

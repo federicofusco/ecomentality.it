@@ -1,6 +1,7 @@
 import { MdPlayArrow } from "react-icons/md"
 import { useState } from "react"
 import VideoUploadModal from "./../forms/modal/VideoUploadModal"
+import UpdateVideoButton from "../buttons/icon/editor/UpdateVideoButton"
 
 const VideoInput = ({ onSubmit, videoLink }) => {
 
@@ -20,16 +21,20 @@ const VideoInput = ({ onSubmit, videoLink }) => {
 					<p className="text-sm text-gray-500 mt-4">Upload Interview</p>
 				</div>
 			</div> }
+			
+			<div className="relative w-full flex justify-center">
+				{ videoLink && <iframe 
+						width="560"  
+						height="315" 
+						src={ videoLink } 
+						title="YouTube video player" 
+						frameBorder="0" 
+						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+						allowFullScreen>
+				</iframe> }
 
-			{ videoLink && <iframe 
-					width="560"  
-					height="315" 
-					src={ videoLink } 
-					title="YouTube video player" 
-					frameBorder="0" 
-					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-					allowFullScreen>
-			</iframe> }
+				{ videoLink && <UpdateVideoButton openModal={ toggleModal } /> }
+			</div>
 
 			<VideoUploadModal title="Upload video" visible={ modalVisible } onClick={(x) => { onSubmit ( x ); toggleModal(); }} onHide={ toggleModal } />
 		</div>
