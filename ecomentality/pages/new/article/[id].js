@@ -41,11 +41,15 @@ export const getServerSideProps = async ({ req, res, params, resolvedUrl }) => {
 
 	// Verifies that the user is logged in
 	await authRedirect ({ req, res, resolvedUrl })
-		.then ( async () => {
+		.then ( async ({ user }) => {
 
 			// Fetches the article
 			await fetchArticle ( params.id, true )
 				.then (( article ) => {
+
+					// Verifies that the request comes from the author
+					if ( user.uid !== article.data.article.author ) response.notFound = true;
+
 					response.props = {
 						article: article.data.article
 					}
