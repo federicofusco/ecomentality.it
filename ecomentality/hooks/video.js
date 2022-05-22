@@ -65,6 +65,7 @@ const useVideo = () => {
 					title,
 					body,
 					link,
+					likeCount: 0, // UPDATE THIS
 					timestamp: serverTimestamp (),
 					author: user.uid
 				});
