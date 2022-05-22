@@ -84,7 +84,7 @@ const InsertImageButton = ({ id }) => {
 				className="mr-2">
 				<MdPhotoCamera className="m-auto" />
 			</GenericIconButton>
-			<EditorImageModal onClick={ updateImageLink } title="Insert image" visible={ isModalVisible } />
+			<EditorImageModal onClick={ updateImageLink } onHide={() => setModalVisibility ( !isModalVisible )} title="Insert image" visible={ isModalVisible } />
 		</>
 	)
 }

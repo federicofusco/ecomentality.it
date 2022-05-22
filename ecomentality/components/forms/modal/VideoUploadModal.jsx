@@ -1,12 +1,10 @@
 import { useRef } from "react"
 import Button from "./../../buttons/Button"
-import { useSnackbar } from "notistack"
 import { MdClose } from "react-icons/md"
 
-const EditorImageModal = ({ visible, onClick, title, onHide }) => {
+const VideoUploadModal = ({ visible, onClick, title, onHide }) => {
 
 	const linkRef = useRef ( null );
-	const { enqueueSnackbar } = useSnackbar ();
 
 	if ( !visible ) return null;
 
@@ -33,7 +31,7 @@ const EditorImageModal = ({ visible, onClick, title, onHide }) => {
 				</div>
 
 				<div className="w-full flex justify-start">
-					<input className="w-full border outline-none h-8 border-gray-300 rounded-l-md px-2 py-1 mt-3 " type="url" placeholder="https://www.example.com/image.png" ref={ linkRef } />
+					<input className="w-full border h-8 outline-none border-gray-300 rounded-l-md px-2 py-1 mt-3 " type="url" placeholder="https://www.example.com/image.png" ref={ linkRef } />
 					<Button className="rounded-l-none h-8 mt-3 rounded-r-md py-1 px-2" onClick={ click }>Insert</Button>
 				</div>
 			</div>
@@ -41,4 +39,4 @@ const EditorImageModal = ({ visible, onClick, title, onHide }) => {
 	)
 }
 
-export default EditorImageModal;
+export default VideoUploadModal;
