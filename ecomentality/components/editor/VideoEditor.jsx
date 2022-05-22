@@ -20,6 +20,9 @@ import VideoInput from "./VideoInput"
 const VideoEditor = ({ title, body, link, id }) => {
 
 	const { withImages, toggleMark, saveLocalCopy, fetchLocalCopy } = useEditor ( id );
+	const [videoLink, setVideoLink] = useState ( link );
+
+	console.log("link", link);
 
 	// Defines the editor values
 	const HOTKEYS = {
@@ -52,7 +55,7 @@ const VideoEditor = ({ title, body, link, id }) => {
 				value={ initialValue }
 				className="w-screen h-screen">
 
-				<VideoEditorNavbar link="test" id={ id } titleRef={ titleRef } />
+				<VideoEditorNavbar link={ videoLink } id={ id } titleRef={ titleRef } />
 		
 				<div className="mx-auto max-w-2xl">
 
@@ -64,7 +67,7 @@ const VideoEditor = ({ title, body, link, id }) => {
 						defaultValue={ title }
 						className="mt-24 p-4 w-full text-gray-dark font-serif text-5xl outline-none" />
 
-					<VideoInput />
+					<VideoInput onSubmit={ setVideoLink } videoLink={ videoLink } />
 					
 					{/* Editor */}
 					<Editable 

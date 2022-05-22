@@ -13,7 +13,7 @@ const NewVideo = ({ video }) => {
 				<meta name="robots" content="none" />
 				<meta name="description" content="The article creation page" />
 			</Head>
-			<VideoEditor title={ video.title } body={ video.body } id={ video.id } />
+			<VideoEditor title={ video && video.title } link={ video && video.link } body={ video && video.body } id={ video.id } />
 		</>
 	)
 }
