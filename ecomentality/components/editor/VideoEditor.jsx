@@ -22,8 +22,6 @@ const VideoEditor = ({ title, body, link, id }) => {
 	const { withImages, toggleMark, saveLocalCopy, fetchLocalCopy } = useEditor ( id );
 	const [videoLink, setVideoLink] = useState ( link );
 
-	console.log("link", link);
-
 	// Defines the editor values
 	const HOTKEYS = {
 		"mod+b": "bold",

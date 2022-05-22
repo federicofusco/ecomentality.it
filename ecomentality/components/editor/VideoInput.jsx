@@ -8,8 +8,6 @@ const VideoInput = ({ onSubmit, videoLink }) => {
 	const [modalVisible, setModalVisibility] = useState ( false );
 	const toggleModal = () => setModalVisibility ( !modalVisible );
 
-	console.log("input", videoLink);
-
 	return (
 		<div className="w-full flex justify-center">
 			

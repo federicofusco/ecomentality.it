@@ -7,8 +7,6 @@ import Footer from "./../../components/nav/Footer"
 
 const Videos = ({ videos }) => {
 
-	console.log ( videos );
-
 	return (
 		<div className="bg-all-green">
 			<Head>
