@@ -1,26 +1,29 @@
-import { useRouter } from "next/router"
-import { authRedirect } from "../../../lib/auth.admin"
+import { authRedirect, isUUID } from "./../../../lib/auth.admin"
 import { v4 as uuid } from "uuid"
-import VideoForm from "../../../components/forms/VideoForm"
+import { fetchVideo } from "./../../../lib/video"
+import Head from "next/head"
+import VideoEditor from "../../../components/editor/VideoEditor"
 
-const NewVideo = () => {
-	const router = useRouter ();
-	const videoId = router.query.id;
-
+const NewVideo = ({ video }) => {
 	return (
-		<div>
-            <VideoForm id={videoId}/>
-			{/* <ArticleEditor articleId={ articleId } /> */}
-		</div>
+		<>
+			<Head>
+				<title>{ ( video && video.title ) || "New video" } - GEM </title>
+				<meta name="language" content="EN" />
+				<meta name="robots" content="none" />
+				<meta name="description" content="The article creation page" />
+			</Head>
+			<VideoEditor title={ video && video.title } link={ video && video.link } body={ video && video.body } id={ video.id } />
+		</>
 	)
 }
 
 export default NewVideo;
 
-export const getServerSideProps = ( context ) => {
+export const getServerSideProps = async ({ req, res, params, resolvedUrl }) => {
 
-	// Verifies that the article UUID is valid
-	if ( !context.params.id.match ( new RegExp ( /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i ) ) ) {
+	// Verifies that the video UUID is valid
+	if ( !isUUID ( params.id ) ) {
 
 		// Redirects the user to a URL with a valid UUID
 		return {
@@ -31,5 +34,35 @@ export const getServerSideProps = ( context ) => {
 		};
 	}
 
-	return authRedirect ( context ); 
+	let response = {
+		props: {},
+		notFound: false
+	}
+
+	// Verifies that the user is logged in
+	await authRedirect ({ req, res, resolvedUrl })
+		.then ( async () => {
+
+			// Fetches the video
+			await fetchVideo ( params.id, true )
+				.then (( video ) => {
+					response.props = {
+						video: video.data.video
+					}
+				})
+				.catch (( error ) => {
+					response.props = {
+						video: {
+							id: params.id
+						}
+					}
+				});
+		})
+		.catch (( redirect ) => {
+
+			// Redirects the user
+			response = redirect;
+		});
+
+	return response;
 }

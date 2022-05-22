@@ -4,8 +4,9 @@
 
 import { firestore } from "./firebase"
 import { doc, getDoc, getDocs, collection, query, limit } from "firebase/firestore";
+import { deserializeEditor } from "./editor"
 
-export const fetchVideo = async ( id ) => {
+export const fetchVideo = async ( id, deserialize ) => {
 	return new Promise ( async ( resolve, reject ) => {
 
 		try {
@@ -33,7 +34,7 @@ export const fetchVideo = async ( id ) => {
 						video: {
 							title,
 							likeCount,
-							body,
+							body: deserialize ? await deserializeEditor ( body ) : body,
 							author,
 							link,
 							timestamp: String ( timestamp.toDate () ),

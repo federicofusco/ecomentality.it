@@ -12,7 +12,7 @@ import VideoSidebar from "./../nav/sidebars/VideoSidebar"
  */
 const Video = ({ video, author }) => {
 
-	const { likeCount, title, timestamp, link } = video;
+	const { likeCount, title, body, timestamp, link } = video;
 	const { displayName } = author;
 	const videoId = video.id;
 	const authorId = author.id;
@@ -26,7 +26,7 @@ const Video = ({ video, author }) => {
 	 			<VideoSidebar likeCount={ likeCount } id={ videoId } />
 	 			<div className="sm:ml-20 md:mx-auto w-full max-w-2xl">
 					<VideoTitle title={ title } timestamp={ timestamp } author={ displayName } />
-	 				<VideoBody link={ link } />
+	 				<VideoBody body={ body } link={ link } />
 	 			</div>
 	   		</div> 
 		</div>

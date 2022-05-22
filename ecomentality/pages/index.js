@@ -90,8 +90,6 @@ export const getStaticProps = async () => {
 		}
 	}
 
-	// console.log(response.props.articles);
-
 	return response;
 }
 

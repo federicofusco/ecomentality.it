@@ -17,7 +17,7 @@ import Button from "./../../buttons/Button"
  * @param {Ref} titleRef - A ref (see react useRef) to the title input
  * @returns A navbar
  */
-const ArticleToolbar = ({ id, titleRef }) => {
+const ArticleEditorNavbar = ({ id, titleRef }) => {
 
 	const { serializeEditor } = useEditor ( id );
 	const { publishArticle } = useArticle ();
@@ -76,4 +76,4 @@ const ArticleToolbar = ({ id, titleRef }) => {
 	)
 }
 
-export default ArticleToolbar;
+export default ArticleEditorNavbar;
