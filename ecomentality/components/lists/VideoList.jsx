@@ -3,7 +3,7 @@ import Link from "next/link"
 
 const VideoLink = ({ video, author }) => {
 	return (
-		<Link href={`/view/video/${ video.id }`}>
+		<Link href={`/view/interview/${ video.id }`}>
 			<a>
 				<div className="w-full relative mb-3 flex justify-start rounded-lg text-white bg-nav-color">
 			
