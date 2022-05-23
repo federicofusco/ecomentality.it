@@ -61,10 +61,11 @@ const useArticle = () => {
 			try {
 				
 				await setDoc ( doc ( firestore, "articles", id ), {
-					title: title,
-					body: body,
+					title,
+					body,
 					timestamp: serverTimestamp (),
-					author: user.uid
+					author: user.uid,
+					likeCount: 0 // TODO: FIX THIS!!!
 				});
 
 				// Clears the local copy

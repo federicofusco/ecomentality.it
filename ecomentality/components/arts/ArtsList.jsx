@@ -34,7 +34,7 @@ const ArtsList = ({ arts }) => {
 			{/* Event List */}
 			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-20 pt-10 pb-10">
 				{ arts.map ( art => (
-					<Art title={art.title} link={art.link} author={art.author} />
+					<Art key={art.id} title={art.title} link={art.link} author={art.author} />
 				))}
 			</div>
 		</div>
