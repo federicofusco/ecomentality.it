@@ -14,7 +14,7 @@ import sofia from '../public/avatar/sofia.png'
 import giulia from '../public/avatar/giulia.png'
 import fabrizio from '../public/avatar/fabrizio.png'
 import mezza from '../public/avatar/mezza.JPG'
-
+import riccardobro from '../public/avatar/riccardobro.png'
 
 import Navbar from "./../components/nav/navbars/Navbar"
 import Footer from "./../components/nav/Footer"
@@ -49,6 +49,7 @@ const AboutUs = () => {
 					<h1 className="text-3xl mb-8 text-center font-black font-poppins uppercase text-white mt-10">Team Managers</h1>
 					<div style={{flexDirection: 'row', display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap'}}>
 						<Avatar name={"Chiara Volpi"} img={chiara}/>
+						<Avatar name={"Riccardo Brognoli"} img={riccardobro} />
 						<Avatar name={"Jacopo Zani"} img={jacopo}/>
 						<Avatar name={"Davide Mezzaroma"} img={mezza}/>
 					</div>

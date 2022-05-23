@@ -20,8 +20,8 @@ const VideoInput = ({ onSubmit, videoLink }) => {
 				</div>
 			</div> }
 			
-			<div className="relative w-full flex justify-center">
-				{ videoLink && <iframe 
+			{ videoLink && <div className="relative w-full flex justify-center">
+				<iframe 
 						width="560"  
 						height="315" 
 						src={ videoLink } 
@@ -29,10 +29,9 @@ const VideoInput = ({ onSubmit, videoLink }) => {
 						frameBorder="0" 
 						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
 						allowFullScreen>
-				</iframe> }
-
-				{ videoLink && <UpdateVideoButton openModal={ toggleModal } /> }
-			</div>
+				</iframe>
+				<UpdateVideoButton openModal={ toggleModal } />
+			</div> }
 
 			<VideoUploadModal title="Upload video" visible={ modalVisible } onClick={(x) => { onSubmit ( x ); toggleModal(); }} onHide={ toggleModal } />
 		</div>
