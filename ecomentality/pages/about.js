@@ -15,11 +15,11 @@ import giulia from '../public/avatar/giulia.png'
 import fabrizio from '../public/avatar/fabrizio.png'
 import mezza from '../public/avatar/mezza.JPG'
 import riccardobro from '../public/avatar/riccardobro.png'
-
 import Navbar from "./../components/nav/navbars/Navbar"
 import Footer from "./../components/nav/Footer"
 import Head from "next/head"
 import  Avatar from "../components/about/Avatar"
+
 const AboutUs = () => {
 	return (
 		<div className="bg-all-green">
@@ -39,7 +39,7 @@ const AboutUs = () => {
 							About us
 					</h1>
 					<p className="pl-10 pr-10 m-auto text-white text-center text-xl  max-w-screen-lg justify-self-center">
-					Il progetto ideato dalle giovani menti caliniane consiste nella creazione di un sito web aggiornabile, con la finalità di sensibilizzare e informare la popolazione mondiale a quella che è la situazione ambientale, sperando in quello che è il buon senso dei cittadini per trovare soluzioni pratiche al problema dell’inquinamento ambientale, dalla progettazione di opere pubbliche all’organizzazione di manifestazioni in favore dell’ambiente con la finalità di essere notati da organizzazioni con potere maggiore, in grado quindi di sviluppare progetti in larga scala. Il gruppo GEM nasce dal progetto HUBSTEAM, ovvero un percorso finalizzato alla promozione di nuove metodologie didattiche incentrata sulle discipline STEAM (Science, Technology, Engineering, Art, Mathematics), ideato da una rete di sei istituti esperti nell'utilizzo delle stesse, appartenenti alla rete di Avanguardie Educative di INDIRE, di cui anche il nostro istituto fa parte. <br /> <i>Riccardo Di Palma, Riccardo Brognoli</i>
+					Il progetto ideato dalle giovani menti caliniane consiste nella creazione di un sito web aggiornabile, con la finalità di sensibilizzare e informare la popolazione mondiale a quella che è la situazione ambientale, sperando in quello che è il buon senso dei cittadini per trovare soluzioni pratiche al problema dell&apos;inquinamento ambientale, dalla progettazione di opere pubbliche all&apos;organizzazione di manifestazioni in favore dell&apos;ambiente con la finalità di essere notati da organizzazioni con potere maggiore, in grado quindi di sviluppare progetti in larga scala. Il gruppo GEM nasce dal progetto HUBSTEAM, ovvero un percorso finalizzato alla promozione di nuove metodologie didattiche incentrata sulle discipline STEAM (Science, Technology, Engineering, Art, Mathematics), ideato da una rete di sei istituti esperti nell'utilizzo delle stesse, appartenenti alla rete di Avanguardie Educative di INDIRE, di cui anche il nostro istituto fa parte. <br /> <i>Riccardo Di Palma, Riccardo Brognoli</i>
 					</p>
 					<h1 className="text-3xl mb-8 text-center font-black font-poppins uppercase text-white mt-10">Tutors</h1>
 					<div style={{flexDirection: 'row', display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap'}}>
