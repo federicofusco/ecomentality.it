@@ -24,6 +24,10 @@ const Navbar = () => {
 			link: "/view/articles"
 		},
 		{
+			section: "Art",
+			link: "/view/arts"
+		},
+		{
 			section: "Envirotips",
 			link: "/envirotips"
 		},

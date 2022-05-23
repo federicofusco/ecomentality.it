@@ -3,7 +3,7 @@ import { FaInstagram, FaTwitter } from "react-icons/fa"
 
 const LinkList = () => {
 	return (
-		<div className="w-1/2 flex justify-center sm:justify-end border-r border-white max-w-xs sm:pr-8">
+		<div className="w-1/2 flex justify-center sm:justify-end  border-white max-w-xs sm:pr-8">
 			<div>
 				<h3 className="text-white font-black font-poppins uppercase text-sm">Links</h3>
 				<div className="mt-2">
@@ -56,7 +56,7 @@ const Footer = () => {
 		<footer className="bg-dark-green w-screen p-8 h-auto sm:flex sm:justify-center">
 			<div className="flex justify-between w-full">
 				<LinkList />
-				<MemberList />
+				{/* <MemberList /> */}
 			</div>
 			<SocialList />
 		</footer>
