@@ -30,7 +30,8 @@ const Articles = ({ articles }) => {
 export const getStaticProps = async () => {
 
 	let response = {
-		props: {}
+		props: {},
+		revalidate: 60
 	}
 
 	// Fetches all the relevant articles
