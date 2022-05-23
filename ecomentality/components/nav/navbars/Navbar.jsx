@@ -16,7 +16,7 @@ const Navbar = () => {
 
 	const links = [
 		{
-			section: "About Us",
+			section: "About",
 			link: "/about"
 		},
 		{
