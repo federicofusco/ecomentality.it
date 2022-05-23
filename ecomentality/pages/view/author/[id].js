@@ -78,7 +78,7 @@ export const getStaticProps = async ({ params }) => {
 	let response = {
 		props: {},
 		notFound: false,
-		revalidate: 900
+		revalidate: 120
 	}
 
 	// Fetches all of the authors articles
