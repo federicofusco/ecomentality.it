@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import useVideo from "./../../../../hooks/video"
+import useLocalStorage from "../../../../hooks/localStorage"
 import { useSnackbar } from "notistack"
 
 import { MdThumbUp, MdThumbUpOffAlt } from "react-icons/md";
@@ -19,6 +20,7 @@ const VideoLikeButton = ({ id, isFallback = false }) => {
 	const [likeCount, setLikeCount] = useState ( "..." );
 	const { likeVideo, dislikeVideo, fetchLikeCount, createLikeListener } = useVideo ();
 	const { enqueueSnackbar } = useSnackbar ();
+	const [localLike, setLocalLike] = useLocalStorage ( `interview-${ id }-like-bool`, "" );
 
 	const unsub = createLikeListener ( id, ( doc ) => {
 
@@ -43,18 +45,28 @@ const VideoLikeButton = ({ id, isFallback = false }) => {
 
 			// Attempts to dislike the video
 			dislikeVideo ( id )
-				.catch (() => setLiked ( true ));
+				.catch (() => {
+					setLiked ( true );
+					setLocalLike ( true );
+				});
 		} else {
 
 			// Attemps to like that video
 			likeVideo ( id )
-				.catch (() => setLiked ( false ));
+				.catch (() => {
+					setLiked ( false );
+					setLocalLike ( false );
+				});
 		}
 
 		setLiked ( !liked );
+		setLocalLike ( !liked );
 	}
 
 	useEffect (() => {
+
+		// Checks if the current user has liked the interview
+		if ( localLike === true || localLike === false ) setLiked ( localLike );
 
 		// Updates the like count
 		const updateLikeCount = async () => {
@@ -78,6 +90,10 @@ const VideoLikeButton = ({ id, isFallback = false }) => {
 
 		updateLikeCount ();
 	}, []);
+
+	useEffect (() => {
+		console.log(localLike);
+	}, [localLike]);
 
 	return (
 		<GenericActionButton
