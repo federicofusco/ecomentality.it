@@ -27,7 +27,7 @@ const VideoShareButton = ({ id, isFallback = false }) => {
 		}
 
 		// Copies the video URL to the clipboard
-		navigator.clipboard.writeText ( `${ process.env.NEXT_PUBLIC_URL }/view/video/${ id }` );
+		navigator.clipboard.writeText ( `${ process.env.NEXT_PUBLIC_URL }/view/interview/${ id }` );
 
 		// Displays notification
 		enqueueSnackbar ( "Copied link to clipboard!", {

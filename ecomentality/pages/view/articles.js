@@ -17,7 +17,7 @@ const Articles = ({ articles }) => {
 
 			<Navbar />
 			
-			<div className="mt-16">
+			<div className="mt-16 min-h-screen">
 				<ArticleList data={ articles } />
 			</div>
 
@@ -30,7 +30,8 @@ const Articles = ({ articles }) => {
 export const getStaticProps = async () => {
 
 	let response = {
-		props: {}
+		props: {},
+		revalidate: 60
 	}
 
 	// Fetches all the relevant articles

@@ -3,7 +3,7 @@ import Navbar from "./../components/nav/navbars/Navbar"
 import Footer from "./../components/nav/Footer"
 import Head from "next/head"
 
-const Envirotips = () => {
+const Monitoraggio = () => {
 	return (
 		<div className="bg-all-green">
 			<Head>
@@ -16,12 +16,11 @@ const Envirotips = () => {
 			<Navbar />
 
 			<div className="mt-16">
-				<HeroTitle title="Consigli sull'ambiente" subtitle="Abbiamo esaurito le energie e le nostre menti si devono ricaricare! Per assistere ad una pagina creativa e comunicativa, torna a settembre 2022." />
+				<HeroTitle title="Monitoraggio ambientale" subtitle="Sensibilizzare la nostra comunità è il nostro obiettivo primario. I dati ambientali del nostro territorio permetterebbero una visione generale della situazione attuale, per questo lo staff di GEM si impegnerà a realizzare questo progetto, i cui risultati saranno disponibili su questa pagina da settembre 2022." />
 			</div>
-
 			<Footer />
 		</div>
 	)
 }
 
-export default Envirotips;
+export default Monitoraggio;

@@ -3,20 +3,20 @@ import Navbar from "./../components/nav/navbars/Navbar"
 import Footer from "./../components/nav/Footer"
 import Head from "next/head"
 
-const Envirotips = () => {
+const Agricoltura = () => {
 	return (
 		<div className="bg-all-green">
 			<Head>
 				<title>Envirotips - GEM</title>
 				<meta name="language" content="EN" />
 				<meta name="robots" content="all" />
-				<meta name="description" content="A helpful page containing a list of tips and tricks to help the environment" />
+				<meta name="description" content="" />
 			</Head>
 
 			<Navbar />
 
 			<div className="mt-16">
-				<HeroTitle title="Consigli sull'ambiente" subtitle="Abbiamo esaurito le energie e le nostre menti si devono ricaricare! Per assistere ad una pagina creativa e comunicativa, torna a settembre 2022." />
+				<HeroTitle title="Agricoltura 3.0" subtitle="La sensibilizzazione è essenziale, ma da sola non basta. Vogliamo impegnarci agendo direttamente sull'impatto ambientale, rivoluzionandolo. Ma abbiamo bisogno di tempo: ti aspettiamo a settembre 2022!" />
 			</div>
 
 			<Footer />
@@ -24,4 +24,4 @@ const Envirotips = () => {
 	)
 }
 
-export default Envirotips;
+export default Agricoltura;

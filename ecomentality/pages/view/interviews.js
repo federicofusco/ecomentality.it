@@ -6,11 +6,10 @@ import Navbar from "./../../components/nav/navbars/Navbar"
 import Footer from "./../../components/nav/Footer"
 
 const Videos = ({ videos }) => {
-
 	return (
 		<div className="bg-all-green">
 			<Head>
-				<title>Videos - GEM</title>
+				<title>Video - GEM</title>
 				<meta name="language" content="EN" />
 				<meta name="robots" content="all" />
 				<meta name="description" content="A list of the videos" />
@@ -18,7 +17,7 @@ const Videos = ({ videos }) => {
 
 	 		<Navbar />
 			
-	 		<div className="mt-16">
+	 		<div className="mt-16 min-h-screen">
 	 			<VideoList data={ videos } />
 			</div>
 
@@ -31,7 +30,8 @@ const Videos = ({ videos }) => {
 export const getStaticProps = async () => {
 
 	let response = {
-		props: {}
+		props: {},
+		revalidate: 60
 	}
 
 	// Fetches all the relevant articles
@@ -73,7 +73,10 @@ export const getStaticProps = async () => {
 						author: user.data.user
 					}
 				})
-				.catch (( error ) => response.notFound = true );
+				.catch (( error ) => { 
+					console.error ( error );
+					response.notFound = true 
+				});
 		}
 	}
 

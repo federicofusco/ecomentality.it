@@ -16,15 +16,16 @@ const HeroTitle = ({ title, subtitle, redirect }) => {
 					{ title }
 				</h1>
 
-				{ subtitle && <h2 className="text-white mt-3 max-w-lg text-md text-center px-4">
-					{ subtitle }
+				{ subtitle && <h2 className="text-white mt-3 max-w-xl text-40	text-[17px] text-center px-4">
+					<div dangerouslySetInnerHTML={{__html: subtitle}}></div>
+
 				</h2> }
 
 				{ redirect && <div className="w-full mt-16 sm:mt-8 flex justify-center px-4">
 					<Link href={ redirect }>
 						<a className="w-full sm:w-auto">
 							<div className="bg-black text-center p-4 w-full sm:w-36 rounded-md text-white">
-								<p>Learn More</p>
+								<p>Scopri di più</p>
 							</div>
 						</a>
 					</Link>

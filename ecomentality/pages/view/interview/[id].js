@@ -64,7 +64,7 @@ export const getStaticProps = async ({ params }) => {
 	let response = {
 		props: {},
 		notFound: false,
-		revalidate: 900 // Revalidate every 15 minutes
+		revalidate: 120
 	}
 
 	// Fetches the video

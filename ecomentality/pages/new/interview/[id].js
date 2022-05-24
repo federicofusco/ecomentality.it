@@ -28,7 +28,7 @@ export const getServerSideProps = async ({ req, res, params, resolvedUrl }) => {
 		// Redirects the user to a URL with a valid UUID
 		return {
 			redirect: {
-				destination: `/new/video/${ uuid () }`,
+				destination: `/new/interview/${ uuid () }`,
 				permanent: false
 			}
 		};
