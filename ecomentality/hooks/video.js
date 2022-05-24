@@ -3,7 +3,7 @@
  */
 
 import { firestore } from "./../lib/firebase"
-import { doc, getDoc, setDoc, updateDoc, serverTimestamp } from "firebase/firestore";
+import { doc, getDoc, setDoc, updateDoc, serverTimestamp, onSnapshot } from "firebase/firestore";
 import useAuth from "./auth"
 
 /**
@@ -187,12 +187,92 @@ const useVideo = () => {
 		})
 	}
 
-	
+	/**
+	 * Fetches the video's current like count
+	 * 
+	 * @param {String} id - The video's UUID
+	 * @async
+	 * @returns {Promise} A promise
+	 */
+	 const fetchLikeCount = async ( id ) => {
+		return new Promise ( async ( resolve, reject ) => {
+
+			// Checks if the video ID is valid
+			if ( !isUUID ( id ) ) {
+				reject ({
+					status: "ERROR",
+					message: "Invalid video ID!",
+					data: {
+						error: {
+							message: `Invalid video ID (${ id })!`,
+							code: "video/invalid-id"
+						}
+					}
+				});
+			}
+
+			try {
+
+				// Fetches the video
+				const videoData = await getDoc ( doc ( firestore, "videos", id ) );
+
+				// Checks if the video exists
+				if ( !videoData.exists () ) {
+
+					// The video doesn't exist
+					reject ({
+						status: "ERROR",
+						message: "The error doesn't exist!",
+						data: {}
+					});
+				} else {
+
+					// Found the video
+					const { likeCount } = videoData.data ();
+
+					resolve ({
+						status: "OK",
+						message: "Fetched like count!",
+						data: {
+							likeCount
+						}
+					});
+				}
+
+			} catch ( error ) {
+
+				console.error ( error );
+				
+				reject ({
+					status: "ERROR",
+					message: "Something went wrong! Try again",
+					data: {
+						error: error
+					}
+				});
+			}
+		
+		});
+	}
+
+	const createLikeListener = async ( id, callback ) => {
+
+		// Creates a listener on the video's like count
+		const unsubscribe = onSnapshot ( doc ( firestore, "videos" , id ), ( doc ) => {
+
+			// Calls the given callback
+			callback ( doc );
+		});
+
+		return unsubscribe;
+	}
 
 	return {
 		publishVideo,
 		likeVideo,
-		dislikeVideo
+		dislikeVideo,
+		fetchLikeCount,
+		createLikeListener
 	}
 }
 
