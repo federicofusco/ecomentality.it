@@ -12,15 +12,14 @@ const Event = ({ titolo, id, image, link }) => {
 		<Link href={link} passHref> 
 			<a target="_blank" rel="noopener noreferrer">
 
-                <div style={{margin: 12, width: 300, height: 340, backgroundColor: '#32a820', borderRadius: 10}}>
-
+                <div className="m-3 w-[300px] h-[340px] rounded-lg bg-nav-color">
                     <Image 
-						style={{backgroundColor: '#fff', borderTopLeftRadius: 10, borderTopRightRadius: 10,}}
+						className="bg-white rounded-t-lg"
 						width={300}
 						height={300}
 						alt={titolo}
 						src={image} />
-                    <h1 style={{textAlign: 'center', color: '#fff', fontSize: 17, fontWeight: 500}}>{titolo}</h1>
+                    <h1 className="text-center text-white font-medium text-md">{titolo}</h1>
                 </div>
 			</a>
 		</Link>
@@ -68,13 +67,11 @@ const EventList = () => {
 			<h1 className="text-3xl mb-8 text-center font-black font-poppins uppercase">Events</h1>
 
 			{/* Event List */}
-			{/* <div style={{display: 'flex', justifyContent: 'center'}}> */}
-				<div style={{display: 'flex', flexWrap: 'wrap'}}>
-					{ events.map ( event => (
-						<Event key={ event } id={ event } titolo={event.titolo} link={event.link} image={event.image} />
-					))}
-				</div>
-			{/* </div> */}
+			<div className="flex justify-center flex-wrap">
+				{ events.map ( event => (
+					<Event key={ event } id={ event } titolo={event.titolo} link={event.link} image={event.image} />
+				))}
+			</div>
 		</div>
 	)
 }
