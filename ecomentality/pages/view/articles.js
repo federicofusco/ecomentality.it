@@ -17,7 +17,7 @@ const Articles = ({ articles }) => {
 
 			<Navbar />
 			
-			<div className="mt-16">
+			<div className="mt-16 min-h-screen">
 				<ArticleList data={ articles } />
 			</div>
 

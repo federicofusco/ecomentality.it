@@ -10,7 +10,7 @@ const VideoLink = ({ video, author }) => {
 					{/* Video Thumbnail */}
 					<div className="w-32 h-32 hidden sm:block">
 						<Image 
-							src="https://via.placeholder.com/128.png?text=GEM"
+							src={`http://img.youtube.com/vi/${ video.link.split ( "/" )[video.link.split ( "/" ).length - 1] }/0.jpg`}
 							height="128"
 							width="128"
 							alt=""
