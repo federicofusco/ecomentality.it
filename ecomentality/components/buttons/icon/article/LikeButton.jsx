@@ -1,6 +1,7 @@
 import useArticle from "./../../../../hooks/article"
 import { useState, useEffect } from "react"
 import { useSnackbar } from "notistack"
+import useLocalStorage from "../../../../hooks/localStorage"
 
 import { MdThumbUp, MdThumbUpOffAlt } from "react-icons/md"
 import GenericActionButton from "./../GenericActionButton"
@@ -19,6 +20,7 @@ const LikeButton = ({ id, isFallback = false }) => {
 	const [likeCount, setLikeCount] = useState ( "..." );
 	const { likeArticle, dislikeArticle, fetchLikeCount, createLikeListener } = useArticle ();
 	const { enqueueSnackbar } = useSnackbar ();
+	const [localLike, setLocalLike] = useLocalStorage ( `article-${ id }-like-bool`, "" );
 
 	const unsub = createLikeListener ( id, ( doc ) => {
 		
@@ -43,15 +45,22 @@ const LikeButton = ({ id, isFallback = false }) => {
 
 			// Attempts to dislike the article
 			dislikeArticle ( id )
-				.catch (() => setLiked ( true ));
+				.catch (() => {
+					setLiked ( true );
+					setLocalLike ( true );
+				});
 		} else {
 
 			// Attemps to like that article
 			likeArticle ( id )
-				.catch (() => setLiked ( false ));
+				.catch (() => {
+					setLiked ( false );
+					setLocalLike ( false );
+				});
 		}
 
 		setLiked ( !liked );
+		setLocalLike ( !liked );
 	}
 
 	useEffect (() => {

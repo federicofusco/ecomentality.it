@@ -91,10 +91,6 @@ const VideoLikeButton = ({ id, isFallback = false }) => {
 		updateLikeCount ();
 	}, []);
 
-	useEffect (() => {
-		console.log(localLike);
-	}, [localLike]);
-
 	return (
 		<GenericActionButton
 			onClick={ onClick }
