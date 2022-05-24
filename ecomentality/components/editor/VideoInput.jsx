@@ -1,7 +1,7 @@
 import { MdPlayArrow } from "react-icons/md"
 import { useState } from "react"
 import VideoUploadModal from "./../forms/modal/VideoUploadModal"
-import UpdateVideoButton from "../buttons/icon/editor/UpdateVideoButton"
+import UpdateVideoButton from "./../buttons/icon/editor/UpdateVideoButton"
 
 const VideoInput = ({ onSubmit, videoLink }) => {
 

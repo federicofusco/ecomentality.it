@@ -1,6 +1,6 @@
 import { fetchAllArts } from "./../../lib/art"
 import Head from "next/head"
-import ArtsList from "../../components/arts/ArtsList"
+import ArtsList from "./../../components/arts/ArtsList"
 import Navbar from "./../../components/nav/navbars/Navbar"
 import Footer from "./../../components/nav/Footer"
 

@@ -1,5 +1,5 @@
 import Image from "next/image"
-import us from "../../public/us.jpg"
+import us from "./../../public/us.jpg"
 /**
  * Displays a section on the homepage
  * 

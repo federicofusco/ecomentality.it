@@ -2,7 +2,7 @@ import { authRedirect, isUUID } from "./../../../lib/auth.admin"
 import { v4 as uuid } from "uuid"
 import { fetchVideo } from "./../../../lib/video"
 import Head from "next/head"
-import VideoEditor from "../../../components/editor/VideoEditor"
+import VideoEditor from "./../../../components/editor/VideoEditor"
 
 const NewVideo = ({ video }) => {
 	return (

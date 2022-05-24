@@ -20,7 +20,7 @@ import cavicchi from '../public/avatar/cavicchi.png'
 import Navbar from "./../components/nav/navbars/Navbar"
 import Footer from "./../components/nav/Footer"
 import Head from "next/head"
-import  Avatar from "../components/about/Avatar"
+import  Avatar from "./../components/about/Avatar"
 
 const AboutUs = () => {
 	return (
