@@ -17,8 +17,16 @@ const LikeButton = ({ id, isFallback = false }) => {
 
 	const [liked, setLiked] = useState ( false );
 	const [likeCount, setLikeCount] = useState ( "..." );
-	const { likeArticle, dislikeArticle, fetchLikeCount } = useArticle ();
+	const { likeArticle, dislikeArticle, fetchLikeCount, createLikeListener } = useArticle ();
 	const { enqueueSnackbar } = useSnackbar ();
+
+	const unsub = createLikeListener ( id, ( doc ) => {
+		
+		if ( !doc.exists () ) return;
+
+		// Updates the like count
+		setLikeCount ( doc.data ().likeCount );
+	});
 
 	const onClick = () => {
 
@@ -53,8 +61,6 @@ const LikeButton = ({ id, isFallback = false }) => {
 			await fetchLikeCount ( id ) 
 				.then (( likeCount ) => {
 
-					console.log(likeCount);
-
 					// Updates the like count
 					setLikeCount ( likeCount.data.likeCount );
 				})
@@ -78,7 +84,7 @@ const LikeButton = ({ id, isFallback = false }) => {
 			onClick={ onClick }
 			className={ liked ? "text-green-600" : "text-gray-600" }>
 				{ liked ? <MdThumbUp /> : <MdThumbUpOffAlt /> }
-				<p className="text-xs">{ liked ? likeCount + 1 : likeCount }</p>
+				<p className="text-xs">{ likeCount }</p>
 		</GenericActionButton>
 	)
 }

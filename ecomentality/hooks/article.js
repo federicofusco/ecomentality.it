@@ -3,7 +3,7 @@
  */
 
 import { firestore } from "./../lib/firebase"
-import { doc, setDoc, getDoc, updateDoc, serverTimestamp } from "firebase/firestore";
+import { doc, setDoc, getDoc, updateDoc, serverTimestamp, onSnapshot } from "firebase/firestore";
 import useAuth from "./auth"
 
 /**
@@ -14,6 +14,7 @@ import useAuth from "./auth"
  * 					 * likeArticle
  * 					 * dislikeArticle 
  * 					 * fetchLikeCount
+ * 					 * createLikeListener
  */
 const useArticle = () => {
 
@@ -237,35 +238,6 @@ const useArticle = () => {
 						}
 					});
 				}
-				
-				// // Checks if the article exists
-				// if ( !articleData.exists () ) {
-					
-				// 	// The article doesn't exist
-				// 	reject ({
-				// 		status: "ERROR",
-				// 		message: "The article doesn't exist!",
-				// 		data: {}
-				// 	});
-				// } else {
-		
-				// 	// Found the article
-				// 	const { title, body, author, likeCount, timestamp } = articleData.data ();
-				// 	resolve ({
-				// 		status: "OK",
-				// 		message: "Found article!",
-				// 		data: {
-				// 			article: {
-				// 				title,
-				// 				body: deserialize ? await deserializeEditor ( body ) : body,
-				// 				author,
-				// 				likeCount: likeCount || 0,
-				// 				timestamp: String ( timestamp.toDate () ),
-				// 				id
-				// 			}
-				// 		}
-				// 	});
-				// }
 
 			} catch ( error ) {
 				console.error(error);
@@ -281,11 +253,24 @@ const useArticle = () => {
 		});
 	}
 
+	const createLikeListener = async ( id, callback ) => {
+
+		// Creates a listener on the article's like count
+		const unsubscribe = onSnapshot ( doc ( firestore, "articles" , id ), ( doc ) => {
+
+			// Calls the given callback
+			callback ( doc );
+		});
+
+		return unsubscribe;
+	}
+
 	return {
 		publishArticle,
 		likeArticle,
 		dislikeArticle,
-		fetchLikeCount
+		fetchLikeCount,
+		createLikeListener
 	}
 }
 
