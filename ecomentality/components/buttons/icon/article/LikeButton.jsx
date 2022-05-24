@@ -65,6 +65,9 @@ const LikeButton = ({ id, isFallback = false }) => {
 
 	useEffect (() => {
 
+		// Checks if the current user has liked the article
+		if ( localLike === true || localLike === false ) setLiked ( localLike );
+
 		// Updates the like count
 		const updateLikeCount = async () => {
 			await fetchLikeCount ( id ) 
