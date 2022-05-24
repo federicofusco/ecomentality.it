@@ -2,6 +2,9 @@ import Image from "next/image"
 import Link from "next/link"
 
 const VideoLink = ({ video, author }) => {
+
+	const video_id = video.link.match(/youtube\.com.*(\?v=|\/embed\/)(.{11})/).pop();
+
 	return (
 		<Link href={`/view/interview/${ video.id }`}>
 			<a>
@@ -10,7 +13,7 @@ const VideoLink = ({ video, author }) => {
 					{/* Video Thumbnail */}
 					<div className="w-32 h-32 hidden sm:block">
 						<Image 
-							src="https://via.placeholder.com/128.png?text=GEM"
+							src={`http://img.youtube.com/vi/${ video_id }/0.jpg`}
 							height="128"
 							width="128"
 							alt=""
@@ -34,7 +37,7 @@ const VideoList = ({ data }) => {
 		<div className="w-full text-white pt-12 px-8 mb-16">
 			
 			{/* Title */}
-			<h1 className="text-3xl mb-8 text-center font-black font-poppins uppercase">Video</h1>
+			<h1 className="text-3xl mb-8 text-center font-black font-poppins uppercase">Interviews</h1>
 
 			{/* Video List */}
 			{ data.map ( x => (

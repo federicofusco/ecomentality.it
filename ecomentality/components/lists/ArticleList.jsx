@@ -8,14 +8,14 @@ const ArticleLink = ({ article, author }) => {
 				<div className="w-full relative mb-3 flex justify-start rounded-lg text-white bg-nav-color">
 			
 					{/* Article Image */}
-					<div className="w-32 h-32 hidden sm:block">
+					{/* <div className="w-32 h-32 hidden sm:block">
 						<Image 
 							src="https://via.placeholder.com/128.png?text=GEM"
 							height="128"
 							width="128"
 							alt=""
 							className="rounded-l-lg" />
-					</div>
+					</div> */}
 
 					{/* Article Content */}
 					<div className="my-auto p-4 sm:py-4 sm:pl-8 truncate">

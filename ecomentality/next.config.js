@@ -8,7 +8,8 @@ const nextConfig = {
 	images: {
 		domains: [
 			'firebasestorage.googleapis.com',
-			'via.placeholder.com'
+			'via.placeholder.com',
+			'img.youtube.com'
 		]
 	}
 }

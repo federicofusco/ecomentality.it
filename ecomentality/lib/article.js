@@ -81,6 +81,10 @@ export const fetchArticle = async ( id, deserialize ) => {
 export const fetchArticles = async ( key, operation, value ) => {
 	return new Promise ( async ( resolve, reject ) => {
 
+		const FEATURED_ARTICLE_IDS = [
+			"3145c6d0-a7fb-4aeb-8b47-f4fa89598265"
+		]
+
 		try {
 
 			const articleCollection = collection ( firestore, "articles" );
@@ -99,6 +103,17 @@ export const fetchArticles = async ( key, operation, value ) => {
 					id: article.id
 				});
 			});
+
+			// Reorders the id list to make sure the "featured" articles are the first ones
+			for ( var x = 0; x < ids.length; x++ ) {
+
+				// Checks if the article is featured
+				if ( !FEATURED_ARTICLE_IDS.includes ( ids[x] ) ) continue;
+ 
+				// Moves the featured article to the beginning
+				ids.unshift ( ids[x] );
+				ids.splice ( x + 1, 1 );
+			}
 
 			// Found the articles
 			resolve ({
@@ -133,6 +148,10 @@ export const fetchArticles = async ( key, operation, value ) => {
 export const fetchArticleIds = async () => {
 	return new Promise ( async ( resolve, reject ) => {
 
+		const FEATURED_ARTICLE_IDS = [
+			"3145c6d0-a7fb-4aeb-8b47-f4fa89598265"
+		]
+
 		try {
 
 			const articleCollection = collection ( firestore, "articles" );
@@ -142,6 +161,17 @@ export const fetchArticleIds = async () => {
 			const collectionData = await getDocs ( articleCollection );
 
 			collectionData.forEach ( article => ids.push ( article.id ) );
+
+			// Reorders the id list to make sure the "featured" articles are the first ones
+			for ( var x = 0; x < ids.length; x++ ) {
+
+				// Checks if the article is featured
+				if ( !FEATURED_ARTICLE_IDS.includes ( ids[x] ) ) continue;
+ 
+				// Moves the featured article to the beginning
+				ids.unshift ( ids[x] );
+				ids.splice ( x + 1, 1 );
+			}
 
 			resolve ({
 				status: "OK",
@@ -177,6 +207,10 @@ export const fetchArticleIds = async () => {
  export const fetchAllArticles = async ( articleLimit = null ) => {
 	return new Promise ( async ( resolve, reject ) => {
 
+		const FEATURED_ARTICLE_IDS = [
+			"3145c6d0-a7fb-4aeb-8b47-f4fa89598265"
+		]
+
 		try {
 
 			const articleCollection = collection ( firestore, "articles" );
@@ -199,6 +233,17 @@ export const fetchArticleIds = async () => {
 						id: article.id
 					});
 				});
+
+				// Reorders the article list to make sure the "featured" articles are the first ones
+				for ( var x = 0; x < articles.length; x++ ) {
+
+					// Checks if the article is featured
+					if ( !FEATURED_ARTICLE_IDS.includes ( articles[x].id ) ) continue;
+	
+					// Moves the featured article to the beginning
+					articles.unshift ( articles[x] );
+					articles.splice ( x + 1, 1 );
+				}
 
 				// Found the articles
 				resolve ({
@@ -224,6 +269,17 @@ export const fetchArticleIds = async () => {
 					id: article.id
 				});
 			});
+
+			// Reorders the article list to make sure the "featured" articles are the first ones
+			for ( var x = 0; x < articles.length; x++ ) {
+
+				// Checks if the article is featured
+				if ( !FEATURED_ARTICLE_IDS.includes ( articles[x].id ) ) continue;
+ 
+				// Moves the featured article to the beginning
+				articles.unshift ( articles[x] );
+				articles.splice ( x + 1, 1 );
+			}
 
 			// Found the articles
 			resolve ({
