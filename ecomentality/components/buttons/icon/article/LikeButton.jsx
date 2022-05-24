@@ -1,5 +1,5 @@
 import useArticle from "./../../../../hooks/article"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useSnackbar } from "notistack"
 
 import { MdThumbUp, MdThumbUpOffAlt } from "react-icons/md"
@@ -8,22 +8,22 @@ import GenericActionButton from "./../GenericActionButton"
 /**
  * A button which likes an article
  * 
- * @param {Number} likeCount - The article's like count
  * @param {String} id - The article's ID
  * @param {?Boolean} isFallback - Whether or not to display a fallback button (default: false)
  * @note There is no grafical difference if isFallback is true, it just won't attempt to like the article
  * @returns A button for liking an article
  */
-const LikeButton = ({ likeCount, id, isFallback = false }) => {
+const LikeButton = ({ id, isFallback = false }) => {
 
 	const [liked, setLiked] = useState ( false );
-	const { likeArticle, dislikeArticle } = useArticle ();
+	const [likeCount, setLikeCount] = useState ( "..." );
+	const { likeArticle, dislikeArticle, fetchLikeCount } = useArticle ();
 	const { enqueueSnackbar } = useSnackbar ();
 
 	const onClick = () => {
 
 		if ( isFallback ) {
-			enqueueSnackbar ( "Something went wrong", {
+			enqueueSnackbar ( "Please try again", {
 				variant: "error",
 				autoHideDuration: 1000
 			});
@@ -45,6 +45,33 @@ const LikeButton = ({ likeCount, id, isFallback = false }) => {
 
 		setLiked ( !liked );
 	}
+
+	useEffect (() => {
+
+		// Updates the like count
+		const updateLikeCount = async () => {
+			await fetchLikeCount ( id ) 
+				.then (( likeCount ) => {
+
+					console.log(likeCount);
+
+					// Updates the like count
+					setLikeCount ( likeCount.data.likeCount );
+				})
+				.catch (( error ) => {
+
+					console.error ( error );
+					
+					// An error occurred
+					enqueueSnackbar ( "Something went wrong!", {
+						variant: "error",
+						autoHideDuration: 3000
+					});
+				});
+		}
+
+		updateLikeCount ();
+	}, []);
 
 	return (
 		<GenericActionButton

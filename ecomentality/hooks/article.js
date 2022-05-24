@@ -13,6 +13,7 @@ import useAuth from "./auth"
  * 					 * publishArticle
  * 					 * likeArticle
  * 					 * dislikeArticle 
+ * 					 * fetchLikeCount
  */
 const useArticle = () => {
 
@@ -185,10 +186,106 @@ const useArticle = () => {
 		})
 	}
 
+	/**
+	 * Fetches the article's current like count
+	 * 
+	 * @param {String} id - The article's UUID
+	 * @async
+	 * @returns {Promise} A promise
+	 */
+	const fetchLikeCount = async ( id ) => {
+		return new Promise ( async ( resolve, reject ) => {
+
+			// Checks if the article ID is valid
+			if ( !isUUID ( id ) ) {
+				reject ({
+					status: "ERROR",
+					message: "Invalid article ID!",
+					data: {
+						error: {
+							message: `Invalid article ID (${ id })!`,
+							code: "article/invalid-id"
+						}
+					}
+				});
+			}
+
+			try {
+
+				// Fetches the article
+				const articleData = await getDoc ( doc ( firestore, "articles", id ) );
+
+				// Checks if the article exists
+				if ( !articleData.exists () ) {
+
+					// The article doesn't exist
+					reject ({
+						status: "ERROR",
+						message: "The error doesn't exist!",
+						data: {}
+					});
+				} else {
+
+					// Found the article
+					const { likeCount } = articleData.data ();
+
+					resolve ({
+						status: "OK",
+						message: "Fetched like count!",
+						data: {
+							likeCount
+						}
+					});
+				}
+				
+				// // Checks if the article exists
+				// if ( !articleData.exists () ) {
+					
+				// 	// The article doesn't exist
+				// 	reject ({
+				// 		status: "ERROR",
+				// 		message: "The article doesn't exist!",
+				// 		data: {}
+				// 	});
+				// } else {
+		
+				// 	// Found the article
+				// 	const { title, body, author, likeCount, timestamp } = articleData.data ();
+				// 	resolve ({
+				// 		status: "OK",
+				// 		message: "Found article!",
+				// 		data: {
+				// 			article: {
+				// 				title,
+				// 				body: deserialize ? await deserializeEditor ( body ) : body,
+				// 				author,
+				// 				likeCount: likeCount || 0,
+				// 				timestamp: String ( timestamp.toDate () ),
+				// 				id
+				// 			}
+				// 		}
+				// 	});
+				// }
+
+			} catch ( error ) {
+				console.error(error);
+				reject ({
+					status: "ERROR",
+					message: "Something went wrong! Try again",
+					data: {
+						error: error
+					}
+				});
+			}
+		
+		});
+	}
+
 	return {
 		publishArticle,
 		likeArticle,
-		dislikeArticle
+		dislikeArticle,
+		fetchLikeCount
 	}
 }
 
