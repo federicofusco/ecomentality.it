@@ -15,6 +15,8 @@ import giulia from '../public/avatar/giulia.png'
 import fabrizio from '../public/avatar/fabrizio.png'
 import mezza from '../public/avatar/mezza.JPG'
 import riccardobro from '../public/avatar/riccardobro.png'
+import cavicchi from '../public/avatar/cavicchi.png'
+
 import Navbar from "./../components/nav/navbars/Navbar"
 import Footer from "./../components/nav/Footer"
 import Head from "next/head"
@@ -43,7 +45,7 @@ const AboutUs = () => {
 					</p>
 					<h1 className="text-3xl mb-8 text-center font-black font-poppins uppercase text-white mt-10">Tutors</h1>
 					<div style={{flexDirection: 'row', display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap'}}>
-						<Avatar name={"Veronica Cavicchi"} img={chiara}/>
+						<Avatar name={"Veronica Cavicchi"} img={cavicchi}/>
 						<Avatar name={"Fabrizio Filisina"} img={fabrizio}/>
 					</div>
 					<h1 className="text-3xl mb-8 text-center font-black font-poppins uppercase text-white mt-10">Team Managers</h1>

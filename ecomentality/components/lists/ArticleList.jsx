@@ -34,7 +34,7 @@ const ArticleList = ({ data }) => {
 		<div className="w-full text-white pt-12 px-8 mb-16">
 			
 			{/* Title */}
-			<h1 className="text-3xl mb-8 text-center font-black font-poppins uppercase">Articles</h1>
+			<h1 className="text-3xl mb-8 text-center font-black font-poppins uppercase">Articoli</h1>
 
 			{/* Article List */}
 			{ data.map ( x => (

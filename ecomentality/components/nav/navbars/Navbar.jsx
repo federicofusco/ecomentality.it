@@ -20,12 +20,12 @@ const Navbar = () => {
 			link: "/about"
 		},
 		{
-			section: "Articles",
+			section: "Articoli",
 			link: "/view/articles"
 		},
 		{
-			section: "Envirotips",
-			link: "/envirotips"
+			section: "Art",
+			link: "/view/arts"
 		},
 		{
 			section: "Interviews",
@@ -34,7 +34,21 @@ const Navbar = () => {
 		{
 			section: "Calini Green",
 			link: "/calini"
-		}
+		},
+		{
+			section: "Envirotips",
+			link: "/envirotips"
+		},
+		{
+			section: "Monitoraggio",
+			link: "/monitoraggio"
+		},
+		{
+			section: "Agricoltura 3.0",
+			link: "/agricoltura"
+		},
+		
+
 	];
 
 	const [menuVisible, setMenuVisiblity] = useState ( false );
@@ -55,7 +69,7 @@ const Navbar = () => {
 					}
 				</div>
 				
-				<SearchBar />
+				{/* <SearchBar /> */}
 
 				<MenuButton onOpen={ toggleMenuVisiblity } />
 
