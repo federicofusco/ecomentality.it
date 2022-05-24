@@ -4,8 +4,8 @@ import { createEditor } from "slate"
 import { isHotkey } from "is-hotkey"
 import EditorElement from "./EditorElement"
 import EditorLeaf from "./EditorLeaf"
-import useEditor from "../../hooks/editor"
-import EditorNavbar from "../nav/EditorNavbar"
+import useEditor from "./../../hooks/editor"
+import ArticleEditorNavbar from "./../nav/navbars/ArticleEditorNavbar"
 
 /**
  * An editor for articles
@@ -50,7 +50,7 @@ const ArticleEditor = ({ title, body, id }) => {
 				value={ initialValue }
 				className="w-screen h-screen">
 
-				<EditorNavbar id={ id } titleRef={ titleRef } />
+				<ArticleEditorNavbar id={ id } titleRef={ titleRef } />
 		
 				<div className="mx-auto max-w-2xl">
 

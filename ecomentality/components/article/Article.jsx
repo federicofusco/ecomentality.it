@@ -1,7 +1,7 @@
 import ArticleTitle from "./ArticleTitle"
 import ArticleBody from "./ArticleBody"
-import ArticleNavbar from "../nav/ArticleNavbar"
-import ArticleSidebar from "../nav/ArticleSidebar"
+import ArticleNavbar from "./../nav/navbars/ArticleNavbar"
+import ArticleSidebar from "./../nav/sidebars/ArticleSidebar"
 
 /**
  * Displays an article
@@ -12,26 +12,6 @@ import ArticleSidebar from "../nav/ArticleSidebar"
  * @returns Displays an article
  */
 const Article = ({ article, author, isFallback = false }) => {
-
-	// The fallback page needs to be seperate and can't drill components due to object destructuring
-	if ( isFallback ) {
-
-		// Displays fallback page
-		return (
-			<div className="w-screen h-screen overflow-x-hidden">
-				
-				<ArticleNavbar isFallback={ true } />
-				
-				<div className="flex">
-					<ArticleSidebar isFallback={ true } />
-					<div className="sm:ml-20 w-full md:mx-auto max-w-2xl">
-						<ArticleTitle isFallback={ true } />
-						<ArticleBody isFallback={ true } />
-					</div>
-				</div>
-			</div>
-		)
-	}
 
 	const { likeCount, title, timestamp, body } = article;
 	const { displayName } = author;

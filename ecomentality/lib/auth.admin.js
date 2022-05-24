@@ -28,7 +28,7 @@ export const authRedirect = ({ req, res, resolvedUrl }) => {
 
 					// The token is valid
 					resolve ({
-						token: decoded
+						user: decoded
 					});
 				})
 				.catch ( async ( error ) => {

@@ -1,13 +1,13 @@
-import Article from "../../../components/article/Article"
+import Article from "./../../../components/article/Article"
 import ArticleFallback from "./../../../components/fallbacks/article/ArticleFallback"
-import { fetchArticle, fetchArticleIds } from "../../../lib/article"
-import { fetchUser } from "../../../lib/auth.admin"
+import { fetchArticle, fetchArticleIds } from "./../../../lib/article"
+import { fetchUser } from "./../../../lib/auth.admin"
 import Head from "next/head"
 import { useRouter } from "next/router"
 
 const ViewArticle = ({ article, author }) => {
 
-	const router = useRouter ();
+	const router = useRouter (); 
 
 	// Displays fallback page while it's rendered
 	// This will not be displayed to crawlers
@@ -65,7 +65,7 @@ export const getStaticProps = async ({ params }) => {
 	let response = {
 		props: {},
 		notFound: false,
-		revalidate: 900 // Revalidate every 15 minutes
+		revalidate: 120
 	}
 
 	// Fetches the article

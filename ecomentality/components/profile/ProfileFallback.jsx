@@ -1,7 +1,7 @@
-import Button from "../buttons/Button"
+import Button from "./../buttons/Button"
 import ProfileImage from "./ProfileImage"
 import Head from "next/head"
-import GenericNavbar from "./../nav/GenericNavbar"
+import GenericNavbar from "./../nav/navbars/GenericNavbar"
 
 const ProfileFallback = () => {
 	return (
@@ -12,10 +12,12 @@ const ProfileFallback = () => {
 				<meta name="language" content="EN" />
 				<meta name="robots" content="all" />
 			</Head>
+
 			<GenericNavbar />
+			
 			<div className="mt-24">
-			<div className="mx-6 p-4 border border-gray-300 rounded-lg flex justify-between">
-				<div className="flex w-full">
+				<div className="mx-6 p-4 border border-gray-300 rounded-lg flex justify-between">
+					<div className="flex w-full">
 						<div className="w-16">
 							<ProfileImage isFallback={ true } />
 						</div>
