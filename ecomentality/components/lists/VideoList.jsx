@@ -2,6 +2,9 @@ import Image from "next/image"
 import Link from "next/link"
 
 const VideoLink = ({ video, author }) => {
+
+	const video_id = video.link.match(/youtube\.com.*(\?v=|\/embed\/)(.{11})/).pop();
+
 	return (
 		<Link href={`/view/interview/${ video.id }`}>
 			<a>
@@ -10,7 +13,7 @@ const VideoLink = ({ video, author }) => {
 					{/* Video Thumbnail */}
 					<div className="w-32 h-32 hidden sm:block">
 						<Image 
-							src={`http://img.youtube.com/vi/${ video.link.split ( "/" )[video.link.split ( "/" ).length - 1] }/0.jpg`}
+							src={`http://img.youtube.com/vi/${ video_id }/0.jpg`}
 							height="128"
 							width="128"
 							alt=""
