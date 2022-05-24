@@ -6,7 +6,7 @@ import Footer from "./../../components/nav/Footer"
 
 const Arts = ({ arts }) => {
 	return (
-		<div className="bg-all-green">
+		<div className="bg-all-green min-h-screen">
 			<Head>
 				<title>Arts - GEM</title>
 				<meta name="language" content="EN" />

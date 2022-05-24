@@ -18,7 +18,7 @@ const Videos = ({ videos }) => {
 
 	 		<Navbar />
 			
-	 		<div className="mt-16">
+	 		<div className="mt-16 min-h-screen">
 	 			<VideoList data={ videos } />
 			</div>
 

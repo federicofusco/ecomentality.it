@@ -34,7 +34,7 @@ const VideoList = ({ data }) => {
 		<div className="w-full text-white pt-12 px-8 mb-16">
 			
 			{/* Title */}
-			<h1 className="text-3xl mb-8 text-center font-black font-poppins uppercase">Videos</h1>
+			<h1 className="text-3xl mb-8 text-center font-black font-poppins uppercase">Interviews</h1>
 
 			{/* Video List */}
 			{ data.map ( x => (
