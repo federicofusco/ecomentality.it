@@ -10,17 +10,19 @@ import Link from "next/link"
  * @returns The GEM logo
  */
 const Logo = ({ iconOnly }) => {
-	return <Link href={'/'}>
-		<a>
-		<Image 
-		alt="GEM"
-		src={ iconOnly ? Icon : Full }
-		width={ iconOnly ? 32 : 106 }
-		layout="fixed"
-		height={ 32 }
-		style={{borderRadius: 3}} />
-		</a>
+	return (
+		<Link href="/">
+			<a>
+				<Image 
+					alt="GEM"
+					src={ iconOnly ? Icon : Full }
+					width={ iconOnly ? 32 : 106 }
+					layout="fixed"
+					height={ 32 }
+					className="rounded-sm" />
+			</a>
 		</Link>
+	)
 } 
 
 export default Logo;
