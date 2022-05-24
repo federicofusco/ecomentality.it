@@ -41,11 +41,14 @@ export const getServerSideProps = async ({ req, res, params, resolvedUrl }) => {
 
 	// Verifies that the user is logged in
 	await authRedirect ({ req, res, resolvedUrl })
-		.then ( async () => {
+		.then ( async ({ user }) => {
 
 			// Fetches the video
 			await fetchVideo ( params.id, true )
 				.then (( video ) => {
+
+					if ( user.uid !== video.data.video.author ) response.notFound = true;
+
 					response.props = {
 						video: video.data.video
 					}
