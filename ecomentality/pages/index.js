@@ -16,16 +16,16 @@ const Home = ({ articles }) => {
 				<title>Home - GEM</title>
 				<meta name="language" content="EN" />
 				<meta name="robots" content="all" />
-				<meta name="description" content="The GEM homepage" />
+				<meta name="description" content="Pagina Home di GEM" />
 			</Head>
 
 			<Navbar />
 
 			<div className="pt-6">
-				<HeroTitle title="We work for the planet" redirect="/about" subtitle="Lorem ipsum is just dummy text used in demos to give examples without any content" />
+				<HeroTitle title="We work for the Planet" redirect="/about" subtitle="Great Eco Mentality" />
 			</div>
 
-			<InfoSection rightToLeft={ true } title="Why GEM?" />
+			<InfoSection rightToLeft={ true } title="Perché GEM?" />
 
 			<ArticleList data={ articles } />
 

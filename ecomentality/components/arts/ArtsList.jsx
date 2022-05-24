@@ -6,7 +6,7 @@ const Art = ({ title, link, author  }) => {
 		<Link href={author} passHref> 
 			<a target="_blank" rel="noopener noreferrer">
 
-                <div style={{width: 300, height: 340, backgroundColor: '#32a820', borderRadius: 10}}>
+                <div style={{width: 300, height: 340, backgroundColor: '#32a820', borderRadius: 10, margin: 14}}>
 
                     <Image 
                     style={{backgroundColor: '#fff', borderTopLeftRadius: 10, borderTopRightRadius: 10,}}
@@ -32,11 +32,13 @@ const ArtsList = ({ arts }) => {
 						Help the planet through art
 					</p>
 			{/* Event List */}
-			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-20 pt-10 pb-10">
+			{/* <div style={{display: 'flex', justifyContent: 'center'}}> */}
+				<div style={{display: 'flex', flexWrap: 'wrap'}}>
 				{ arts.map ( art => (
 					<Art key={art.id} title={art.title} link={art.link} author={art.author} />
 				))}
-			</div>
+				</div>
+			{/* </div> */}
 		</div>
 	)
 }

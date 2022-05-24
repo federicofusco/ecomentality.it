@@ -9,7 +9,7 @@ const Videos = ({ videos }) => {
 	return (
 		<div className="bg-all-green">
 			<Head>
-				<title>Videos - GEM</title>
+				<title>Video - GEM</title>
 				<meta name="language" content="EN" />
 				<meta name="robots" content="all" />
 				<meta name="description" content="A list of the videos" />
