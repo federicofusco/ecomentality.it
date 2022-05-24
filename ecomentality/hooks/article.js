@@ -3,7 +3,7 @@
  */
 
 import { firestore } from "./../lib/firebase"
-import { doc, setDoc, getDoc, updateDoc, serverTimestamp } from "firebase/firestore";
+import { doc, setDoc, getDoc, updateDoc, serverTimestamp, onSnapshot } from "firebase/firestore";
 import useAuth from "./auth"
 
 /**
@@ -13,6 +13,8 @@ import useAuth from "./auth"
  * 					 * publishArticle
  * 					 * likeArticle
  * 					 * dislikeArticle 
+ * 					 * fetchLikeCount
+ * 					 * createLikeListener
  */
 const useArticle = () => {
 
@@ -185,10 +187,90 @@ const useArticle = () => {
 		})
 	}
 
+	/**
+	 * Fetches the article's current like count
+	 * 
+	 * @param {String} id - The article's UUID
+	 * @async
+	 * @returns {Promise} A promise
+	 */
+	const fetchLikeCount = async ( id ) => {
+		return new Promise ( async ( resolve, reject ) => {
+
+			// Checks if the article ID is valid
+			if ( !isUUID ( id ) ) {
+				reject ({
+					status: "ERROR",
+					message: "Invalid article ID!",
+					data: {
+						error: {
+							message: `Invalid article ID (${ id })!`,
+							code: "article/invalid-id"
+						}
+					}
+				});
+			}
+
+			try {
+
+				// Fetches the article
+				const articleData = await getDoc ( doc ( firestore, "articles", id ) );
+
+				// Checks if the article exists
+				if ( !articleData.exists () ) {
+
+					// The article doesn't exist
+					reject ({
+						status: "ERROR",
+						message: "The error doesn't exist!",
+						data: {}
+					});
+				} else {
+
+					// Found the article
+					const { likeCount } = articleData.data ();
+
+					resolve ({
+						status: "OK",
+						message: "Fetched like count!",
+						data: {
+							likeCount
+						}
+					});
+				}
+
+			} catch ( error ) {
+				console.error(error);
+				reject ({
+					status: "ERROR",
+					message: "Something went wrong! Try again",
+					data: {
+						error: error
+					}
+				});
+			}
+		
+		});
+	}
+
+	const createLikeListener = async ( id, callback ) => {
+
+		// Creates a listener on the article's like count
+		const unsubscribe = onSnapshot ( doc ( firestore, "articles" , id ), ( doc ) => {
+
+			// Calls the given callback
+			callback ( doc );
+		});
+
+		return unsubscribe;
+	}
+
 	return {
 		publishArticle,
 		likeArticle,
-		dislikeArticle
+		dislikeArticle,
+		fetchLikeCount,
+		createLikeListener
 	}
 }
 
