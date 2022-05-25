@@ -8,6 +8,7 @@ import DOMPurify from "isomorphic-dompurify"
  */
 const ArticleBody = ({ body }) => {
 	return <div className="font-serif break-all px-8" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize ( body ) }}></div>
+
 }
 
 export default ArticleBody;
