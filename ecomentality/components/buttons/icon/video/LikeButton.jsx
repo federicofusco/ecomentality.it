@@ -95,8 +95,10 @@ const VideoLikeButton = ({ id, isFallback = false }) => {
 		<GenericActionButton
 			onClick={ onClick }
 			className={ liked ? "text-green-600" : "text-gray-600" }>
-			{ liked ? <MdThumbUp /> : <MdThumbUpOffAlt /> }
-			<p className="text-xs">{ likeCount }</p>
+				<div className="flex sm:block">
+					{ liked ? <MdThumbUp /> : <MdThumbUpOffAlt /> }
+					<p className="text-xs my-auto ml-2 sm:ml-0">{ likeCount }</p>
+				</div>
 		</GenericActionButton>
 	)
 }

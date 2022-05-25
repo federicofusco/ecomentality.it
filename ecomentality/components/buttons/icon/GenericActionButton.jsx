@@ -7,7 +7,7 @@
  */
 const GenericActionButton = ({ className, children, onClick }) => {
 	return (
-		<button onClick={ onClick } className={`${ className } w-16 h-16 bg-transparent mt-4 flex justify-center hover:text-green-600 transition-all duration-300`}>
+		<button onClick={ onClick } className={`${ className } w-16 h-16 bg-transparent mt-0 mx-auto sm:m-0 sm:mt-4 flex justify-center hover:text-green-600 transition-all duration-300`}>
 			<div className="my-auto text-2xl">
 				{ children }
 			</div>
