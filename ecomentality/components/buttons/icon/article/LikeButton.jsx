@@ -95,9 +95,9 @@ const LikeButton = ({ id, isFallback = false }) => {
 		<GenericActionButton
 			onClick={ onClick }
 			className={ liked ? "text-green-600" : "text-gray-600" }>
-				<div className="flex">
+				<div className="flex sm:block">
 					{ liked ? <MdThumbUp /> : <MdThumbUpOffAlt /> }
-					<p className="text-xs my-auto ml-2">{ likeCount }</p>
+					<p className="text-xs my-auto ml-2 sm:ml-0">{ likeCount }</p>
 				</div>
 		</GenericActionButton>
 	)
