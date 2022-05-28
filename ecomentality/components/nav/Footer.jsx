@@ -47,12 +47,15 @@ const SocialList = () => {
 		<div >
 				<h3 className="uppercase my-auto font-poppins font-black text-white mt-4">Find Us</h3>
 				<div className="text-white w-20 flex  mt-1">
-					<Link  href="https://www.instagram.com/gemliceocalini/">
-						<FaInstagram className="ml-0 text-xl my-auto" />	
+					<Link href="https://www.instagram.com/gemliceocalini/">
+						<a>
+							<FaInstagram className="ml-0 text-xl my-auto" />	
+						</a>
 					</Link>
-					<Link  href="https://www.facebook.com/profile.php?id=100081198311689/">
-						<FaFacebook className="ml-3 text-xl my-auto" />
-						
+					<Link href="https://www.facebook.com/profile.php?id=100081198311689/">
+						<a>
+							<FaFacebook className="ml-3 text-xl my-auto" />
+						</a>
 					</Link>
 					
 				</div>
