@@ -14,7 +14,7 @@
     "cookie-cutter": "^0.2.0",
     "cookies": "^0.8.0",
     "firebase": "^9.6.11",
-    "firebase-admin": "^10.1.0",
+    "firebase-admin": "^10.2.0",
     "image-type": "^4.1.0",
     "is-data-uri": "^0.1.0",
     "is-hotkey": "^0.2.0",
