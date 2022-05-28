@@ -28,7 +28,7 @@ export const authRedirect = ({ req, res, resolvedUrl }) => {
 
 					// The token is valid
 					resolve ({
-						token: decoded
+						user: decoded
 					});
 				})
 				.catch ( async ( error ) => {
@@ -69,7 +69,7 @@ export const fetchUser = async ( id ) => {
 
 			// Checks if the user exists
 			if ( !userData.exists ) {
-
+				
 				// The user doesn't exist
 				reject ({
 					status: "ERROR",
@@ -82,7 +82,7 @@ export const fetchUser = async ( id ) => {
 					}
 				});
 			} else {
-
+	
 				// Found the user
 				const { displayName, profileURL, bio, created } = userData.data ();
 				resolve ({
@@ -99,11 +99,11 @@ export const fetchUser = async ( id ) => {
 					}
 				});
 			}
-
+	
 		} catch ( error ) {
-
+	
 			console.error ( error );
-
+	
 			reject ({
 				status: "ERROR",
 				message: "Something went wrong!",
@@ -139,11 +139,11 @@ export const fetchUserIds = async () => {
 					ids
 				}
 			});
-
+	
 		} catch ( error ) {
-
+	
 			console.error ( error );
-
+	
 			reject ({
 				status: "ERROR",
 				message: "Something went wrong!",
@@ -165,4 +165,3 @@ export const fetchUserIds = async () => {
 export const isUUID = ( uuid ) => {
 	return uuid.match ( new RegExp ( /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i ) );
 }
- 

@@ -1,5 +1,5 @@
 import Image from "next/image"
-
+import us from "./../../public/us.jpg"
 /**
  * Displays a section on the homepage
  * 
@@ -13,20 +13,18 @@ const InfoSection = ({ title, p = lorem_ipsum, rightToLeft = false, id }) => {
 
 	if ( rightToLeft ) {
 		return (
-			<div id={ id } className="w-full flex justify-center px-8 pb-8">
-				<div className="hidden sm:flex w-1/2 h-80 justify-start">
+			<div id={ id } className="w-full flex flex-row flex-wrap ">
+				
+				<div className="mx-8 max-w-[400px] max-h-[224px] h-auto my-5">
 					<Image 
-						src="https://via.placeholder.com/320.png?text=ecomentality.life"
-						width="320"
-						height="320"
-						alt=""
-						className="w-72 h-72" />
+						src={us}
+						layout="intrinsic"
+						alt="Noi"
+						className="" />
 				</div>
-				<div className="w-full flex sm:w-1/2 h-80 text-white">
-					<div className="my-auto">
-						<h1 className="text-4xl font-bold uppercase font-poppins">{ title }</h1>
-						<p className="mt-3 font-medium">{ p }</p>
-					</div>
+				<div className="my-auto m-10 ">
+					<h1 className="text-4xl text-white font-bold uppercase font-poppins">{ title }</h1>
+					<p className="text-white font-medium max-w-[600px]">I giovani sono attenti ed entusiasti di farsi carico di un mondo migliore, ma per farlo hanno bisogno di informazioni che siano affidabili ed accessibili in modo semplice ed immediato. Una rete di relazioni, di approfondimenti, di innovazione. Arte e sostenibilità. Questo è GEM: giovani che creano possibilità di approfondimento e connessione, per scelte consapevoli e responsabili verso l’ambiente e il futuro.</p>
 				</div>
 			</div>
 		)

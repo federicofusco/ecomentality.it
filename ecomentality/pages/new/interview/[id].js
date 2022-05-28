@@ -2,7 +2,7 @@ import { authRedirect, isUUID } from "./../../../lib/auth.admin"
 import { v4 as uuid } from "uuid"
 import { fetchVideo } from "./../../../lib/video"
 import Head from "next/head"
-import VideoEditor from "../../../components/editor/VideoEditor"
+import VideoEditor from "./../../../components/editor/VideoEditor"
 
 const NewVideo = ({ video }) => {
 	return (
@@ -41,11 +41,14 @@ export const getServerSideProps = async ({ req, res, params, resolvedUrl }) => {
 
 	// Verifies that the user is logged in
 	await authRedirect ({ req, res, resolvedUrl })
-		.then ( async () => {
+		.then ( async ({ user }) => {
 
 			// Fetches the video
 			await fetchVideo ( params.id, true )
 				.then (( video ) => {
+
+					if ( user.uid !== video.data.video.author ) response.notFound = true;
+
 					response.props = {
 						video: video.data.video
 					}

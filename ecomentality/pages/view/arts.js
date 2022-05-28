@@ -1,6 +1,6 @@
 import { fetchAllArts } from "./../../lib/art"
 import Head from "next/head"
-import ArtsList from "../../components/arts/ArtsList"
+import ArtList from "./../../components/lists/ArtList"
 import Navbar from "./../../components/nav/navbars/Navbar"
 import Footer from "./../../components/nav/Footer"
 
@@ -15,7 +15,7 @@ const Arts = ({ arts }) => {
 			</Head>
 
 			<Navbar />
-			<ArtsList arts={arts}/>
+			<ArtList arts={arts}/>
 
 
 			<Footer />
