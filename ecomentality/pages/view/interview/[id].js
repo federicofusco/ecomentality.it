@@ -56,6 +56,11 @@ export const getStaticPaths = async () => {
 			throw Error ( "Failed to form paths!" ) // CHANGE THIS!!!
 		});
 
+	return {
+		paths: [],
+		fallback: true
+	};
+
 	return response;
 }
 

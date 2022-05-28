@@ -76,7 +76,7 @@ const Navbar = () => {
 				<MobileMenu visible={ menuVisible } onClose={ toggleMenuVisiblity }>
 					{
 						links.map (({ section, link }) => (
-							<Link key={ link } href={ link }>
+							<Link key={ link } href={ link } passHref>
 								<a className="mt-3 w-full block text-white font-medium">
 									{ section }
 								</a>

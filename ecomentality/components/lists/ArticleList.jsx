@@ -3,7 +3,7 @@ import Link from "next/link"
 
 const ArticleLink = ({ article, author }) => {
 	return (
-		<Link href={`/view/article/${ article.id }`}>
+		<Link href={`/view/article/${ article.id }`} passHref>
 			<a>
 				<div className="w-full relative mb-3 flex justify-start rounded-lg text-white bg-nav-color">
 			

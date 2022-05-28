@@ -7,16 +7,16 @@ const LinkList = () => {
 			<div>
 				<h3 className="text-white font-black font-poppins uppercase text-sm">Link e contatti</h3>
 				<div className="mt-2">
-					<Link  href="mailto:gem@ecomentality.life">
+					<Link  href="mailto:gem@ecomentality.life" passHref>
 						<a className="block  text-white w-14 mt-1">gem@ecomentality.life</a>
 					</Link>
 					
-					<Link  href="https://www.liceocalini.edu.it">
+					<Link  href="https://www.liceocalini.edu.it" passHref>
 						<a className="block  text-white w-36 mt-1">Liceo A. Calini</a>
 					</Link>
 
 					<span className="block text-white w-45 mt-1">Via Monte Suello 2 - Brescia</span>
-					<Link  href="tel:gem@ecomentality.life">
+					<Link  href="tel:gem@ecomentality.life" passHref>
 						<a className="block  text-white w-36 mt-1">+39 030 390249</a>
 					</Link>
 
@@ -32,7 +32,7 @@ const Copyright = () => {
 			<div>
 				<h3 className="text-white font-black font-poppins uppercase text-sm ">Extra</h3>
 				<div className="mt-2">
-					<Link  href="/">
+					<Link  href="/" passHref>
 						<a className="block  text-white w-14 mt-1">www.ecomentality.life</a>
 					</Link>
 					<span className="block text-white w-45 mt-1">&copy; Great Eco Mentality 2022</span>
@@ -47,12 +47,15 @@ const SocialList = () => {
 		<div >
 				<h3 className="uppercase my-auto font-poppins font-black text-white mt-4">Find Us</h3>
 				<div className="text-white w-20 flex  mt-1">
-					<Link  href="https://www.instagram.com/gemliceocalini/">
-						<FaInstagram className="ml-0 text-xl my-auto" />	
+					<Link  href="https://www.instagram.com/gemliceocalini/" passHref>
+						<a>
+							<FaInstagram className="ml-0 text-xl my-auto" />	
+						</a>
 					</Link>
-					<Link  href="https://www.facebook.com/profile.php?id=100081198311689/">
-						<FaFacebook className="ml-3 text-xl my-auto" />
-						
+					<Link  href="https://www.facebook.com/profile.php?id=100081198311689/" passHref>
+						<a>
+							<FaFacebook className="ml-3 text-xl my-auto" />
+						</a>
 					</Link>
 					
 				</div>

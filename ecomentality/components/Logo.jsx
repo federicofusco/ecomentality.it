@@ -11,7 +11,7 @@ import Link from "next/link"
  */
 const Logo = ({ iconOnly }) => {
 	return (
-		<Link href="/">
+		<Link href="/" passHref>
 			<a>
 				<Image 
 					alt="GEM"

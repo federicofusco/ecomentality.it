@@ -8,7 +8,7 @@ import Link from "next/link"
  * @returns A link wihch should only be used in the bavbar
  */
 const NavLink = ({ href = "/", title }) => {
-	return <Link href={ href }>
+	return <Link href={ href } passHref>
 		<a className="my-auto text-lg font-medium ml-3 text-white">
 			{ title }
 		</a>

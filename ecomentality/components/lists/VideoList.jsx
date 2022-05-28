@@ -6,7 +6,7 @@ const VideoLink = ({ video, author }) => {
 	const video_id = video.link.match(/youtube\.com.*(\?v=|\/embed\/)(.{11})/).pop();
 
 	return (
-		<Link href={`/view/interview/${ video.id }`}>
+		<Link href={`/view/interview/${ video.id }`} passHref>
 			<a>
 				<div className="w-full relative mb-3 flex justify-start rounded-lg text-white bg-nav-color">
 			

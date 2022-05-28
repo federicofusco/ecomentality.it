@@ -91,7 +91,6 @@ export const getStaticProps = async ({ params }) => {
 		});
 
 	return response;
-
 }
 
 export default ViewArticle;

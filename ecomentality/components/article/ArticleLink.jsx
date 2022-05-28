@@ -13,7 +13,7 @@ const ArticleLink = ({ timestamp, title, id, author }) => {
 
 	const date = new Date ( timestamp );
 
-	return <Link href={`/view/article/${ id }`}>
+	return <Link href={`/view/article/${ id }`} passHref>
 		<a>
 			<h2>{ title }</h2>
 			<p>Published by { author }  · {date.getDate ()}/{date.getMonth () + 1}/{date.getFullYear ()}</p>

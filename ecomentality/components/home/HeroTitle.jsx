@@ -21,7 +21,7 @@ const HeroTitle = ({ title, subtitle, redirect }) => {
 				</h2> }
 
 				{ redirect && <div className="w-full mt-16 sm:mt-8 flex justify-center px-4">
-					<Link href={ redirect }>
+					<Link href={ redirect } passHref>
 						<a className="w-full sm:w-auto">
 							<div className="bg-black text-center p-4 w-full sm:w-36 rounded-md text-white">
 								<p>Scopri di più</p>
