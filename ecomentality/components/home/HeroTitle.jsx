@@ -11,12 +11,16 @@ import Link from "next/link"
 const HeroTitle = ({ title, subtitle, redirect }) => {
 	return (
 		<div className="w-screen h-screen flex justify-center">
-			<div className="my-auto">
-				<h1 className="text-white text-5xl text-center my-auto">
+			<div className="my-auto w-full">
+				<h1 className="text-white text-8xl text-center my-auto">
 					{ title }
 				</h1>
 
+<<<<<<< Updated upstream
 				{ subtitle && <h2 className="text-white mt-3 max-w-lg text-md text-center px-4">
+=======
+				{ subtitle && <h2 className="text-white mx-auto mt-3 max-w-xl text-40 text-[17px] text-center px-4">
+>>>>>>> Stashed changes
 					{ subtitle }
 				</h2> }
 

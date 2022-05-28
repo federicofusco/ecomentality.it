@@ -104,17 +104,6 @@ export const fetchArticles = async ( key, operation, value ) => {
 				});
 			});
 
-			// Reorders the id list to make sure the "featured" articles are the first ones
-			for ( var x = 0; x < ids.length; x++ ) {
-
-				// Checks if the article is featured
-				if ( !FEATURED_ARTICLE_IDS.includes ( ids[x] ) ) continue;
- 
-				// Moves the featured article to the beginning
-				ids.unshift ( ids[x] );
-				ids.splice ( x + 1, 1 );
-			}
-
 			// Found the articles
 			resolve ({
 				status: "OK",
