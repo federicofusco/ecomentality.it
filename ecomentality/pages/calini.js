@@ -16,10 +16,12 @@ const CaliniGreen = () => {
 			<Navbar />
 
 			<div className="mt-16">
-				<HeroTitle title="Calini Green" subtitle="Calini Green è nata nel 2019 su iniziativa di un gruppo di docenti del Liceo A. Calini, i professori Maurizio Bresciani, Veronica Cavicchi, Ornella Ferrandi e Sandra Pirone, con l’obiettivo di proporre una serie di attività che sensibilizzassero gli studenti sull’urgenza di affrontare alcune tematiche ambientali e li guidasse a un atteggiamento attivo e concreto nei confronti del territorio e della propria comunità in un’ottica di ecosostenibilità. <br />
-A tale scopo i primi incontri programmati per definire meglio il progetto sono stati aperti anche agli studenti, ai genitori  e ad alcuni esperti e rappresentanti degli enti locali con i quali si sono individuate le iniziative da mettere in pratica.
-A2A per esempio ha fornito i contenitori per la raccolta differenziata da collocare in punti strategici all’interno dell’istituto; alcuni studenti hanno ideato il  logo Calini Green  che è stato utilizzato per le 600 borracce in materiale riciclabile in vendita come gadget della scuola. Altre attività sono state istituite in questo senso, come ad esempio la pagina instagram.
-" redirect={"https://www.instagram.com/calini.green/"} />
+				<HeroTitle 
+					title="Calini Green" 
+					subtitle={ <p>Calini Green è nata nel 2019 su iniziativa di un gruppo di docenti del Liceo A. Calini, i professori Maurizio Bresciani, Veronica Cavicchi, Ornella Ferrandi e Sandra Pirone, con l&apos;obiettivo di proporre una serie di attività che sensibilizzassero gli studenti sull&apos;urgenza di affrontare alcune tematiche ambientali e li guidasse a un atteggiamento attivo e concreto nei confronti del territorio e della propria comunità in un&apos;ottica di ecosostenibilità. <br />
+						A tale scopo i primi incontri programmati per definire meglio il progetto sono stati aperti anche agli studenti, ai genitori  e ad alcuni esperti e rappresentanti degli enti locali con i quali si sono individuate le iniziative da mettere in pratica.
+						A2A per esempio ha fornito i contenitori per la raccolta differenziata da collocare in punti strategici all&apos;interno dell&apos;istituto; alcuni studenti hanno ideato il  logo Calini Green  che è stato utilizzato per le 600 borracce in materiale riciclabile in vendita come gadget della scuola. Altre attività sono state istituite in questo senso, come ad esempio la pagina instagram.</p> }
+					redirect={"https://www.instagram.com/calini.green/"} />
 			</div>
 
 			<Footer />
